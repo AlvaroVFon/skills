@@ -1,10 +1,10 @@
 ---
 name: create-commit
-description: "Trigger: commit, git commit, make a commit, write a commit message, crear un commit, conventional commit. Create conventional commit messages as type(scope): subject and commit via git."
+description: "Trigger: commit, write a commit message, crear un commit, conventional commit. Create validated Conventional Commits type(scope): subject and commit via git."
 license: Apache-2.0
 metadata:
   author: AlvaroVFon
-  version: "1.0"
+  version: "1.1"
 ---
 
 ## Activation Contract
@@ -43,7 +43,7 @@ Use this skill when asked to commit changes or write a commit message. It produc
 
 1. Run `git status` and `git diff` (staged and unstaged) to understand the changes; pick the files to include.
 2. Derive type, scope, and subject from those changes; file paths hint at the scope (module, component, area).
-3. Redact the subject `<type>(<scope>): <subject>` — imperative, lowercase, <=72 chars.
+3. Compose the subject `<type>(<scope>): <subject>` — imperative, lowercase, <=72 chars.
 4. Validate with `python3 assets/validate_commit_message.py --message "<subject>"`; fix errors until exit 0.
 5. Run `git add <files>` and commit with `git commit -m "<subject>"` (or `-F` message file).
 6. Confirm with `git log -1 --oneline` and confirm explicitly that no push was performed.

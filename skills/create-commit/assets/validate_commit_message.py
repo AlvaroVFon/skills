@@ -36,7 +36,7 @@ VALID_TYPES = (
 )
 
 PATTERN = re.compile(r"^(?P<type>[a-z][a-z0-9]*)"     # type
-                     r"\((?P<scope>[^()\s]*)\)"        # scope (required)
+                     r"\((?P<scope>[^()]*)\)"          # scope (required)
                      r":\s+(?P<subject>.+)$", re.DOTALL)
 
 
@@ -53,7 +53,7 @@ def main():
     else:
         subject = sys.stdin.read().strip()
 
-    subject = subject.strip().replace("\n", " ").replace("  ", " ")
+    subject = " ".join(subject.strip().split())
     errors, warnings = [], []
 
     m = PATTERN.match(subject)

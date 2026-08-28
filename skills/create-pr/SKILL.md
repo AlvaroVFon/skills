@@ -1,10 +1,10 @@
 ---
 name: create-pr
-description: "Trigger: create a PR, open a pull request, publish a PR, hacer un PR, GitHub pull request. Create standardized pull requests with validated descriptions via the gh CLI."
+description: "Trigger: create a PR, open a pull request, publish a PR, hacer un PR, GitHub pull request. Create validated standardized PR descriptions via the gh CLI."
 license: Apache-2.0
 metadata:
   author: AlvaroVFon
-  version: "1.0"
+  version: "1.1"
 ---
 
 ## Activation Contract

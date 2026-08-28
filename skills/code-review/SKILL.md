@@ -4,7 +4,7 @@ description: "Trigger: code review, review a PR, review a diff, review changes, 
 license: Apache-2.0
 metadata:
   author: AlvaroVFon
-  version: "1.0"
+  version: "1.1"
 ---
 
 ## Activation Contract
@@ -15,9 +15,10 @@ Use this skill when asked to review a pull request, review a diff, review change
 
 - ALWAYS use the `gh` CLI for every GitHub interaction: reading PR/diff, inline comments, `request changes`, and `approve`.
 - NEVER run a merge. Never merge, squash-merge, or rebase a PR under any circumstance.
+- If any Blocking/high-severity finding exists, post `request changes`; never approve until it is fixed.
 - Review the diff against its base branch; do not audit the whole codebase.
 - Flag only issues introduced by or directly affected by the diff; skip pre-existing untouched code.
-- Cite `archivo:línea` with concrete code and verify claims before reporting; no speculation.
+- Cite `file:line` with concrete code and verify claims before reporting; no speculation.
 - Communicate the review in English.
 
 ## Decision Gates
@@ -40,7 +41,7 @@ Use this skill when asked to review a pull request, review a diff, review change
 2. Read the full diff and, for each file, the surrounding context (imports, callers, related functions) to understand intent.
 3. Classify each finding by severity — Blocking (bug, security, correctness, broken contract → must fix), Should (maintainability, best practice), Nit (style, optional) — and record `[Severity] file:line — issue + suggested fix`.
 4. Run holistic checks across the whole change: missing tests, security, performance, and consistency with the PR's stated intent.
-5. Post the review with `gh`: build the body from the Output Contract, then call `gh pr review <n> --comment|--request-changes|--approve --body <file>`. For inline line comments, use `gh api repos/{owner}/{repo}/pulls/<n>/reviews` with a `comments` array of `{path, line, body, commit_id}`.
+5. Post the review with `gh`: build the body from the Output Contract, then call `gh pr review <n> --comment|--request-changes|--approve --body <file>`. For inline comments, POST JSON via `gh api --method POST repos/{owner}/{repo}/pulls/<n>/reviews --input <file>` with `event` (`COMMENT`|`REQUEST_CHANGES`|`APPROVE`), optional `body` and `commit_id` (head SHA), and `comments`: `[{path, line, body}]` with `line` numbers taken from the diff. The `event` field is required — omitting it creates a PENDING review that silently blocks subsequent reviews (discard it with `gh api -X DELETE .../reviews/<id>`).
 6. Confirm the action taken and confirm that no merge was performed.
 
 ## Output Contract

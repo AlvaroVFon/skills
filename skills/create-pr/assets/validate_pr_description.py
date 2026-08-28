@@ -18,6 +18,7 @@ Checks:
     E03 Optional validation section missing
     E04 Items under 'Changes' are not bullet list entries
     E05 Title exceeds 72 characters
+    E06 Cannot read the --body file
 """
 
 import argparse
@@ -47,7 +48,14 @@ def main():
     parser.add_argument("--title")
     args = parser.parse_args()
 
-    body = sys.stdin.read() if args.body == "-" else open(args.body, encoding="utf-8").read()
+    if args.body == "-":
+        body = sys.stdin.read()
+    else:
+        try:
+            body = open(args.body, encoding="utf-8").read()
+        except OSError as e:
+            print(f"ERROR: E06 cannot read body file: {e}")
+            sys.exit(1)
 
     errors, warnings = [], []
     sections = parse_sections(body)
