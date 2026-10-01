@@ -11,6 +11,7 @@ Skills repository. Each skill is a directory under `skills/{name}/` containing a
 | code-review    | `skills/code-review/SKILL.md`    | Review PRs/diffs via `gh`; request changes, never merge |
 | create-pr      | `skills/create-pr/SKILL.md`      | Create standardized PRs with validated descriptions     |
 | create-commit  | `skills/create-commit/SKILL.md`  | Create conventional commits `type(scope): subject`      |
+| adr            | `skills/adr/SKILL.md`            | Write architecture/design decision records (MADR)       |
 
 ## Hard Rules
 
