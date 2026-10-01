@@ -16,9 +16,8 @@ Checks:
     E01 Missing required section
     E02 Required section present but empty
     E03 Optional validation section missing
-    E04 Items under 'Changes' are not bullet list entries
-    E05 Title exceeds 72 characters
-    E06 Cannot read the --body file
+    E04 Title exceeds 72 characters
+    E05 Cannot read the --body file
 """
 
 import argparse
@@ -26,7 +25,7 @@ import re
 import sys
 
 TITLE_MAX = 72
-REQUIRED_SECTIONS = ("Objective", "Changes")
+REQUIRED_SECTIONS = ("Objective",)
 OPTIONAL_SECTIONS = ("Validation", "Risks")
 
 
@@ -69,12 +68,8 @@ def main():
     if "Validation" not in sections:
         warnings.append("WARNING: E03 optional section '## Validation' missing")
 
-    for line in sections.get("Changes", []):
-        if line.strip() and not line.strip().startswith("- "):
-            errors.append(f"ERROR: E04 item under 'Changes' is not a bullet: {line.strip()!r}")
-
     if args.title and len(args.title) > TITLE_MAX:
-        errors.append(f"ERROR: E05 title exceeds {TITLE_MAX} chars ({len(args.title)})")
+        errors.append(f"ERROR: E04 title exceeds {TITLE_MAX} chars ({len(args.title)})")
 
     for w in warnings:
         print(w)

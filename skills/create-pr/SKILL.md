@@ -21,17 +21,17 @@ Use this skill when asked to create, open, or publish a pull request. It produce
 
 ## Decision Gates
 
-| Condition                                | Action                            |
-| ---------------------------------------- | --------------------------------- |
-| Script output has `ERROR:` lines         | Fix the reported issues, re-validate |
-| Script exits 0                           | `gh pr create` with body file     |
-| Branch unpushed or `gh` not authenticated | Abort; report the blocker        |
-| No base branch resolved                 | Abort; ask for the base branch    |
+| Condition                                 | Action                               |
+| ----------------------------------------- | ------------------------------------ |
+| Script output has `ERROR:` lines          | Fix the reported issues, re-validate |
+| Script exits 0                            | `gh pr create` with body file        |
+| Branch unpushed or `gh` not authenticated | Abort; report the blocker            |
+| No base branch resolved                   | Abort; ask for the base branch       |
 
 ## Execution Steps
 
 1. Detect the repo, current branch, and base branch with `gh repo view` and `git branch --show-current`; resolve the base (e.g. `main`/`master`).
-2. Read `git diff <base>...HEAD` to derive the objective and the list of changes.
+2. Read `git diff <base>...HEAD` to derive the objective and relevant context.
 3. Draft the body following `references/pr-template.md`; keep the title to 72 chars max.
 4. Write the body to a temp file and run `python3 assets/validate_pr_description.py --body <file> --title "<title>"`.
 5. Fix any `ERROR:` lines and re-run until exit 0 (warnings may remain but are explained).
