@@ -16,18 +16,18 @@ Example: `feat(api): add rate limiting middleware`
 
 ## Allowed Types
 
-| Type     | When to use                                          | Example                                        |
-| -------- | ---------------------------------------------------- | ---------------------------------------------- |
-| feat     | New feature or user-visible behavior                 | `feat(auth): add token refresh endpoint`       |
-| fix      | Bug fix                                              | `fix(parser): handle empty input`              |
-| refactor | Code restructure with no behavior change             | `refactor(store): extract cursor pagination`   |
-| perf     | Performance improvement                              | `perf(render): batch DOM updates`              |
-| test     | Tests only                                           | `test(cart): cover quantity edge cases`        |
-| docs     | Docs or comments only                                | `docs(api): document retry policy`             |
-| chore    | Build, tooling, maintenance, dependencies            | `chore(deps): bump express to 5`               |
-| ci       | CI/CD configuration                                  | `ci(release): add publish workflow`            |
-| style    | Formatting, whitespace, no logic change              | `style(core): run prettier`                    |
-| build    | Build system changes                                 | `build(docker): pin base image digest`         |
+| Type     | When to use                               | Example                                      |
+| -------- | ----------------------------------------- | -------------------------------------------- |
+| feat     | New feature or user-visible behavior      | `feat(auth): add token refresh endpoint`     |
+| fix      | Bug fix                                   | `fix(parser): handle empty input`            |
+| refactor | Code restructure with no behavior change  | `refactor(store): extract cursor pagination` |
+| perf     | Performance improvement                   | `perf(render): batch DOM updates`            |
+| test     | Tests only                                | `test(cart): cover quantity edge cases`      |
+| docs     | Docs or comments only                     | `docs(api): document retry policy`           |
+| chore    | Build, tooling, maintenance, dependencies | `chore(deps): bump express to 5`             |
+| ci       | CI/CD configuration                       | `ci(release): add publish workflow`          |
+| style    | Formatting, whitespace, no logic change   | `style(core): run prettier`                  |
+| build    | Build system changes                      | `build(docker): pin base image digest`       |
 
 ## Scope
 

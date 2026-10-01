@@ -17,12 +17,12 @@ An Architectural Decision (AD) is a justified design choice that addresses an ar
 
 ## Required frontmatter
 
-| Field     | Purpose                                                              |
-| --------- | -------------------------------------------------------------------- |
-| `title`   | Short, states solved problem + chosen solution; also the H1.         |
-| `status`  | `proposed`, `accepted`, `rejected`, `deprecated`, or `superseded`.   |
-| `date`    | `YYYY-MM-DD` of the last update.                                     |
-| `authors` | Who made or wrote the decision (name or handle).                     |
+| Field     | Purpose                                                            |
+| --------- | ------------------------------------------------------------------ |
+| `title`   | Short, states solved problem + chosen solution; also the H1.       |
+| `status`  | `proposed`, `accepted`, `rejected`, `deprecated`, or `superseded`. |
+| `date`    | `YYYY-MM-DD` of the last update.                                   |
+| `authors` | Who made or wrote the decision (name or handle).                   |
 
 Optional, add only when relevant: `supersedes` and `superseded-by` links, plus `deciders`, `consulted`, or `informed` when stakeholders must be tracked.
 

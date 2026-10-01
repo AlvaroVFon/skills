@@ -2,13 +2,13 @@
 
 ## Statuses
 
-| Status       | Meaning                                                            |
-| ------------ | ------------------------------------------------------------------ |
-| `proposed`   | Drafted, not yet agreed.                                           |
-| `accepted`   | Agreed and in effect.                                              |
-| `rejected`   | Considered but not adopted.                                        |
-| `deprecated` | No longer relevant, but not replaced.                              |
-| `superseded` | Replaced by a newer ADR (link via `superseded-by`).                |
+| Status       | Meaning                                             |
+| ------------ | --------------------------------------------------- |
+| `proposed`   | Drafted, not yet agreed.                            |
+| `accepted`   | Agreed and in effect.                               |
+| `rejected`   | Considered but not adopted.                         |
+| `deprecated` | No longer relevant, but not replaced.               |
+| `superseded` | Replaced by a newer ADR (link via `superseded-by`). |
 
 ## Append-only rule
 

@@ -23,21 +23,21 @@ Use this skill when asked to commit changes or write a commit message. It produc
 
 ## Decision Gates
 
-| Change in the working tree                    | type token |
-| --------------------------------------------- | ---------- |
-| New feature or behavior                       | feat       |
-| Bug fix                                       | fix        |
-| Code restructure, no behavior change          | refactor   |
-| Performance improvement                       | perf       |
-| Tests only                                    | test       |
-| Docs / comments only                          | docs       |
+| Change in the working tree                      | type token           |
+| ----------------------------------------------- | -------------------- |
+| New feature or behavior                         | feat                 |
+| Bug fix                                         | fix                  |
+| Code restructure, no behavior change            | refactor             |
+| Performance improvement                         | perf                 |
+| Tests only                                      | test                 |
+| Docs / comments only                            | docs                 |
 | Build tooling, formatting, chores, dependencies | chore/ci/style/build |
 
-| Validation output                 | Action                            |
-| --------------------------------- | --------------------------------- |
-| `ERROR:` lines present            | Fix reported issues, re-validate   |
-| `WARNING:` only / script exits 0  | `git commit`                      |
-| No changes or nothing to commit   | Abort; report clean tree          |
+| Validation output                | Action                           |
+| -------------------------------- | -------------------------------- |
+| `ERROR:` lines present           | Fix reported issues, re-validate |
+| `WARNING:` only / script exits 0 | `git commit`                     |
+| No changes or nothing to commit  | Abort; report clean tree         |
 
 ## Execution Steps
 

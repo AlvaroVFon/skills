@@ -23,17 +23,17 @@ Use this skill when asked to review a pull request, review a diff, review change
 
 ## Decision Gates
 
-| Severity                      | gh action                                   |
-| ----------------------------- | ------------------------------------------- |
-| Any Blocking finding          | `gh pr review <n> --request-changes --body` |
-| Only Should/Nit findings      | `gh pr review <n> --comment --body`         |
-| No findings                   | `gh pr review <n> --approve --body`         |
+| Severity                 | gh action                                   |
+| ------------------------ | ------------------------------------------- |
+| Any Blocking finding     | `gh pr review <n> --request-changes --body` |
+| Only Should/Nit findings | `gh pr review <n> --comment --body`         |
+| No findings              | `gh pr review <n> --approve --body`         |
 
-| Context                          | Diff source                |
-| -------------------------------- | -------------------------- |
-| PR number known / gh repo active | `gh pr diff <n>`           |
-| Local branch vs remote base      | `git diff <base>...HEAD`   |
-| Uncommitted changes              | `git diff` or staged diff  |
+| Context                          | Diff source               |
+| -------------------------------- | ------------------------- |
+| PR number known / gh repo active | `gh pr diff <n>`          |
+| Local branch vs remote base      | `git diff <base>...HEAD`  |
+| Uncommitted changes              | `git diff` or staged diff |
 
 ## Execution Steps
 
