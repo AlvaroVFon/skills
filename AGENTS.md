@@ -12,6 +12,7 @@ Skills repository. Each skill is a directory under `skills/{name}/` containing a
 | create-pr      | `skills/create-pr/SKILL.md`      | Create standardized PRs with validated descriptions     |
 | create-commit  | `skills/create-commit/SKILL.md`  | Create conventional commits `type(scope): subject`      |
 | module-design  | `skills/module-design/SKILL.md`  | Design/analyze domain module boundaries and interfaces  |
+| adr            | `skills/adr/SKILL.md`            | Write architecture/design decision records (MADR)       |
 
 ## Hard Rules
 
