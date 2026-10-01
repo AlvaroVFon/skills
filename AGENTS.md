@@ -23,6 +23,11 @@ Skills repository. Each skill is a directory under `skills/{name}/` containing a
 - References must point to local files.
 - Skills with GitHub workflow rules (create-pr, code-review) MUST use the `gh` CLI and NEVER merge.
 
+## Formatting
+
+- Format Markdown (and other supported files) with `npm run fmt`; verify with `npm run fmt:check`.
+- A husky pre-commit hook runs `lint-staged` → `oxfmt` on staged `*.md` files. Run `npm install` once to enable it.
+
 ## Testing
 
 - `create-pr` validation: `python3 skills/create-pr/assets/validate_pr_description.py --body <file> [--title "<title>"]` → exit 0 with `OK`, or exit 1 with `ERROR:` lines.

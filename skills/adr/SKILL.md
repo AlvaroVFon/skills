@@ -22,12 +22,12 @@ Use this skill to record an architecturally or design-significant decision, crea
 
 ## Decision Gates
 
-| Fork                                   | Action                                                      |
-| -------------------------------------- | ----------------------------------------------------------- |
-| Not architecturally significant        | Omit; do not create an ADR                                  |
-| New decision vs change to an existing  | New `NNNN` record vs new record with `supersedes` link      |
-| Destination                            | Detect `docs/decisions`/`docs/adr`, else ask; or Confluence/Jira/inline |
-| Options need deep analysis             | Minimal template by default; add per-option pros/cons on request |
+| Fork                                  | Action                                                                  |
+| ------------------------------------- | ----------------------------------------------------------------------- |
+| Not architecturally significant       | Omit; do not create an ADR                                              |
+| New decision vs change to an existing | New `NNNN` record vs new record with `supersedes` link                  |
+| Destination                           | Detect `docs/decisions`/`docs/adr`, else ask; or Confluence/Jira/inline |
+| Options need deep analysis            | Minimal template by default; add per-option pros/cons on request        |
 
 ## Execution Steps
 

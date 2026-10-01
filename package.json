@@ -1,0 +1,16 @@
+{
+  "name": "skills",
+  "version": "0.0.0",
+  "private": true,
+  "description": "LLM-first skills repository",
+  "scripts": {
+    "fmt": "oxfmt .",
+    "fmt:check": "oxfmt --check .",
+    "prepare": "husky"
+  },
+  "devDependencies": {
+    "husky": "9.1.7",
+    "lint-staged": "16.4.0",
+    "oxfmt": "0.71.0"
+  }
+}
