@@ -13,6 +13,17 @@ A finding is only reported with a verdict earned by evidence. The default eviden
 5. Compare with the prediction and assign the verdict.
 6. Delete every temporary test; check `git status` shows no leftovers besides the report.
 
+## Parallel Verification
+
+Run the protocol above through subagents, one per finding, so tests execute concurrently. Verdicts stay with the main agent.
+
+1. List every finding with `file:line` and the predicted failure.
+2. Dispatch one write-capable subagent (e.g. `general`) per finding in a single message, using `assets/verify-finding-subagent.md`; cap concurrency at 3–4 and queue the rest.
+3. Each subagent owns an isolated temp file named `*.bug-scan.{finding-id}.*`, runs only that file, deletes it, and returns facts: test code, command, raw output, and whether it failed for the predicted reason.
+4. Serialize findings that share infrastructure (DB, ports, queues) or build side effects; do not run those concurrently.
+5. Collect the facts, assign verdicts, and confirm `git status` shows no temp files.
+6. No write-capable subagent available: run the protocol sequentially yourself.
+
 ## Verdicts
 
 | Result                                         | Verdict     | Report                                       |

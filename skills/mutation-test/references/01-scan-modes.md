@@ -2,10 +2,19 @@
 
 ## Definition
 
-- **Global**: no paths given. Cover the repo by risk, not uniformly.
-- **Targeted**: the user names paths or modules. Mutate only those files and report their direct tests.
+- **Global**: cover the whole repo by risk, not uniformly.
+- **Targeted**: mutate only the selected files/modules and report their direct tests.
 
 Coverage must always be declared: what was mutated, how many mutants, and what was skipped.
+
+## Choosing the Scan Type (Mandatory)
+
+Ask with the option selector (question tool) before any work, every run — never infer the mode from the prompt:
+
+1. **Mode**: `Global` (whole repo) or `Targeted` (named paths/modules). If `Targeted`, request the paths in the same round.
+2. **Mutation categories** (multi-select, from `02-mutation-catalog.md`): `high`, `medium`, `low` priority families, or `all`. Generate only the chosen operators in step 5.
+
+If the question tool is unavailable, ask in chat and wait for the answer.
 
 ## Global — Risk Map
 

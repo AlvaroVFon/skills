@@ -2,10 +2,19 @@
 
 ## Definition
 
-- **Global**: no paths given. Cover the repo by risk, not uniformly.
-- **Targeted**: the user names paths or modules. Cover only those flows and their direct callers/callees.
+- **Global**: cover the whole repo by risk, not uniformly.
+- **Targeted**: cover only the selected paths/modules and their direct callers/callees.
 
 Coverage must always be declared: what was reviewed, in what depth, and what was skipped.
+
+## Choosing the Scan Type (Mandatory)
+
+Ask with the option selector (question tool) before any work, every run — never infer the mode from the prompt:
+
+1. **Mode**: `Global` (whole repo) or `Targeted` (named paths/modules). If `Targeted`, request the paths in the same round.
+2. **Categories** (multi-select): `logic` (`02`), `concurrency` (`03`), `errors-resources` (`04`), `data-integrity` (`05`), or `all`. Load only the chosen references in step 4.
+
+If the question tool is unavailable, ask in chat and wait for the answer.
 
 ## Global — Risk Map
 
