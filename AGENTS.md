@@ -14,6 +14,7 @@ Skills repository. Each skill is a directory under `skills/{name}/` containing a
 | module-design  | `skills/module-design/SKILL.md`  | Design/analyze domain module boundaries and interfaces    |
 | adr            | `skills/adr/SKILL.md`            | Write architecture/design decision records (MADR)         |
 | bug-scan       | `skills/bug-scan/SKILL.md`       | Scan repo/modules for latent bugs, prove each with a test |
+| mutation-test  | `skills/mutation-test/SKILL.md`  | Manual mutation testing of repo/modules; report survivors |
 
 ## Hard Rules
 
