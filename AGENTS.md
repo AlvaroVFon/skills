@@ -16,6 +16,7 @@ Skills repository. Each skill is a directory under `skills/{name}/` containing a
 | bug-scan       | `skills/bug-scan/SKILL.md`       | Scan repo/modules for latent bugs, prove each with a test |
 | mutation-test  | `skills/mutation-test/SKILL.md`  | Manual mutation testing of repo/modules; report survivors |
 | refactor       | `skills/refactor/SKILL.md`       | Behavior-preserving restructuring in small verified steps |
+| tdd            | `skills/tdd/SKILL.md`            | Implement doc-first and test-first (red-green-refactor)   |
 
 ## Hard Rules
 
