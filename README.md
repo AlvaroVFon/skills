@@ -17,6 +17,7 @@ Each skill is a folder under `skills/` with a `SKILL.md` (the runtime contract) 
 | `adr`            | Write architecture and design decision records (MADR).                |
 | `bug-scan`       | Scan a repo or modules for latent bugs and prove each with a test.    |
 | `mutation-test`  | Mutate a repo or modules by hand and report which mutants tests miss. |
+| `refactor`       | Restructure code in small, test-verified behavior-preserving steps.   |
 
 ## Usage
 
