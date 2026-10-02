@@ -6,15 +6,16 @@ Each skill is a folder under `skills/` with a `SKILL.md` (the runtime contract) 
 
 ## Available skills
 
-| Skill            | What it does                                                    |
-| ---------------- | --------------------------------------------------------------- |
-| `skill-creator`  | Create new LLM-first skills with valid frontmatter.             |
-| `skill-improver` | Audit and upgrade existing skills.                              |
-| `create-commit`  | Write validated Conventional Commits (`type(scope): subject`).  |
-| `create-pr`      | Open standardized pull requests via the `gh` CLI.               |
-| `code-review`    | Review pull requests and diffs; requests changes, never merges. |
-| `module-design`  | Design and analyze domain module boundaries and interfaces.     |
-| `adr`            | Write architecture and design decision records (MADR).          |
+| Skill            | What it does                                                       |
+| ---------------- | ------------------------------------------------------------------ |
+| `skill-creator`  | Create new LLM-first skills with valid frontmatter.                |
+| `skill-improver` | Audit and upgrade existing skills.                                 |
+| `create-commit`  | Write validated Conventional Commits (`type(scope): subject`).     |
+| `create-pr`      | Open standardized pull requests via the `gh` CLI.                  |
+| `code-review`    | Review pull requests and diffs; requests changes, never merges.    |
+| `module-design`  | Design and analyze domain module boundaries and interfaces.        |
+| `adr`            | Write architecture and design decision records (MADR).             |
+| `bug-scan`       | Scan a repo or modules for latent bugs and prove each with a test. |
 
 ## Usage
 

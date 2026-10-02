@@ -4,15 +4,16 @@ Skills repository. Each skill is a directory under `skills/{name}/` containing a
 
 ## Skills
 
-| Skill          | Path                             | Purpose                                                 |
-| -------------- | -------------------------------- | ------------------------------------------------------- |
-| skill-creator  | `skills/skill-creator/SKILL.md`  | Create new LLM-first skills                             |
-| skill-improver | `skills/skill-improver/SKILL.md` | Audit and refactor existing skills                      |
-| code-review    | `skills/code-review/SKILL.md`    | Review PRs/diffs via `gh`; request changes, never merge |
-| create-pr      | `skills/create-pr/SKILL.md`      | Create standardized PRs with validated descriptions     |
-| create-commit  | `skills/create-commit/SKILL.md`  | Create conventional commits `type(scope): subject`      |
-| module-design  | `skills/module-design/SKILL.md`  | Design/analyze domain module boundaries and interfaces  |
-| adr            | `skills/adr/SKILL.md`            | Write architecture/design decision records (MADR)       |
+| Skill          | Path                             | Purpose                                                   |
+| -------------- | -------------------------------- | --------------------------------------------------------- |
+| skill-creator  | `skills/skill-creator/SKILL.md`  | Create new LLM-first skills                               |
+| skill-improver | `skills/skill-improver/SKILL.md` | Audit and refactor existing skills                        |
+| code-review    | `skills/code-review/SKILL.md`    | Review PRs/diffs via `gh`; request changes, never merge   |
+| create-pr      | `skills/create-pr/SKILL.md`      | Create standardized PRs with validated descriptions       |
+| create-commit  | `skills/create-commit/SKILL.md`  | Create conventional commits `type(scope): subject`        |
+| module-design  | `skills/module-design/SKILL.md`  | Design/analyze domain module boundaries and interfaces    |
+| adr            | `skills/adr/SKILL.md`            | Write architecture/design decision records (MADR)         |
+| bug-scan       | `skills/bug-scan/SKILL.md`       | Scan repo/modules for latent bugs, prove each with a test |
 
 ## Hard Rules
 
