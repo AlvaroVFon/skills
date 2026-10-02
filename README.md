@@ -6,27 +6,34 @@ Each skill is a folder under `skills/` with a `SKILL.md` (the runtime contract) 
 
 ## Available skills
 
-| Skill            | What it does                                                            |
-| ---------------- | ----------------------------------------------------------------------- |
-| `skill-creator`  | Create new LLM-first skills with valid frontmatter.                     |
-| `skill-improver` | Audit and upgrade existing skills.                                      |
-| `create-commit`  | Write validated Conventional Commits (`type(scope): subject`).          |
-| `create-pr`      | Open standardized pull requests via the `gh` CLI.                       |
-| `code-review`    | Review pull requests and diffs; requests changes, never merges.         |
-| `module-design`  | Design and analyze domain module boundaries and interfaces.             |
-| `adr`            | Write architecture and design decision records (MADR).                  |
-| `bug-scan`       | Scan a repo or modules for latent bugs and prove each with a test.      |
-| `mutation-test`  | Mutate a repo or modules by hand and report which mutants tests miss.   |
-| `refactor`       | Restructure code in small, test-verified behavior-preserving steps.     |
-| `tdd`            | Implement doc-first and test-first (red-green-refactor), then refactor. |
+| Skill                                            | What it does                                                            |
+| ------------------------------------------------ | ----------------------------------------------------------------------- |
+| [skill-creator](skills/skill-creator/SKILL.md)   | Create new LLM-first skills with valid frontmatter.                     |
+| [skill-improver](skills/skill-improver/SKILL.md) | Audit and upgrade existing skills.                                      |
+| [create-commit](skills/create-commit/SKILL.md)   | Write validated Conventional Commits (`type(scope): subject`).          |
+| [create-pr](skills/create-pr/SKILL.md)           | Open standardized pull requests via the `gh` CLI.                       |
+| [code-review](skills/code-review/SKILL.md)       | Review pull requests and diffs; requests changes, never merges.         |
+| [module-design](skills/module-design/SKILL.md)   | Design and analyze domain module boundaries and interfaces.             |
+| [adr](skills/adr/SKILL.md)                       | Write architecture and design decision records (MADR).                  |
+| [bug-scan](skills/bug-scan/SKILL.md)             | Scan a repo or modules for latent bugs and prove each with a test.      |
+| [mutation-test](skills/mutation-test/SKILL.md)   | Mutate a repo or modules by hand and report which mutants tests miss.   |
+| [refactor](skills/refactor/SKILL.md)             | Restructure code in small, test-verified behavior-preserving steps.     |
+| [tdd](skills/tdd/SKILL.md)                       | Implement doc-first and test-first (red-green-refactor), then refactor. |
 
 ## Usage
 
-Skills are loaded by compatible agents (for example [opencode](https://opencode.ai)). To enable these skills, place them in your agent's skills directory:
+Skills are loaded by compatible agents such as [opencode](https://opencode.ai) and Claude Code. Install them by copying the skill folders into your agent's skills directory:
 
 ```sh
 git clone https://github.com/AlvaroVFon/skills.git
+
+# opencode
+mkdir -p ~/.config/opencode/skills
 cp -r skills/* ~/.config/opencode/skills/
+
+# Claude Code
+mkdir -p ~/.claude/skills
+cp -r skills/* ~/.claude/skills/
 ```
 
 Once installed, an agent picks the right skill automatically from your request — for example, "create a PR" loads `create-pr`.
