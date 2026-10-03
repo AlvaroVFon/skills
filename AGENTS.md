@@ -4,19 +4,25 @@ Skills repository. Each skill is a directory under `skills/{name}/` containing a
 
 ## Skills
 
-| Skill          | Path                             | Purpose                                                   |
-| -------------- | -------------------------------- | --------------------------------------------------------- |
-| skill-creator  | `skills/skill-creator/SKILL.md`  | Create new LLM-first skills                               |
-| skill-improver | `skills/skill-improver/SKILL.md` | Audit and refactor existing skills                        |
-| code-review    | `skills/code-review/SKILL.md`    | Review PRs/diffs via `gh`; request changes, never merge   |
-| create-pr      | `skills/create-pr/SKILL.md`      | Create standardized PRs with validated descriptions       |
-| create-commit  | `skills/create-commit/SKILL.md`  | Create conventional commits `type(scope): subject`        |
-| module-design  | `skills/module-design/SKILL.md`  | Design/analyze domain module boundaries and interfaces    |
-| adr            | `skills/adr/SKILL.md`            | Write architecture/design decision records (MADR)         |
-| bug-scan       | `skills/bug-scan/SKILL.md`       | Scan repo/modules for latent bugs, prove each with a test |
-| mutation-test  | `skills/mutation-test/SKILL.md`  | Manual mutation testing of repo/modules; report survivors |
-| refactor       | `skills/refactor/SKILL.md`       | Behavior-preserving restructuring in small verified steps |
-| tdd            | `skills/tdd/SKILL.md`            | Implement doc-first and test-first (red-green-refactor)   |
+| Skill            | Path                               | Purpose                                                              |
+| ---------------- | ---------------------------------- | -------------------------------------------------------------------- |
+| skill-creator    | `skills/skill-creator/SKILL.md`    | Create new LLM-first skills                                          |
+| skill-improver   | `skills/skill-improver/SKILL.md`   | Audit and refactor existing skills                                   |
+| code-review      | `skills/code-review/SKILL.md`      | Review PRs/diffs via `gh`; request changes, never merge              |
+| create-pr        | `skills/create-pr/SKILL.md`        | Create standardized PRs with validated descriptions                  |
+| create-commit    | `skills/create-commit/SKILL.md`    | Create conventional commits `type(scope): subject`                   |
+| module-design    | `skills/module-design/SKILL.md`    | Design/analyze domain module boundaries and interfaces               |
+| adr              | `skills/adr/SKILL.md`              | Write architecture/design decision records (MADR)                    |
+| bug-scan         | `skills/bug-scan/SKILL.md`         | Scan repo/modules for latent bugs, prove each with a test            |
+| mutation-test    | `skills/mutation-test/SKILL.md`    | Manual mutation testing of repo/modules; report survivors            |
+| refactor         | `skills/refactor/SKILL.md`         | Behavior-preserving restructuring in small verified steps            |
+| tdd              | `skills/tdd/SKILL.md`              | Implement doc-first and test-first (red-green-refactor)              |
+| learning-profile | `skills/learning-profile/SKILL.md` | Build and update the learner's structured profile                    |
+| mentor           | `skills/mentor/SKILL.md`           | Design/deliver profile-based sessions; depends on `learning-profile` |
+
+## Skill Dependencies
+
+- `mentor` depends on `learning-profile`: it MUST load `learning-profile` to create the profile when none exists, and again after every session to update the profile from the logged evidence. `mentor` never writes `profile.md` or the evidence log directly.
 
 ## Hard Rules
 
