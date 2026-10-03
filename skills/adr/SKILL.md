@@ -4,7 +4,7 @@ description: "Trigger: ADR, decision record, documentar decision, architecture d
 license: Apache-2.0
 metadata:
   author: AlvaroVFon
-  version: "1.0"
+  version: "1.1"
 ---
 
 ## Activation Contract
@@ -17,6 +17,7 @@ Use this skill to record an architecturally or design-significant decision, crea
 - Every ADR carries frontmatter: `title`, `status`, `date`, `authors` (see `assets/adr-template.md`). Add `supersedes`/`superseded-by` only when relevant.
 - Context, considered options, and justification are mandatory; a record without rationale is invalid.
 - Append-only: NEVER edit an accepted ADR. Create a new record that supersedes it and link both.
+- ALWAYS validate the written record with `python3 assets/validate_adr.py --file <adr>` and fix every `ERROR`, then report (pass `--allow-placeholders` only for a repo-local template).
 - ALWAYS ask the destination before writing (`docs/decisions/`, `docs/adr/`, Confluence, Jira, or inline) unless the repo convention is unambiguous.
 - Write in the destination's language; keep records concise, assertive, and factual.
 
@@ -36,7 +37,7 @@ Use this skill to record an architecturally or design-significant decision, crea
 3. Fill `assets/adr-template.md`; load `references/adr-anatomy.md` only if significance is unclear.
 4. Validate context, options, justification, and consequences; load `references/adr-lifecycle.md` for status/supersede rules.
 5. Write via the destination: local file, the available Confluence/Jira integration, or an inline block for manual paste.
-6. Return the destination reference and confirm no existing ADR was modified.
+6. Validate a local file with `python3 assets/validate_adr.py --file <adr>`; fix `ERROR:`s until exit 0 (inline/Confluence: validate a temp copy). Return the destination reference and confirm no existing ADR was modified.
 
 ## Output Contract
 
@@ -47,3 +48,4 @@ Return: destination (path, URL, or inline block); ADR number; chosen option; sta
 - `references/adr-anatomy.md`
 - `references/adr-lifecycle.md`
 - `assets/adr-template.md`
+- `assets/validate_adr.py` — structural validator for the ADR record

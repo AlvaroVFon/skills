@@ -4,7 +4,7 @@ description: "Trigger: bug scan, find bugs, hunt latent bugs, scan repo or modul
 license: Apache-2.0
 metadata:
   author: AlvaroVFon
-  version: "1.0"
+  version: "1.1"
 ---
 
 ## Activation Contract
@@ -20,7 +20,7 @@ Use this skill to scan a whole repo (global) or given paths/modules (targeted) f
 - Delegate reconnaissance to an exploration subagent when available; hypotheses and verdicts stay with you.
 - Run repro tests in parallel when available, one write-capable subagent per finding, capped; each returns facts, not verdicts.
 - ALWAYS state what was not reviewed.
-- Write the report only to `docs/bug-scan/{YYYY-MM-DD}.md` (suffix `-2`, `-3` if it exists); never overwrite one.
+- ALWAYS validate the final report with `python3 assets/validate_report.py --file <report>`; fix every `ERROR` (counters must match the finding blocks) until exit 0; never overwrite one.
 
 ## Decision Gates
 
@@ -42,7 +42,8 @@ Use this skill to scan a whole repo (global) or given paths/modules (targeted) f
 4. Scan only the chosen categories, loading just the reference under evaluation.
 5. Dispatch one write-capable subagent per finding to write and run its repro test in parallel, capped (`references/06-verification.md`, `assets/verify-finding-subagent.md`).
 6. Collect the returned facts, assign verdicts, and confirm no temp tests remain.
-7. Take `requested_by` from `git config user.name` (ask if empty), then write the report from `assets/bug-scan-report.md`.
+7. Take `requested_by` from `git config user.name` (ask if empty), then write the report from `assets/bug-scan-report.md` to `docs/bug-scan/{YYYY-MM-DD}.md` (suffix `-2`, `-3` if it exists).
+8. Validate with `python3 assets/validate_report.py --file <report>`; fix every `ERROR:` until exit 0.
 
 ## Output Contract
 
@@ -59,3 +60,4 @@ Return the report path plus a chat summary. The report follows `assets/bug-scan-
 - `references/07-scan-memory.md` — previous reports, delta
 - `assets/verify-finding-subagent.md` — verification subagent prompt
 - `assets/bug-scan-report.md` — report template
+- `assets/validate_report.py` — report validator (structure + counter coherence)

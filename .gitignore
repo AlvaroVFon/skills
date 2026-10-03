@@ -1,3 +1,4 @@
 .alt
 node_modules/
 .husky/_
+__pycache__/

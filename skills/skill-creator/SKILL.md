@@ -4,7 +4,7 @@ description: "Trigger: new skills, agent instructions, documenting AI usage patt
 license: Apache-2.0
 metadata:
   author: gentleman-programming
-  version: "1.0"
+  version: "1.1"
 ---
 
 ## Activation Contract
@@ -26,6 +26,7 @@ Do not create a skill when the pattern is trivial, one-off, or better served by 
 - Do not add a `Keywords` section; preserve essential trigger words in `description`.
 - References must point to local files.
 - Keep the skill body concise: target 180–450 tokens, recommended max 700, hard max 1000.
+- ALWAYS run `python3 assets/validate_skill.py --file {skill}/SKILL.md` and fix every `ERROR` until exit 0 before finishing.
 
 ## Decision Gates
 
@@ -66,7 +67,8 @@ metadata:
 ```
 
 1. Write sections in this order: Activation Contract, Hard Rules, Decision Gates, Execution Steps, Output Contract, References.
-2. Register the skill in `AGENTS.md` when it is a project skill.
+2. Run `python3 assets/validate_skill.py --file {skill}/SKILL.md`; fix every `ERROR:` until exit 0. A referenced `references/` or `assets/` file must exist.
+3. Register the skill in `AGENTS.md` when it is a project skill.
 
 ## Inline Fallback Rules
 
@@ -103,3 +105,4 @@ Return:
 ## References
 
 - `references/skill-style-guide.md` — normative LLM-first skill style guide.
+- `assets/validate_skill.py` — SKILL.md validator (frontmatter, sections, budget, links).

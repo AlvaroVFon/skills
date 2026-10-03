@@ -50,9 +50,26 @@ Every `SKILL.md` MUST use this order unless a section is truly irrelevant:
 
 ## Supporting Files
 
-- Use `assets/` for templates, schemas, fixtures, or generated examples.
+- Use `assets/` for templates, schemas, fixtures, generated examples, or validators.
 - Use `references/` for local docs that explain concepts or edge cases.
 - Keep references stable and relative to the skill directory when possible.
+
+## Output Validation
+
+Adopt a validator script when all three conditions hold:
+
+1. The output has objectively checkable structure (frontmatter, required sections, counters, enums) — not semantic judgment.
+2. A costly action or persisted artifact benefits from the gate (commit, PR, generated `.md` parsed by another skill).
+3. The skill enforces it: a hard rule plus an execution step that runs the script and fixes `ERROR:` until exit 0.
+
+Do NOT validate meaning with regex: a validator may prove a section exists, never that its content is sound. Skip validators for conversational or judgment outputs.
+
+Convention:
+
+- Location: `assets/validate_{artifact}.py`, referenced in `References`.
+- Contract: exit 0 and print `OK` when valid, else exit 1 with one parseable `ERROR:` line per problem; `WARNING:` lines never change the exit code.
+- Header docstring lists usage, exit codes, and error codes.
+- Skills with a validator: `create-commit`, `create-pr`, `adr`, `bug-scan`, `mutation-test`, `skill-creator`, `skill-improver`.
 
 ## Skill Discovery
 
@@ -69,6 +86,7 @@ Every `SKILL.md` MUST use this order unless a section is truly irrelevant:
 - Decision gates cover meaningful forks only.
 - Output contract tells the LLM exactly what to return.
 - References point to local files.
+- If the output is structured, a validator exists and the skill runs it before finishing.
 
 ## Refactor Checklist
 
