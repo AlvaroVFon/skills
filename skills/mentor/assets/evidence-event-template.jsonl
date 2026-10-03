@@ -1,0 +1,1 @@
+{"id":"{YYYY-MM-DDThh:mm:ssZ}-{nn}","ts":"{YYYY-MM-DDThh:mm:ssZ}","session":"{YYYY-MM-DD}-{slug}","domain":"{domain}","signal":"{preference|strength|gap|goal|constraint|pace|feedback}","observation":"{what was observed, in the learner's words}","confidence":0.0,"evidence":"{concrete behavior that justifies the signal}"}
