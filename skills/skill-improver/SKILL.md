@@ -4,7 +4,7 @@ description: "Trigger: improve skills, audit skills, refactor skills, skill qual
 license: Apache-2.0
 metadata:
   author: gentleman-programming
-  version: "1.0"
+  version: "1.1"
 ---
 
 ## Activation Contract
@@ -19,6 +19,7 @@ Use this skill when asked to audit, refactor, normalize, or improve existing `SK
 - Default to audit-only. Modify files only when the user explicitly asks to apply improvements.
 - Never delete meaningful content silently; move long explanation, examples, templates, or schemas into local `references/` or `assets/`.
 - Do not invent triggers, policies, or domain rules. Mark ambiguous cases for human review.
+- ALWAYS run `python3 assets/validate_skill.py --file {skill}/SKILL.md` on every audited skill and report its `ERROR:`/`WARNING:` output; in apply mode fix every `ERROR` until exit 0.
 
 ## Decision Gates
 
@@ -35,8 +36,9 @@ Use this skill when asked to audit, refactor, normalize, or improve existing `SK
 1. Read `references/skill-style-guide.md` and apply it. If it's missing, enforce the core LLM-first structure directly: frontmatter, Activation Contract, Hard Rules, Decision Gates, Execution Steps, Output Contract, References.
 2. Scan `.github/skills/`, `.opencode/skills/`, and `.claude/skills/` for `*/SKILL.md` and select the skills to audit from those paths.
 3. For each selected skill, audit metadata, trigger clarity, section order, body budget, actionability, decision gates, output contract, and local references.
-4. Return an audit report grouped by skill with severity and exact proposed changes.
-5. In apply mode, edit only safe issues, preserve content, and create supporting files when needed.
+4. Run `python3 assets/validate_skill.py --file {skill}/SKILL.md` for each and fold its `ERROR:`/`WARNING:` lines into the report.
+5. Return an audit report grouped by skill with severity and exact proposed changes.
+6. In apply mode, edit only safe issues, preserve content, and create supporting files when needed; re-run the validator until exit 0.
 
 ## Output Contract
 
@@ -50,3 +52,4 @@ Return:
 ## References
 
 - `references/skill-style-guide.md` — normative LLM-first skill style guide.
+- `assets/validate_skill.py` — SKILL.md validator (frontmatter, sections, budget, links).

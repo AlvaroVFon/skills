@@ -32,6 +32,7 @@ Skills repository. Each skill is a directory under `skills/{name}/` containing a
 - Frontmatter MUST include `name`, `description`, `license`, `metadata.author`, and `metadata.version`.
 - References must point to local files.
 - Skills with GitHub workflow rules (create-pr, code-review) MUST use the `gh` CLI and NEVER merge.
+- Skills whose output has objectively checkable structure (commit, PR, ADR, scan report, SKILL.md) MUST ship a validator in `assets/` and run it before finishing: exit 0 with `OK`, or exit 1 with `ERROR:` lines (fix all). See the Output Validation section in `skill-style-guide.md`.
 
 ## Formatting
 
@@ -40,6 +41,12 @@ Skills repository. Each skill is a directory under `skills/{name}/` containing a
 
 ## Testing
 
-- `create-pr` validation: `python3 skills/create-pr/assets/validate_pr_description.py --body <file> [--title "<title>"]` → exit 0 with `OK`, or exit 1 with `ERROR:` lines.
-- `create-commit` validation: `python3 skills/create-commit/assets/validate_commit_message.py --message "<subject>"` → exit 0 with `OK`, or exit 1 with `ERROR:` lines.
+Contract for every validator: `--file`/`--body`/`--message` input (or stdin), exit 0 printing `OK` when valid, else exit 1 with one parseable `ERROR:` line per problem; `WARNING:` lines do not change the exit code.
+
+- `create-pr`: `python3 skills/create-pr/assets/validate_pr_description.py --body <file> [--title "<title>"]`
+- `create-commit`: `python3 skills/create-commit/assets/validate_commit_message.py --message "<subject>"`
+- `adr`: `python3 skills/adr/assets/validate_adr.py --file <adr> [--allow-placeholders]`
+- `bug-scan`: `python3 skills/bug-scan/assets/validate_report.py --file <report>`
+- `mutation-test`: `python3 skills/mutation-test/assets/validate_report.py --file <report>`
+- `skill-creator` / `skill-improver`: `python3 skills/skill-creator/assets/validate_skill.py --file <SKILL.md>`
 - Validate every skill against `skill-style-guide.md` after edits using `skill-improver`.

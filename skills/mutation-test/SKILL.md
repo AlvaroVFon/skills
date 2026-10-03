@@ -4,7 +4,7 @@ description: "Trigger: mutation test, mutation testing, test quality, surviving 
 license: Apache-2.0
 metadata:
   author: AlvaroVFon
-  version: "1.0"
+  version: "1.1"
 ---
 
 ## Activation Contract
@@ -22,7 +22,7 @@ Use this skill to measure test quality by injecting manual mutants into a whole 
 - Delegate reconnaissance to an exploration subagent when available; verdicts stay with you.
 - Run mutants in parallel when available, one write-capable subagent per mutant in its own worktree, capped; each returns facts, not verdicts.
 - ALWAYS state what was not reviewed.
-- Write the report only to `docs/mutation-test/{YYYY-MM-DD}.md` (suffix `-2`, `-3` if it exists); never overwrite one.
+- ALWAYS validate the final report with `python3 assets/validate_report.py --file <report>`; fix every `ERROR` (score and counters must match the blocks) until exit 0; never overwrite one.
 
 ## Decision Gates
 
@@ -47,7 +47,8 @@ Use this skill to measure test quality by injecting manual mutants into a whole 
 5. Generate mutants from the chosen categories of `references/02-mutation-catalog.md`, prioritized and capped.
 6. Dispatch one write-capable subagent per mutant, each in its own temp worktree, capped (`references/03-execution-protocol.md`, `assets/verify-mutant-subagent.md`); collect facts and assign verdicts.
 7. For each survivor, write and validate a test that kills it (`references/04-survivor-tests.md`).
-8. Take `requested_by` from `git config user.name` (ask if empty), then write the report from `assets/mutation-test-report.md`.
+8. Take `requested_by` from `git config user.name` (ask if empty), then write the report from `assets/mutation-test-report.md` to `docs/mutation-test/{YYYY-MM-DD}.md` (suffix `-2`, `-3` if it exists).
+9. Validate with `python3 assets/validate_report.py --file <report>`; fix every `ERROR:` until exit 0.
 
 ## Output Contract
 
@@ -62,3 +63,4 @@ Return the report path plus a chat summary: mutation score (global and per modul
 - `references/05-scan-memory.md` — previous reports, delta
 - `assets/verify-mutant-subagent.md` — mutation subagent prompt
 - `assets/mutation-test-report.md` — report template
+- `assets/validate_report.py` — report validator (structure + score/counter coherence)
