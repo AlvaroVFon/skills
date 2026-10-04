@@ -32,7 +32,7 @@ Reconnaissance returns every module with a risk rank and its test status. Rank b
 
 Deepen High modules first, then Medium while budget remains. Low modules are listed as **not reviewed**.
 
-The previous report adjusts this ranking: modules with survivors, unreviewed modules, and files changed since its commit move up (`references/05-scan-memory.md`).
+The previous report adjusts this ranking: modules with survivors, unreviewed modules, and files changed since its commit move up (`references/06-finding-ledger.md`).
 
 ## Caps
 

@@ -1,0 +1,54 @@
+{
+  "schema": "mutation-test/report@1",
+  "date": "{YYYY-MM-DD}",
+  "scan_type": "{global | targeted}",
+  "requested_by": "{git config user.name}",
+  "commit": "{git rev-parse --short HEAD}",
+  "baseline": "{previous report path | none}",
+  "target": "{repo or module name}",
+  "scope": ["{path or module}"],
+  "cap": "{n per module / n total}",
+  "coverage": {
+    "reviewed": [{ "target": "{module/path}", "mutants": 0 }],
+    "not_reviewed": [{ "target": "{module/path}", "reason": "{why}" }],
+    "not_covered": [{ "target": "{module/path}", "reason": "{no tests}" }]
+  },
+  "summary": {
+    "score": 0,
+    "killed": 0,
+    "survived": 0,
+    "generated": 0,
+    "invalid": 0,
+    "equivalent": 0,
+    "not_run": 0,
+    "inconclusive": 0
+  },
+  "by_module": [{ "module": "{module}", "mutants": 0, "killed": 0, "survived": 0, "score": 0 }],
+  "findings": [
+    {
+      "title": "{short title}",
+      "severity": "{Critical | Major | Minor}",
+      "operator": "{boundary | conditional | logical | arithmetic | statement-removal | return | literal | branch | argument}",
+      "status": "{new | persists | killed | regressed}",
+      "location": { "file": "{path}", "line": 0, "symbol": "{symbol | null}" },
+      "gap": "{what no test asserts}",
+      "mutant_diff": "{before/after}",
+      "tests": ["{mapped test path}"],
+      "evidence": {
+        "type": "{test | manual}",
+        "lang": "{lang | null}",
+        "code": "{test code | null}",
+        "output": "{passes on original; fails on mutant with ... | null}"
+      }
+    }
+  ],
+  "delta": {
+    "persists": 0,
+    "killed": 0,
+    "new": 0,
+    "regressed": 0,
+    "not_rechecked": 0,
+    "killed_items": [{ "id": "{id}", "location": "{file}:{line}", "title": "{title}" }],
+    "not_rechecked_items": [{ "id": "{id}", "location": "{file}:{line}", "reason": "{why}" }]
+  }
+}

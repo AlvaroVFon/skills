@@ -1,0 +1,56 @@
+{
+  "schema": "module-design/brief@1",
+  "date": "{YYYY-MM-DD}",
+  "requested_by": "{git config user.name}",
+  "commit": "{git rev-parse --short HEAD}",
+  "baseline": "{previous brief path | none}",
+  "module": "{module name}",
+  "language": "{repo language}",
+  "responsibility": "{one sentence; if you cannot, the boundary is wrong}",
+  "public_interface": {
+    "language": "{language}",
+    "code": "{signed public surface: exported services/use-cases, DTOs, events, ports}"
+  },
+  "hidden_knowledge": ["{design decision encapsulated by the module}"],
+  "complexity_absorbed": ["{edge case, derived data, default handled internally}"],
+  "failure_contract": [
+    {
+      "failure": "{domain failure}",
+      "caller_sees": "{domain error / result}",
+      "caller_action": "{expected handling}"
+    }
+  ],
+  "split_merge": { "decision": "{split | merge | keep}", "rationale": "{net complexity}" },
+  "depth_verdict": {
+    "macro": "{deep | acceptable | shallow}",
+    "macro_evidence": "{caller snippet observation}",
+    "micro": "{deep | acceptable | shallow}",
+    "micro_evidence": "{observation}"
+  },
+  "caller_snippet": { "language": "{language}", "code": "{smallest realistic external usage}" },
+  "before_after_interface": null,
+  "findings": [
+    {
+      "type": "{leakage-interface | leakage-back-door | shallow | over-config | temporal-decomposition | improvement}",
+      "title": "{short title}",
+      "severity": "{Critical | Major | Minor}",
+      "status": "{new | persists | resolved | regressed}",
+      "module": "{module}",
+      "detail": "{what leaks or what to improve}",
+      "location": { "file": "{path}", "line": 0, "symbol": "{symbol | null}" },
+      "evidence": {
+        "type": "{interface | back-door | caller-snippet | analysis}",
+        "detail": "{evidence}"
+      }
+    }
+  ],
+  "delta": {
+    "persists": 0,
+    "resolved": 0,
+    "new": 0,
+    "regressed": 0,
+    "not_rechecked": 0,
+    "resolved_items": [{ "id": "{id}", "location": "{file}:{line}", "title": "{title}" }],
+    "not_rechecked_items": [{ "id": "{id}", "location": "{file}:{line}", "reason": "{why}" }]
+  }
+}

@@ -1,0 +1,143 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "bug-scan/report@1",
+  "title": "Bug scan report",
+  "type": "object",
+  "required": [
+    "schema",
+    "date",
+    "scan_type",
+    "requested_by",
+    "commit",
+    "baseline",
+    "coverage",
+    "counters",
+    "findings",
+    "delta"
+  ],
+  "properties": {
+    "schema": { "const": "bug-scan/report@1" },
+    "date": { "type": "string", "pattern": "^\\d{4}-\\d{2}-\\d{2}$" },
+    "scan_type": { "enum": ["global", "targeted"] },
+    "requested_by": { "type": "string", "minLength": 1 },
+    "commit": { "type": "string", "minLength": 1 },
+    "baseline": { "type": "string", "description": "Previous report path or 'none'" },
+    "target": { "type": "string", "description": "Optional repo or module display name" },
+    "scope": {
+      "type": ["array", "null"],
+      "items": { "type": "string" },
+      "description": "Required for targeted scans, null for global"
+    },
+    "coverage": {
+      "type": "object",
+      "required": ["reviewed", "not_reviewed"],
+      "properties": {
+        "reviewed": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["target", "depth"],
+            "properties": {
+              "target": { "type": "string" },
+              "depth": { "enum": ["deep", "shallow"] }
+            }
+          }
+        },
+        "not_reviewed": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["target", "reason"],
+            "properties": {
+              "target": { "type": "string" },
+              "reason": { "type": "string" }
+            }
+          }
+        }
+      }
+    },
+    "counters": {
+      "type": "object",
+      "required": ["confirmed", "unconfirmed", "discarded"],
+      "properties": {
+        "confirmed": { "type": "integer", "minimum": 0 },
+        "unconfirmed": { "type": "integer", "minimum": 0 },
+        "discarded": { "type": "integer", "minimum": 0 }
+      }
+    },
+    "findings": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["title", "severity", "category", "verdict", "status", "location", "scenario"],
+        "properties": {
+          "id": { "type": "string", "description": "Stable ledger id; computed when omitted" },
+          "title": { "type": "string", "minLength": 1 },
+          "severity": { "enum": ["Critical", "Major", "Minor"] },
+          "category": { "enum": ["logic", "concurrency", "errors-resources", "data-integrity"] },
+          "verdict": { "enum": ["Confirmed", "Unconfirmed"] },
+          "status": {
+            "enum": ["new", "persists", "fixed", "regressed"],
+            "description": "Observed lifecycle status in this scan"
+          },
+          "location": {
+            "type": "object",
+            "required": ["file", "line"],
+            "properties": {
+              "file": { "type": "string", "minLength": 1 },
+              "line": { "type": "integer", "minimum": 0 },
+              "symbol": { "type": ["string", "null"] }
+            }
+          },
+          "scenario": { "type": "string", "description": "input/state -> wrong result" },
+          "evidence": {
+            "type": "object",
+            "required": ["type"],
+            "properties": {
+              "type": { "enum": ["test", "manual"] },
+              "lang": { "type": ["string", "null"] },
+              "code": { "type": ["string", "null"] },
+              "output": { "type": ["string", "null"] }
+            }
+          },
+          "manual_steps": { "type": "array", "items": { "type": "string" } }
+        }
+      }
+    },
+    "delta": {
+      "type": "object",
+      "required": ["persists", "fixed", "new", "not_rechecked"],
+      "properties": {
+        "persists": { "type": "integer", "minimum": 0 },
+        "fixed": { "type": "integer", "minimum": 0 },
+        "new": { "type": "integer", "minimum": 0 },
+        "regressed": { "type": "integer", "minimum": 0 },
+        "not_rechecked": { "type": "integer", "minimum": 0 },
+        "fixed_items": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["id", "location", "title"],
+            "properties": {
+              "id": { "type": "string" },
+              "location": { "type": "string" },
+              "title": { "type": "string" }
+            }
+          }
+        },
+        "not_rechecked_items": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["id", "location", "reason"],
+            "properties": {
+              "id": { "type": "string" },
+              "location": { "type": "string" },
+              "reason": { "type": "string" }
+            }
+          }
+        }
+      }
+    }
+  }
+}

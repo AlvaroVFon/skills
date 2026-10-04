@@ -1,0 +1,42 @@
+{
+  "schema": "bug-scan/report@1",
+  "date": "{YYYY-MM-DD}",
+  "scan_type": "{global | targeted}",
+  "requested_by": "{git config user.name}",
+  "commit": "{git rev-parse --short HEAD}",
+  "baseline": "{previous report path | none}",
+  "target": "{repo or module name}",
+  "scope": ["{path or module}"],
+  "coverage": {
+    "reviewed": [{ "target": "{module/path}", "depth": "{deep | shallow}" }],
+    "not_reviewed": [{ "target": "{module/path}", "reason": "{why}" }]
+  },
+  "counters": { "confirmed": 0, "unconfirmed": 0, "discarded": 0 },
+  "findings": [
+    {
+      "title": "{short title}",
+      "severity": "{Critical | Major | Minor}",
+      "category": "{logic | concurrency | errors-resources | data-integrity}",
+      "verdict": "{Confirmed | Unconfirmed}",
+      "status": "{new | persists | fixed | regressed}",
+      "location": { "file": "{path}", "line": 0, "symbol": "{symbol | null}" },
+      "scenario": "{input/state -> wrong result}",
+      "evidence": {
+        "type": "{test | manual}",
+        "lang": "{lang | null}",
+        "code": "{test code | null}",
+        "output": "{failing assertion/error | not runnable: reason | null}"
+      },
+      "manual_steps": ["{step}"]
+    }
+  ],
+  "delta": {
+    "persists": 0,
+    "fixed": 0,
+    "new": 0,
+    "regressed": 0,
+    "not_rechecked": 0,
+    "fixed_items": [{ "id": "{id}", "location": "{file}:{line}", "title": "{title}" }],
+    "not_rechecked_items": [{ "id": "{id}", "location": "{file}:{line}", "reason": "{why}" }]
+  }
+}
