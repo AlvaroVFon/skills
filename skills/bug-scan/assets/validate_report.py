@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
-"""Validate a bug-scan report against assets/bug-scan-report.md.
+"""Validate a bug-scan report (JSON) against assets/bug-scan-report.schema.json.
 
 Usage:
-    validate_report.py --file <path>
+    validate_report.py --file <report.json>
 
 Reads the report from --file, or stdin if omitted. Exits 0 and prints OK when
 the report is structurally valid and its counters agree, otherwise exits 1
@@ -14,170 +14,174 @@ Exit codes:
     1  one or more ERROR lines reported
 
 Checks:
-    E01 Missing or unterminated YAML frontmatter
-    E02 Missing frontmatter key (date, scan_type, requested_by, commit, baseline)
-    E03 scan_type not 'global' or 'targeted'
-    E04 date is not YYYY-MM-DD
-    E05 scan_type 'targeted' but 'scope' is missing or empty
-    E06 Missing required section (Summary, Delta vs previous, Findings)
-    E07 Summary missing the 'Findings:' counter line
-    E08 Declared findings counters disagree with the finding blocks
-    E09 A finding block is missing its Location or an unknown Category
-    E10 'Not reviewed' line absent from Summary
-    E11 Unresolved '{...}' placeholder remains
-    W12 scan_type 'global' but a 'scope' key is present
-    W13 Delta section missing a 'Baseline:' line
+    E01 missing/unreadable file
+    E02 invalid JSON
+    E03 missing top-level key (schema, date, scan_type, requested_by, commit,
+        baseline, coverage, counters, findings, delta)
+    E04 schema != 'bug-scan/report@1'
+    E05 scan_type not 'global'/'targeted', or targeted without 'scope'
+    E06 date is not YYYY-MM-DD
+    E07 coverage missing 'reviewed'/'not_reviewed'
+    E08 counters disagree with listed (non-fixed) findings
+    E09 a finding is missing a field or has an unknown enum value
+    E10 delta is missing a counter or its item lists disagree
+    E11 unresolved '{...}' placeholder remains in an authored field
+    W12 global scan has a 'scope' list
 """
 
 import argparse
+import json
 import re
 import sys
 
-REQUIRED_KEYS = ("date", "scan_type", "requested_by", "commit", "baseline")
-SECTIONS = ("Summary", "Delta vs previous", "Findings")
-CATEGORIES = ("logic", "concurrency", "errors-resources", "data-integrity")
-DATE_RE = re.compile(r"^\d{4}-\d{2}-\d{2}$")
-FENCE_RE = re.compile(r"```.*?```", re.DOTALL)
-PLACEHOLDER_RE = re.compile(r"\{[^{}\n]+\}")
-COUNTER_RE = re.compile(
-    r"Findings:\s*(\d+)\s+Confirmed\s*[·•*]\s*(\d+)\s+Unconfirmed\s*[·•*]\s*(\d+)\s+discarded"
+TOP_KEYS = (
+    "schema",
+    "date",
+    "scan_type",
+    "requested_by",
+    "commit",
+    "baseline",
+    "coverage",
+    "counters",
+    "findings",
+    "delta",
 )
-FINDING_RE = re.compile(r"^###\s+\[(Critical|Major|Minor)\]\s+(.+?)\s+[—–-]\s+(Confirmed|Unconfirmed)\s*$")
+FINDING_FIELDS = ("title", "severity", "category", "verdict", "status", "location", "scenario")
+SEVERITIES = {"Critical", "Major", "Minor"}
+CATEGORIES = {"logic", "concurrency", "errors-resources", "data-integrity"}
+VERDICTS = {"Confirmed", "Unconfirmed"}
+STATUSES = {"new", "persists", "fixed", "regressed"}
+LISTED = {"new", "persists", "regressed"}
+DATE_RE = re.compile(r"^\d{4}-\d{2}-\d{2}$")
+PLACEHOLDER_RE = re.compile(r"\{[^{}\n]+\}")
 
 
-def split_frontmatter(text):
-    lines = text.splitlines()
-    if not lines or lines[0].strip() != "---":
-        return None, None
-    for i in range(1, len(lines)):
-        if lines[i].strip() == "---":
-            return lines[1:i], "\n".join(lines[i + 1 :])
-    return None, None
+def load(path):
+    if path == "-":
+        text = sys.stdin.read()
+    else:
+        try:
+            text = open(path, encoding="utf-8").read()
+        except OSError as e:
+            print(f"ERROR: E01 cannot read file: {e}")
+            sys.exit(1)
+    try:
+        return json.loads(text)
+    except json.JSONDecodeError as e:
+        print(f"ERROR: E02 invalid JSON: {e}")
+        sys.exit(1)
 
 
-def top_level(fm_lines):
-    values = {}
-    for line in fm_lines:
-        m = re.match(r"^([A-Za-z0-9_-]+):\s*(.*)$", line)
-        if m:
-            values[m.group(1)] = m.group(2).strip()
-    return values
-
-
-def parse_sections(body):
-    sections, current = {}, None
-    for line in body.splitlines():
-        m = re.match(r"^##\s+(.+)", line)
-        if m:
-            current = m.group(1).strip()
-            sections[current] = []
-        elif current is not None:
-            sections[current].append(line)
-    return {k: "\n".join(v) for k, v in sections.items()}
-
-
-def finding_blocks(section_body):
-    blocks, current = [], None
-    for line in section_body.splitlines():
-        if re.match(r"^#{1,3}\s", line):
-            if current is not None:
-                blocks.append("\n".join(current))
-            current = [line] if re.match(r"^###\s", line) else None
-        elif current is not None:
-            current.append(line)
-    if current is not None:
-        blocks.append("\n".join(current))
-    return [b for b in blocks if FINDING_RE.match(b.splitlines()[0])]
+def authored_strings(report):
+    yield from (report.get(k) for k in ("date", "scan_type", "requested_by", "commit", "baseline"))
+    for group in ("reviewed", "not_reviewed"):
+        for item in (report.get("coverage") or {}).get(group) or []:
+            yield from item.values()
+    for finding in report.get("findings") or []:
+        for key in ("title", "severity", "category", "verdict", "status", "scenario"):
+            yield finding.get(key)
+        for value in (finding.get("location") or {}).values():
+            yield value
+        yield from finding.get("manual_steps") or []
+    delta = report.get("delta") or {}
+    for key in ("fixed_items", "not_rechecked_items"):
+        for item in delta.get(key) or []:
+            yield from item.values()
 
 
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("--file", default="-")
     args = parser.parse_args()
-
-    if args.file == "-":
-        text = sys.stdin.read()
-    else:
-        try:
-            text = open(args.file, encoding="utf-8").read()
-        except OSError as e:
-            print(f"ERROR: E01 cannot read file: {e}")
-            sys.exit(1)
-
+    report = load(args.file)
     errors, warnings = [], []
 
-    fm_lines, body = split_frontmatter(text)
-    if fm_lines is None:
-        print("ERROR: E01 missing or unterminated YAML frontmatter ('---' block)")
+    if not isinstance(report, dict):
+        print("ERROR: E03 report is not a JSON object")
         sys.exit(1)
+    for key in TOP_KEYS:
+        if key not in report:
+            errors.append(f"ERROR: E03 missing top-level key '{key}'")
+    if report.get("schema") != "bug-scan/report@1":
+        errors.append("ERROR: E04 schema must be 'bug-scan/report@1'")
 
-    fm = top_level(fm_lines)
-    for key in REQUIRED_KEYS:
-        if not fm.get(key):
-            errors.append(f"ERROR: E02 missing frontmatter key '{key}'")
-
-    scan_type = fm.get("scan_type", "").strip().strip("\"'")
-    if scan_type and scan_type not in ("global", "targeted"):
-        errors.append(f"ERROR: E03 scan_type {scan_type!r} not 'global' or 'targeted'")
-
-    date = fm.get("date", "").strip().strip("\"'")
-    if date and not DATE_RE.match(date):
-        errors.append(f"ERROR: E04 date {date!r} is not YYYY-MM-DD")
-
-    scope = fm.get("scope", "")
-    if scan_type == "targeted" and not scope.strip().strip("\"'[]"):
-        errors.append("ERROR: E05 scan_type 'targeted' requires a non-empty 'scope' list")
+    scan_type = report.get("scan_type")
+    if scan_type not in ("global", "targeted"):
+        errors.append(f"ERROR: E05 scan_type {scan_type!r} not 'global' or 'targeted'")
+    scope = report.get("scope")
+    if scan_type == "targeted" and not scope:
+        errors.append("ERROR: E05 targeted scan requires a non-empty 'scope' list")
     if scan_type == "global" and scope:
-        warnings.append("WARNING: W12 scan_type 'global' has a 'scope' key; remove it")
+        warnings.append("WARNING: W12 global scan has a 'scope' list; remove it")
+    if not DATE_RE.match(str(report.get("date", ""))):
+        errors.append("ERROR: E06 date is not YYYY-MM-DD")
 
-    sections = parse_sections(body)
-    for name in SECTIONS:
-        if name not in sections:
-            errors.append(f"ERROR: E06 missing required section '## {name}'")
+    coverage = report.get("coverage") or {}
+    for group in ("reviewed", "not_reviewed"):
+        if not isinstance(coverage.get(group), list):
+            errors.append(f"ERROR: E07 coverage missing list '{group}'")
 
-    if "Summary" in sections and "not reviewed" not in sections["Summary"].lower():
-        errors.append("ERROR: E10 Summary has no 'Not reviewed:' line")
-    if "Delta vs previous" in sections and "baseline:" not in sections["Delta vs previous"].lower():
-        warnings.append("WARNING: W13 'Delta vs previous' has no 'Baseline:' line")
+    findings = report.get("findings")
+    if not isinstance(findings, list):
+        errors.append("ERROR: E03 'findings' must be a list")
+        findings = []
 
-    blocks = finding_blocks(sections.get("Findings", ""))
-    actual_confirmed = sum(1 for b in blocks if FINDING_RE.match(b.splitlines()[0]).group(3) == "Confirmed")
-    actual_unconfirmed = len(blocks) - actual_confirmed
+    confirmed = unconfirmed = 0
+    for finding in findings:
+        name = finding.get("title", "?") if isinstance(finding, dict) else "?"
+        if not isinstance(finding, dict):
+            errors.append(f"ERROR: E09 finding {name!r} is not an object")
+            continue
+        for key in FINDING_FIELDS:
+            if not finding.get(key):
+                errors.append(f"ERROR: E09 finding '{name}' missing '{key}'")
+        loc = finding.get("location") or {}
+        if not loc.get("file") or not isinstance(loc.get("line"), int):
+            errors.append(f"ERROR: E09 finding '{name}' location needs file and integer line")
+        if finding.get("severity") not in SEVERITIES:
+            errors.append(f"ERROR: E09 finding '{name}' severity {finding.get('severity')!r} invalid")
+        if finding.get("category") not in CATEGORIES:
+            errors.append(f"ERROR: E09 finding '{name}' category {finding.get('category')!r} invalid")
+        if finding.get("verdict") not in VERDICTS:
+            errors.append(f"ERROR: E09 finding '{name}' verdict {finding.get('verdict')!r} invalid")
+        if finding.get("status") not in STATUSES:
+            errors.append(f"ERROR: E09 finding '{name}' status {finding.get('status')!r} invalid")
+        if finding.get("status") in LISTED:
+            if finding.get("verdict") == "Confirmed":
+                confirmed += 1
+            else:
+                unconfirmed += 1
 
-    m = COUNTER_RE.search(body)
-    if not m:
-        errors.append("ERROR: E07 Summary has no 'Findings: N Confirmed · N Unconfirmed · N discarded' line")
-    else:
-        declared = (int(m.group(1)), int(m.group(2)))
-        if declared != (actual_confirmed, actual_unconfirmed):
-            errors.append(
-                f"ERROR: E08 declared {declared[0]} Confirmed/{declared[1]} Unconfirmed "
-                f"but found {actual_confirmed} Confirmed/{actual_unconfirmed} Unconfirmed blocks"
-            )
+    counters = report.get("counters") or {}
+    declared = (counters.get("confirmed"), counters.get("unconfirmed"))
+    if declared != (confirmed, unconfirmed):
+        errors.append(
+            f"ERROR: E08 counters {declared[0]} Confirmed/{declared[1]} Unconfirmed "
+            f"but listed findings are {confirmed}/{unconfirmed}"
+        )
+    if not isinstance(counters.get("discarded"), int):
+        errors.append("ERROR: E08 counters.discarded must be an integer")
 
-    for block in blocks:
-        head = block.splitlines()[0]
-        if not re.search(r"^-\s+Location:\s*`[^`]+`", block, re.MULTILINE):
-            errors.append(f"ERROR: E09 finding '{head.strip()}' has no '- Location: `file:line`'")
-        cat = re.search(r"^-\s+Category:\s*(\S+)", block, re.MULTILINE)
-        if not cat:
-            errors.append(f"ERROR: E09 finding '{head.strip()}' has no '- Category:'")
-        elif cat.group(1).strip().strip("\"'`") not in CATEGORIES:
-            errors.append(
-                f"ERROR: E09 finding '{head.strip()}' Category {cat.group(1)!r} not in {', '.join(CATEGORIES)}"
-            )
+    delta = report.get("delta") or {}
+    for key in ("persists", "fixed", "new", "not_rechecked"):
+        if not isinstance(delta.get(key), int):
+            errors.append(f"ERROR: E10 delta missing integer '{key}'")
+    if isinstance(delta.get("fixed"), int) and delta["fixed"] != len(delta.get("fixed_items") or []):
+        errors.append("ERROR: E10 delta.fixed disagrees with delta.fixed_items")
+    if isinstance(delta.get("not_rechecked"), int) and delta["not_rechecked"] != len(
+        delta.get("not_rechecked_items") or []
+    ):
+        errors.append("ERROR: E10 delta.not_rechecked disagrees with delta.not_rechecked_items")
 
-    probe = FENCE_RE.sub("", body)
-    leftover = PLACEHOLDER_RE.findall(probe)
-    if leftover:
-        sample = ", ".join(sorted(set(leftover))[:5])
-        errors.append(f"ERROR: E11 {len(leftover)} unresolved placeholder(s) remain: {sample}")
+    for value in authored_strings(report):
+        if isinstance(value, str) and PLACEHOLDER_RE.search(value):
+            errors.append(f"ERROR: E11 unresolved placeholder in {value!r}")
+            break
 
     for w in warnings:
         print(w)
     for e in errors:
         print(e)
-
     if errors:
         sys.exit(1)
     print("OK")

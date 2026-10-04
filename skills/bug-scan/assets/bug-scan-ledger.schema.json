@@ -1,0 +1,56 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "bug-scan/ledger@1",
+  "title": "Bug scan finding ledger",
+  "type": "object",
+  "required": ["version", "skill", "repo", "updated", "entries"],
+  "properties": {
+    "version": { "const": 1 },
+    "skill": { "const": "bug-scan" },
+    "repo": { "type": "string" },
+    "updated": { "type": "string", "pattern": "^\\d{4}-\\d{2}-\\d{2}$" },
+    "entries": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "id",
+          "kind",
+          "title",
+          "severity",
+          "category",
+          "status",
+          "location",
+          "first_seen",
+          "last_seen",
+          "commit"
+        ],
+        "properties": {
+          "id": { "type": "string", "minLength": 1 },
+          "kind": { "const": "bug" },
+          "title": { "type": "string", "minLength": 1 },
+          "severity": { "enum": ["Critical", "Major", "Minor"] },
+          "category": { "enum": ["logic", "concurrency", "errors-resources", "data-integrity"] },
+          "verdict": { "enum": ["Confirmed", "Unconfirmed"] },
+          "status": { "enum": ["open", "fixed", "regressed", "stale", "wontfix"] },
+          "location": {
+            "type": "object",
+            "required": ["file", "line"],
+            "properties": {
+              "file": { "type": "string" },
+              "line": { "type": "integer" },
+              "symbol": { "type": ["string", "null"] }
+            }
+          },
+          "first_seen": { "type": "string", "pattern": "^\\d{4}-\\d{2}-\\d{2}$" },
+          "last_seen": { "type": "string", "pattern": "^\\d{4}-\\d{2}-\\d{2}$" },
+          "fixed_at": { "type": ["string", "null"] },
+          "fixed_commit": { "type": ["string", "null"] },
+          "commit": { "type": "string" },
+          "evidence": { "type": ["object", "null"] },
+          "notes": { "type": "array", "items": { "type": "string" } }
+        }
+      }
+    }
+  }
+}

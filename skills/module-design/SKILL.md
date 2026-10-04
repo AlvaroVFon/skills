@@ -4,7 +4,7 @@ description: "Trigger: module design, analyze module, module architecture, deep 
 license: Apache-2.0
 metadata:
   author: AlvaroVFon
-  version: "1.0"
+  version: "2.0"
 ---
 
 ## Activation Contract
@@ -21,7 +21,7 @@ Use this skill to design, modify, or analyze the design of a **module**: a group
 
 **Split or merge** — split only if it reduces total complexity, else combine; when in doubt, one class; never mix a general mechanism with specific policy; applies to boundaries and method extraction.
 
-**Cross-cutting** — always write the caller snippet (smallest realistic external usage); state responsibility in one sentence or the boundary is wrong; ALWAYS ask the output format (`{module}.md`, `adr`, `inline`); write the brief in the conversation language and code in the repo language.
+**Cross-cutting** — always write the caller snippet (smallest realistic external usage); state responsibility in one sentence or the boundary is wrong; ALWAYS ask the output format (`json+md` file, `adr`, or `inline`); write the brief in the conversation language and code in the repo language. For `json+md` and `adr`, maintain `docs/module-design/ledger.json` as the memory; never hand-edit the rendered `.md`.
 
 **Reconnaissance** — when the module spans many files, delegate exploration (artifacts, callers, duplicated knowledge) to an exploration subagent when available; keep the gate judgments yourself.
 
@@ -44,12 +44,12 @@ Load only the reference for the principle under evaluation.
 4. Evaluate the four gates, loading references on demand; emit a verdict per granularity (macro and micro): deep / acceptable / shallow.
 5. Detect leakages (interface vs back-door), over-configuration, and temporal decomposition.
 6. Apply the split-or-merge gate by net complexity.
-7. ALWAYS ask the output format: `{module}.md`, `adr`, or `inline`.
-8. Emit the brief from `assets/module-design-brief.md`; a full before/after interface only when shallow.
+7. ALWAYS ask the output format: `json+md`, `adr`, or `inline`.
+8. For `json+md`, write the brief from `assets/module-design-brief.template.json` to `docs/module-design/{YYYY-MM-DD}-{module}.json` (suffix `-2` if it exists), then update memory (`assets/update_ledger.py`), render (`assets/render_brief.py`), and validate (`validate_brief.py`, `validate_ledger.py`) until exit 0. For `adr`, delegate to the `adr` skill and still update the ledger. For `inline`, return the brief in chat without files.
 
 ## Output Contract
 
-Return the Module Design Brief (or inline equivalent): responsibility; public interface signatures; encapsulated decisions; complexity absorbed and failure contract; split-or-merge decision; depth verdict macro/micro with the caller snippet; leakage flags; improvements, with a full before/after interface only when shallow.
+Return the brief (or inline equivalent): responsibility; public interface signatures; encapsulated decisions; complexity absorbed and failure contract; split-or-merge decision; depth verdict macro/micro with the caller snippet; leakage flags; improvements. For `json+md` also return the brief JSON/Markdown paths and the ledger transition summary (new · persists · resolved · regressed · not re-checked).
 
 ## References
 
@@ -57,4 +57,11 @@ Return the Module Design Brief (or inline equivalent): responsibility; public in
 - `references/02-information-hiding.md`
 - `references/03-pull-complexity-downwards.md`
 - `references/04-split-merge.md`
-- `assets/module-design-brief.md`
+- `references/05-finding-ledger.md` — ledger lifecycle, reconciliation, resolve
+- `assets/module-design-brief.template.json` — canonical brief template
+- `assets/module-design-brief.md` — rendered Markdown format
+- `assets/module-design-ledger.template.json` — ledger template
+- `assets/update_ledger.py` — merge brief into ledger, reconcile, resolve
+- `assets/render_brief.py` — render brief JSON to Markdown
+- `assets/validate_brief.py` — brief validator (structure + delta)
+- `assets/validate_ledger.py` — ledger validator (structure + lifecycle)

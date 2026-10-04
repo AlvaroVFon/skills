@@ -32,7 +32,7 @@ Reconnaissance returns every module with a risk rank. Rank by the highest signal
 
 Deepen High modules first, then Medium while budget remains. Low modules are listed as **not reviewed** unless trivially covered.
 
-The previous report adjusts this ranking: unreviewed or shallowly reviewed modules and files changed since its commit move up (`references/07-scan-memory.md`).
+The previous report adjusts this ranking: unreviewed or shallowly reviewed modules and files changed since its commit move up (`references/08-finding-ledger.md`).
 
 ## Targeted — Flow Tracing
 
