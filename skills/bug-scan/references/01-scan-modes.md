@@ -13,8 +13,13 @@ Ask with the option selector (question tool) before any work, every run — neve
 
 1. **Mode**: `Global` (whole repo) or `Targeted` (named paths/modules). If `Targeted`, request the paths in the same round.
 2. **Categories** (multi-select): `logic` (`02`), `concurrency` (`03`), `errors-resources` (`04`), `data-integrity` (`05`), or `all`. Load only the chosen references in step 4.
+3. **Output format**: `chat` (concise summary) or `markdown` (full rendered report) — never both. The JSON report is written either way.
 
 If the question tool is unavailable, ask in chat and wait for the answer.
+
+## Output Format
+
+The report is always persisted as `docs/bug-scan/{YYYY-MM-DD}.json`. The human view is shown in the chat only: `chat` returns the concise summary; `markdown` runs `assets/render_report.py --json <report.json>` and pastes its stdout. Never write a `.md` file and never show both views.
 
 ## Global — Risk Map
 
@@ -32,7 +37,7 @@ Reconnaissance returns every module with a risk rank. Rank by the highest signal
 
 Deepen High modules first, then Medium while budget remains. Low modules are listed as **not reviewed** unless trivially covered.
 
-The previous report adjusts this ranking: unreviewed or shallowly reviewed modules and files changed since its commit move up (`references/08-finding-ledger.md`).
+The previous report adjusts this ranking: unreviewed or shallowly reviewed modules and files changed since its commit move up (`references/08-baseline-history.md`).
 
 ## Targeted — Flow Tracing
 

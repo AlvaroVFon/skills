@@ -71,7 +71,10 @@
         "type": "object",
         "required": ["title", "severity", "category", "verdict", "status", "location", "scenario"],
         "properties": {
-          "id": { "type": "string", "description": "Stable ledger id; computed when omitted" },
+          "id": {
+            "type": "string",
+            "description": "Stable finding id; computed by reconcile.py when omitted"
+          },
           "title": { "type": "string", "minLength": 1 },
           "severity": { "enum": ["Critical", "Major", "Minor"] },
           "category": { "enum": ["logic", "concurrency", "errors-resources", "data-integrity"] },

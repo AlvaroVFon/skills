@@ -46,8 +46,8 @@ Contract for every validator: `--file`/`--body`/`--message` input (or stdin), ex
 - `create-pr`: `python3 skills/create-pr/assets/validate_pr_description.py --body <file> [--title "<title>"]`
 - `create-commit`: `python3 skills/create-commit/assets/validate_commit_message.py --message "<subject>"`
 - `adr`: `python3 skills/adr/assets/validate_adr.py --file <adr> [--allow-placeholders]`
-- `bug-scan`: `python3 skills/bug-scan/assets/validate_report.py --file <report.json>` and `python3 skills/bug-scan/assets/validate_ledger.py --file <ledger.json>`
-- `mutation-test`: `python3 skills/mutation-test/assets/validate_report.py --file <report.json>` and `python3 skills/mutation-test/assets/validate_ledger.py --file <ledger.json>`
-- `module-design`: `python3 skills/module-design/assets/validate_brief.py --file <brief.json>` and `python3 skills/module-design/assets/validate_ledger.py --file <ledger.json>`
+- `bug-scan`: `python3 skills/bug-scan/assets/reconcile.py --report <report.json>` then `python3 skills/bug-scan/assets/validate_report.py --file <report.json>`
+- `mutation-test`: `python3 skills/mutation-test/assets/reconcile.py --report <report.json>` then `python3 skills/mutation-test/assets/validate_report.py --file <report.json>`
+- `module-design`: `python3 skills/module-design/assets/reconcile.py --report <brief.json>` then `python3 skills/module-design/assets/validate_brief.py --file <brief.json>`
 - `skill-creator` / `skill-improver`: `python3 skills/skill-creator/assets/validate_skill.py --file <SKILL.md>`
 - Validate every skill against `skill-style-guide.md` after edits using `skill-improver`.
