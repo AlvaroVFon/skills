@@ -4,7 +4,7 @@ description: "Trigger: module design, analyze module, module architecture, deep 
 license: Apache-2.0
 metadata:
   author: AlvaroVFon
-  version: "2.0"
+  version: "3.0"
 ---
 
 ## Activation Contract
@@ -21,7 +21,7 @@ Use this skill to design, modify, or analyze the design of a **module**: a group
 
 **Split or merge** — split only if it reduces total complexity, else combine; when in doubt, one class; never mix a general mechanism with specific policy; applies to boundaries and method extraction.
 
-**Cross-cutting** — always write the caller snippet (smallest realistic external usage); state responsibility in one sentence or the boundary is wrong; ALWAYS ask the output format (`json+md` file, `adr`, or `inline`); write the brief in the conversation language and code in the repo language. For `json+md` and `adr`, maintain `docs/module-design/ledger.json` as the memory; never hand-edit the rendered `.md`.
+**Cross-cutting** — always write the caller snippet (smallest realistic external usage); state responsibility in one sentence or the boundary is wrong; ALWAYS ask the output format (`chat` | `markdown` | `adr`); write the brief in the conversation language and code in the repo language. Persist only `docs/module-design/{YYYY-MM-DD}-{module}.json`: never write a ledger or a rendered file.
 
 **Reconnaissance** — when the module spans many files, delegate exploration (artifacts, callers, duplicated knowledge) to an exploration subagent when available; keep the gate judgments yourself.
 
@@ -44,12 +44,15 @@ Load only the reference for the principle under evaluation.
 4. Evaluate the four gates, loading references on demand; emit a verdict per granularity (macro and micro): deep / acceptable / shallow.
 5. Detect leakages (interface vs back-door), over-configuration, and temporal decomposition.
 6. Apply the split-or-merge gate by net complexity.
-7. ALWAYS ask the output format: `json+md`, `adr`, or `inline`.
-8. For `json+md`, write the brief from `assets/module-design-brief.template.json` to `docs/module-design/{YYYY-MM-DD}-{module}.json` (suffix `-2` if it exists), then update memory (`assets/update_ledger.py`), render (`assets/render_brief.py`), and validate (`validate_brief.py`, `validate_ledger.py`) until exit 0. For `adr`, delegate to the `adr` skill and still update the ledger. For `inline`, return the brief in chat without files.
+7. ALWAYS ask the output format: `chat`, `markdown`, or `adr`.
+8. Write the brief from `assets/module-design-brief.template.json` to `docs/module-design/{YYYY-MM-DD}-{module}.json` (suffix `-2` if it exists).
+9. Reconcile: `python3 assets/reconcile.py --report <brief.json>` — assigns ids and writes the delta vs the previous brief.
+10. Validate: `python3 assets/validate_brief.py --file <brief.json>`; fix every `ERROR:` until exit 0.
+11. Deliver the human view per the chosen format: `chat` returns the brief inline; `markdown` runs `python3 assets/render_brief.py --json <brief.json>` and pastes its stdout; `adr` delegates to the `adr` skill and adds a short summary. Never both chat and markdown.
 
 ## Output Contract
 
-Return the brief (or inline equivalent): responsibility; public interface signatures; encapsulated decisions; complexity absorbed and failure contract; split-or-merge decision; depth verdict macro/micro with the caller snippet; leakage flags; improvements. For `json+md` also return the brief JSON/Markdown paths and the ledger transition summary (new · persists · resolved · regressed · not re-checked).
+Return the brief (or its inline equivalent): responsibility; public interface signatures; encapsulated decisions; complexity absorbed and failure contract; split-or-merge decision; depth verdict macro/micro with the caller snippet; leakage flags; improvements. Also return the brief JSON path, the transition summary (new · persists · resolved · regressed · not re-checked), and the human view in the chosen format. Only the JSON is written.
 
 ## References
 
@@ -57,11 +60,10 @@ Return the brief (or inline equivalent): responsibility; public interface signat
 - `references/02-information-hiding.md`
 - `references/03-pull-complexity-downwards.md`
 - `references/04-split-merge.md`
-- `references/05-finding-ledger.md` — ledger lifecycle, reconciliation, resolve
-- `assets/module-design-brief.template.json` — canonical brief template
-- `assets/module-design-brief.md` — rendered Markdown format
-- `assets/module-design-ledger.template.json` — ledger template
-- `assets/update_ledger.py` — merge brief into ledger, reconcile, resolve
-- `assets/render_brief.py` — render brief JSON to Markdown
-- `assets/validate_brief.py` — brief validator (structure + delta)
-- `assets/validate_ledger.py` — ledger validator (structure + lifecycle)
+- `references/05-baseline-history.md` — baseline lookup, ids, delta, transitions
+- `assets/module-design-brief.template.json` — brief template
+- `assets/module-design-brief.schema.json` — brief schema
+- `assets/module-design-brief.md` — chat markdown view format
+- `assets/reconcile.py` — assign ids, compute delta vs previous
+- `assets/render_brief.py` — render brief JSON to chat markdown
+- `assets/validate_brief.py` — brief validator

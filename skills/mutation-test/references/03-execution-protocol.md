@@ -15,7 +15,7 @@ Each mutant is verified by one subagent inside its own temporary worktree, so mu
 ## Parallel Execution
 
 1. List every mutant with `file:line`, operator, and exact diff.
-2. Dispatch one write-capable subagent (e.g. `general`) per mutant in a single message, using `assets/verify-mutant-subagent.md`; cap concurrency at 3–4 and queue the rest.
+2. Dispatch one write-capable subagent (e.g. `general`) per mutant in a single message, using `assets/verify-mutant-subagent.md`; at most 4 concurrent, queue the rest.
 3. Serialize mutants whose mapped tests share heavy resources (DB, ports, queues) or a single global build directory.
 4. Each subagent returns facts: raw output, whether the mapped tests passed or failed, and confirmation its worktree was removed.
 5. Collect the facts, assign verdicts, and confirm cleanup.

@@ -1,10 +1,11 @@
 #!/usr/bin/env python3
-"""Render a bug-scan report JSON into the human-readable Markdown report.
+"""Render a bug-scan report JSON into the Markdown view for the chat.
 
 Usage:
-    render_report.py --json <report.json> [--out <report.md>]
+    render_report.py --json <report.json>
 
-Writes to --out, or stdout when omitted. The output follows
+Prints to stdout: the skill never writes a .md file, it shows this output in the
+chat when the chosen output format is `markdown`. The output follows
 assets/bug-scan-report.md and is deterministic: the same JSON always renders
 the same Markdown. Only findings still open (new/persists/regressed) appear in
 the Findings section; fixed and not-re-checked items appear in the delta.
@@ -107,7 +108,6 @@ def render(report):
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("--json", required=True)
-    parser.add_argument("--out")
     args = parser.parse_args()
     try:
         with open(args.json, encoding="utf-8") as fh:
@@ -118,12 +118,7 @@ def main():
     except json.JSONDecodeError as e:
         print(f"ERROR: invalid JSON in {args.json}: {e}")
         sys.exit(1)
-    text = render(report)
-    if args.out:
-        with open(args.out, "w", encoding="utf-8") as fh:
-            fh.write(text)
-    else:
-        sys.stdout.write(text)
+    sys.stdout.write(render(report))
 
 
 if __name__ == "__main__":
