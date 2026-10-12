@@ -74,7 +74,7 @@ Convention:
 ## Skill Discovery
 
 - Skills live under `.github/skills/`, `.opencode/skills/`, and `.claude/skills/`; each skill is one directory containing a `SKILL.md`.
-- Discover skills by scanning those directories for `*/SKILL.md`. This repo has no generated skill registry.
+- Discover skills by scanning those directories for `*/SKILL.md` and `*/*/SKILL.md` (flat and one-category layouts). This repo has no generated skill registry.
 - Delegators pass exact `SKILL.md` paths to subagents, and subagents read the full skill before work.
 - Use `skill-improver` to audit and refactor existing skills against this guide.
 
