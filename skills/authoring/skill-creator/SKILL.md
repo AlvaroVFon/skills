@@ -41,10 +41,10 @@ Do not create a skill when the pattern is trivial, one-off, or better served by 
 
 1. Read `references/skill-style-guide.md` and apply it. Fall back to the inline rules below only if that file is missing.
 2. Confirm the skill does not already exist and the pattern is reusable.
-3. Create or update `skills/{skill-name}/SKILL.md` using this required structure:
+3. Create or update `skills/{category}/{skill-name}/SKILL.md` using this required structure:
 
 ```
-skills/{skill-name}/
+skills/{category}/{skill-name}/
 ├── SKILL.md              # Required - main skill file
 ├── assets/               # Optional - templates, schemas, examples
 │   ├── template.py

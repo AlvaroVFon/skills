@@ -15,7 +15,7 @@ Use this skill when asked to audit, refactor, normalize, or improve existing `SK
 
 - ALWAYS treat `references/skill-style-guide.md` as the normative style contract, whether working in this repo or on an installed global skill.
 - Treat `SKILL.md` as the source of truth; preserve author intent, critical rules, activation semantics, and output requirements.
-- Discover skills by scanning `.github/skills/`, `.opencode/skills/`, and `.claude/skills/` for `*/SKILL.md`; this repo has no generated skill registry. Each skill is mirrored across the three directories.
+- Discover skills by scanning `.github/skills/`, `.opencode/skills/`, and `.claude/skills/` for `*/SKILL.md` and `*/*/SKILL.md`; this repo has no generated skill registry. Each skill is mirrored across the three directories.
 - Default to audit-only. Modify files only when the user explicitly asks to apply improvements.
 - Never delete meaningful content silently; move long explanation, examples, templates, or schemas into local `references/` or `assets/`.
 - Do not invent triggers, policies, or domain rules. Mark ambiguous cases for human review.
@@ -34,7 +34,7 @@ Use this skill when asked to audit, refactor, normalize, or improve existing `SK
 ## Execution Steps
 
 1. Read `references/skill-style-guide.md` and apply it. If it's missing, enforce the core LLM-first structure directly: frontmatter, Activation Contract, Hard Rules, Decision Gates, Execution Steps, Output Contract, References.
-2. Scan `.github/skills/`, `.opencode/skills/`, and `.claude/skills/` for `*/SKILL.md` and select the skills to audit from those paths.
+2. Scan `.github/skills/`, `.opencode/skills/`, and `.claude/skills/` for `*/SKILL.md` and `*/*/SKILL.md` and select the skills to audit from those paths.
 3. For each selected skill, audit metadata, trigger clarity, section order, body budget, actionability, decision gates, output contract, and local references.
 4. Run `python3 assets/validate_skill.py --file {skill}/SKILL.md` for each and fold its `ERROR:`/`WARNING:` lines into the report.
 5. Return an audit report grouped by skill with severity and exact proposed changes.
