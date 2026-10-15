@@ -9,7 +9,7 @@ metadata:
 
 ## Activation Contract
 
-Use this skill to scan a whole repo (global) or given paths/modules (targeted) for **latent bugs** and prove each one. Not for investigating an already-reported bug, reviewing a PR, or security audits.
+Use this skill to scan a whole repo (global) or given paths/modules (targeted) for **latent bugs** and prove each one. Not for investigating an already-reported bug, reviewing a PR, or security audits (use `api-security-scan`).
 
 ## Hard Rules
 
