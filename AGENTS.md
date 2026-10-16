@@ -1,6 +1,6 @@
 # AGENTS.md
 
-Skills repository. Each skill is a directory under `skills/{category}/{name}/` containing a `SKILL.md` plus optional `assets/` and `references/`. Categories: `authoring/`, `design/`, `implementation/`, `quality/`, `git/`, `learning/`.
+Skills repository. Each skill is a directory under `skills/{category}/{name}/` containing a `SKILL.md` plus optional `assets/` and `references/`. Categories: `authoring/`, `design/`, `implementation/`, `quality/`, `git/`, `maintenance/`, `learning/`.
 
 ## Skills
 
@@ -40,6 +40,12 @@ Skills repository. Each skill is a directory under `skills/{category}/{name}/` c
 | ------------- | ----------------------------------- | --------------------------------------------------- |
 | create-pr     | `skills/git/create-pr/SKILL.md`     | Create standardized PRs with validated descriptions |
 | create-commit | `skills/git/create-commit/SKILL.md` | Create conventional commits `type(scope): subject`  |
+
+### maintenance
+
+| Skill               | Path                                              | Purpose                                                       |
+| ------------------- | ------------------------------------------------- | ------------------------------------------------------------- |
+| update-dependencies | `skills/maintenance/update-dependencies/SKILL.md` | Update deps by mode with vulnerability/breaking-change checks |
 
 ### learning
 
