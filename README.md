@@ -45,6 +45,12 @@ Each skill is a folder under `skills/{category}/` with a `SKILL.md` (the runtime
 | [create-commit](skills/git/create-commit/SKILL.md) | `npx skills add AlvaroVFon/skills -s create-commit` | Write validated Conventional Commits (`type(scope): subject`). |
 | [create-pr](skills/git/create-pr/SKILL.md)         | `npx skills add AlvaroVFon/skills -s create-pr`     | Open standardized pull requests via the `gh` CLI.              |
 
+### Maintenance
+
+| Skill                                                                  | Command                                                   | What it does                                                               |
+| ---------------------------------------------------------------------- | --------------------------------------------------------- | -------------------------------------------------------------------------- |
+| [update-dependencies](skills/maintenance/update-dependencies/SKILL.md) | `npx skills add AlvaroVFon/skills -s update-dependencies` | Update dependencies by mode with vulnerability and breaking-change checks. |
+
 ### Learning
 
 | Skill                                                         | Command                                                | What it does                                                             |
@@ -111,7 +117,7 @@ skills/
       assets/         # optional templates and scripts
 ```
 
-Categories: `authoring/`, `design/`, `implementation/`, `quality/`, `git/`, `learning/`.
+Categories: `authoring/`, `design/`, `implementation/`, `quality/`, `git/`, `maintenance/`, `learning/`.
 
 ## Contributing
 
