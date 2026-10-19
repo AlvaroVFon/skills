@@ -69,7 +69,7 @@ Convention:
 - Location: `assets/validate_{artifact}.py`, referenced in `References`.
 - Contract: exit 0 and print `OK` when valid, else exit 1 with one parseable `ERROR:` line per problem; `WARNING:` lines never change the exit code.
 - Header docstring lists usage, exit codes, and error codes.
-- Skills with a validator: `create-commit`, `create-pr`, `adr`, `bug-scan`, `mutation-test`, `api-security-scan`, `performance-scan`, `skill-creator`, `skill-improver`.
+- Skills with a validator: `create-commit`, `create-pr`, `adr`, `bug-scan`, `mutation-test`, `api-security-scan`, `tech-debt-scan`, `performance-scan`, `skill-creator`, `skill-improver`.
 
 ## Skill Discovery
 

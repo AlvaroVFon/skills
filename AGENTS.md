@@ -33,6 +33,7 @@ Skills repository. Each skill is a directory under `skills/{category}/{name}/` c
 | bug-scan          | `skills/quality/bug-scan/SKILL.md`          | Scan repo/modules for latent bugs, prove each with a test         |
 | mutation-test     | `skills/quality/mutation-test/SKILL.md`     | Manual mutation testing of repo/modules; report survivors         |
 | api-security-scan | `skills/quality/api-security-scan/SKILL.md` | Scan HTTP APIs for vulnerabilities, prove with exploit tests      |
+| tech-debt-scan    | `skills/quality/tech-debt-scan/SKILL.md`    | Scan repo/modules for technical debt, rank by priority score      |
 | performance-scan  | `skills/quality/performance-scan/SKILL.md`  | Scan repo/modules for performance hotspots, prove with benchmarks |
 
 ### git
@@ -84,6 +85,7 @@ Contract for every validator: `--file`/`--body`/`--message` input (or stdin), ex
 - `bug-scan`: `python3 skills/quality/bug-scan/assets/reconcile.py --report <report.json>` then `python3 skills/quality/bug-scan/assets/validate_report.py --file <report.json>`
 - `mutation-test`: `python3 skills/quality/mutation-test/assets/reconcile.py --report <report.json>` then `python3 skills/quality/mutation-test/assets/validate_report.py --file <report.json>`
 - `api-security-scan`: `python3 skills/quality/api-security-scan/assets/reconcile.py --report <report.json>` then `python3 skills/quality/api-security-scan/assets/validate_report.py --file <report.json>`
+- `tech-debt-scan`: `python3 skills/quality/tech-debt-scan/assets/reconcile.py --report <report.json>` then `python3 skills/quality/tech-debt-scan/assets/validate_report.py --file <report.json>`
 - `performance-scan`: `python3 skills/quality/performance-scan/assets/reconcile.py --report <report.json>` then `python3 skills/quality/performance-scan/assets/validate_report.py --file <report.json>`
 - `module-design`: `python3 skills/design/module-design/assets/reconcile.py --report <brief.json>` then `python3 skills/design/module-design/assets/validate_brief.py --file <brief.json>`
 - `skill-creator` / `skill-improver`: `python3 skills/authoring/skill-creator/assets/validate_skill.py --file <SKILL.md>`
