@@ -1,0 +1,42 @@
+{
+  "schema": "tech-debt-scan/report@1",
+  "date": "{YYYY-MM-DD}",
+  "scan_type": "{global | targeted}",
+  "requested_by": "{git config user.name}",
+  "commit": "{git rev-parse --short HEAD}",
+  "baseline": "{previous report path | none}",
+  "target": "{repo or module name}",
+  "scope": ["{path or module}"],
+  "coverage": {
+    "reviewed": [{ "target": "{module/path}", "depth": "{deep | shallow}" }],
+    "not_reviewed": [{ "target": "{module/path}", "reason": "{why}" }]
+  },
+  "counters": { "critical": 0, "major": 0, "minor": 0, "discarded": 0 },
+  "findings": [
+    {
+      "title": "{short title}",
+      "category": "{code | tests | architecture | docs | infra}",
+      "symptom": "{change-amplification | cognitive-load | unknown-unknowns}",
+      "cause": "{dependency | obscurity}",
+      "status": "{new | persists | fixed | regressed}",
+      "location": { "file": "{path}", "line": 0, "symbol": "{symbol | null}" },
+      "description": "{what the debt is and why it is debt}",
+      "impact": "{cost it imposes now: slower changes, defect risk, onboarding}",
+      "scores": { "impact": 0, "frequency": 0, "reach": 0, "effort": 0 },
+      "evidence": {
+        "method": "{command run or files read}",
+        "result": "{measured value, count or quoted fact}"
+      },
+      "remediation": "{one-line direction, not a patch}"
+    }
+  ],
+  "delta": {
+    "persists": 0,
+    "fixed": 0,
+    "new": 0,
+    "regressed": 0,
+    "not_rechecked": 0,
+    "fixed_items": [{ "id": "{id}", "location": "{file}:{line}", "title": "{title}" }],
+    "not_rechecked_items": [{ "id": "{id}", "location": "{file}:{line}", "reason": "{why}" }]
+  }
+}
