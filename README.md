@@ -31,12 +31,13 @@ Each skill is a folder under `skills/{category}/` with a `SKILL.md` (the runtime
 
 ### Quality
 
-| Skill                                                          | Command                                                 | What it does                                                                |
-| -------------------------------------------------------------- | ------------------------------------------------------- | --------------------------------------------------------------------------- |
-| [code-review](skills/quality/code-review/SKILL.md)             | `npx skills add AlvaroVFon/skills -s code-review`       | Review pull requests and diffs; requests changes, never merges.             |
-| [bug-scan](skills/quality/bug-scan/SKILL.md)                   | `npx skills add AlvaroVFon/skills -s bug-scan`          | Scan a repo or modules for latent bugs and prove each with a test.          |
-| [mutation-test](skills/quality/mutation-test/SKILL.md)         | `npx skills add AlvaroVFon/skills -s mutation-test`     | Mutate a repo or modules by hand and report which mutants tests miss.       |
-| [api-security-scan](skills/quality/api-security-scan/SKILL.md) | `npx skills add AlvaroVFon/skills -s api-security-scan` | Scan HTTP API code for vulnerabilities and prove each with an exploit test. |
+| Skill                                                          | Command                                                 | What it does                                                                     |
+| -------------------------------------------------------------- | ------------------------------------------------------- | -------------------------------------------------------------------------------- |
+| [code-review](skills/quality/code-review/SKILL.md)             | `npx skills add AlvaroVFon/skills -s code-review`       | Review pull requests and diffs; requests changes, never merges.                  |
+| [bug-scan](skills/quality/bug-scan/SKILL.md)                   | `npx skills add AlvaroVFon/skills -s bug-scan`          | Scan a repo or modules for latent bugs and prove each with a test.               |
+| [mutation-test](skills/quality/mutation-test/SKILL.md)         | `npx skills add AlvaroVFon/skills -s mutation-test`     | Mutate a repo or modules by hand and report which mutants tests miss.            |
+| [api-security-scan](skills/quality/api-security-scan/SKILL.md) | `npx skills add AlvaroVFon/skills -s api-security-scan` | Scan HTTP API code for vulnerabilities and prove each with an exploit test.      |
+| [performance-scan](skills/quality/performance-scan/SKILL.md)   | `npx skills add AlvaroVFon/skills -s performance-scan`  | Scan a repo or modules for performance hotspots and prove each with a benchmark. |
 
 ### Git
 
