@@ -37,6 +37,7 @@ Each skill is a folder under `skills/{category}/` with a `SKILL.md` (the runtime
 | [bug-scan](skills/quality/bug-scan/SKILL.md)                   | `npx skills add AlvaroVFon/skills -s bug-scan`          | Scan a repo or modules for latent bugs and prove each with a test.          |
 | [mutation-test](skills/quality/mutation-test/SKILL.md)         | `npx skills add AlvaroVFon/skills -s mutation-test`     | Mutate a repo or modules by hand and report which mutants tests miss.       |
 | [api-security-scan](skills/quality/api-security-scan/SKILL.md) | `npx skills add AlvaroVFon/skills -s api-security-scan` | Scan HTTP API code for vulnerabilities and prove each with an exploit test. |
+| [tech-debt-scan](skills/quality/tech-debt-scan/SKILL.md)       | `npx skills add AlvaroVFon/skills -s tech-debt-scan`    | Scan a repo or modules for technical debt and rank it by priority score.    |
 
 ### Git
 
