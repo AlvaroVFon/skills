@@ -1,6 +1,6 @@
 # Code Review Checklist
 
-Scan each changed file for the categories below. Mark findings with `[Blocking]`, `[Should]`, or `[Nit]` per the severity rules in `SKILL.md`. Only report issues introduced by or directly affected by the diff.
+Scan each changed file for the categories below. Mark findings with `[Blocking]`, `[Should]`, or `[Nit]` per the severity rules in `SKILL.md`, and each one becomes an inline comment on its diff line. Only report issues introduced by or directly affected by the diff. Everything here is verified by reading code: never run linters, typecheckers, or test suites.
 
 ## Correctness
 
@@ -32,7 +32,7 @@ Scan each changed file for the categories below. Mark findings with `[Blocking]`
 
 ## Tests
 
-- [ ] New behavior covered by tests that exercise both happy path and failure path.
+- [ ] New behavior covered by tests that exercise both happy path and failure path (read the tests; do not run them).
 - [ ] Tests assert real behavior, not implementation detail.
 - [ ] No test skipped/disabled to green-light this change.
 
