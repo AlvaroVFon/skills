@@ -1,6 +1,6 @@
 # AGENTS.md
 
-Skills repository. Each skill is a directory under `skills/{category}/{name}/` containing a `SKILL.md` plus optional `assets/` and `references/`. Categories: `authoring/`, `design/`, `implementation/`, `quality/`, `git/`, `maintenance/`, `learning/`.
+Skills repository. Each skill is a directory under `skills/{category}/{name}/` containing a `SKILL.md` plus optional `assets/` and `references/`. Categories: `authoring/`, `design/`, `implementation/`, `quality/`, `git/`, `github/`, `maintenance/`, `learning/`.
 
 ## Skills
 
@@ -38,14 +38,19 @@ Skills repository. Each skill is a directory under `skills/{category}/{name}/` c
 
 ### git
 
-| Skill              | Path                                     | Purpose                                                        |
-| ------------------ | ---------------------------------------- | -------------------------------------------------------------- |
-| create-pr          | `skills/git/create-pr/SKILL.md`          | Create standardized PRs with validated descriptions            |
-| create-commit      | `skills/git/create-commit/SKILL.md`      | Create conventional commits `type(scope): subject`             |
-| define-issue       | `skills/git/define-issue/SKILL.md`       | Agree one task with the human and open a triage-ready issue    |
-| github-triage      | `skills/git/github-triage/SKILL.md`      | Triage labelled GitHub issues and apply the original estimate  |
-| github-implementer | `skills/git/github-implementer/SKILL.md` | Implement one triaged issue in a worktree and open a linked PR |
-| github-workflow    | `skills/git/github-workflow/SKILL.md`    | Run github-triage then github-implementer in one cycle         |
+| Skill         | Path                                | Purpose                                             |
+| ------------- | ----------------------------------- | --------------------------------------------------- |
+| create-pr     | `skills/git/create-pr/SKILL.md`     | Create standardized PRs with validated descriptions |
+| create-commit | `skills/git/create-commit/SKILL.md` | Create conventional commits `type(scope): subject`  |
+
+### github
+
+| Skill              | Path                                        | Purpose                                                        |
+| ------------------ | ------------------------------------------- | -------------------------------------------------------------- |
+| define-issue       | `skills/github/define-issue/SKILL.md`       | Agree one task with the human and open a triage-ready issue    |
+| github-triage      | `skills/github/github-triage/SKILL.md`      | Triage labelled GitHub issues and apply the original estimate  |
+| github-implementer | `skills/github/github-implementer/SKILL.md` | Implement one triaged issue in a worktree and open a linked PR |
+| github-workflow    | `skills/github/github-workflow/SKILL.md`    | Run github-triage then github-implementer in one cycle         |
 
 ### maintenance
 
@@ -95,7 +100,7 @@ Contract for every validator: `--file`/`--body`/`--message` input (or stdin), ex
 - `tech-debt-scan`: `python3 skills/quality/tech-debt-scan/assets/reconcile.py --report <report.json>` then `python3 skills/quality/tech-debt-scan/assets/validate_report.py --file <report.json>`
 - `performance-scan`: `python3 skills/quality/performance-scan/assets/reconcile.py --report <report.json>` then `python3 skills/quality/performance-scan/assets/validate_report.py --file <report.json>`
 - `module-design`: `python3 skills/design/module-design/assets/reconcile.py --report <brief.json>` then `python3 skills/design/module-design/assets/validate_brief.py --file <brief.json>`
-- `github-triage`: `python3 skills/git/github-triage/assets/validate_triage_report.py --file <report.md>`
-- `define-issue`: `python3 skills/git/define-issue/assets/validate_issue_body.py --body <file> [--title "<title>"]`
+- `github-triage`: `python3 skills/github/github-triage/assets/validate_triage_report.py --file <report.md>`
+- `define-issue`: `python3 skills/github/define-issue/assets/validate_issue_body.py --body <file> [--title "<title>"]`
 - `skill-creator` / `skill-improver`: `python3 skills/authoring/skill-creator/assets/validate_skill.py --file <SKILL.md>`
 - Validate every skill against `skill-style-guide.md` after edits using `skill-improver`.
