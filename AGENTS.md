@@ -2,6 +2,12 @@
 
 Skills repository. Each skill is a directory under `skills/{category}/{name}/` containing a `SKILL.md` plus optional `assets/` and `references/`. Categories: `authoring/`, `design/`, `implementation/`, `quality/`, `git/`, `github/`, `maintenance/`, `learning/`.
 
+## Repo Facts
+
+- No build, test, or lint suite: `package.json` only wires `oxfmt` + `husky`. Verification is `npm run fmt:check` plus the validator(s) for the skills you touched.
+- Validators are stdlib-only Python 3 scripts run from the repo root. No venv, no `pip install`.
+- `.atl/` is a local, gitignored agent cache (skill registry). Never commit it.
+
 ## Skills
 
 ### authoring
@@ -74,11 +80,13 @@ Skills repository. Each skill is a directory under `skills/{category}/{name}/` c
 
 ## Hard Rules
 
-- `SKILL.md` is the normative runtime contract; follow `skills/authoring/skill-creator/references/skill-style-guide.md` when creating or updating skills.
-- Keep the skill body 180–450 tokens (max 700). Move detail to `references/` and scripts/templates to `assets/`.
-- `description` MUST be one quoted YAML-safe line, <=160 chars (max 250), triggers first, no `Keywords`.
-- Frontmatter MUST include `name`, `description`, `license`, `metadata.author`, and `metadata.version`.
-- References must point to local files.
+- `SKILL.md` is the normative runtime contract; follow `skills/authoring/skill-creator/references/skill-style-guide.md` when creating or updating skills. The guide is duplicated in `skill-creator` and `skill-improver` — update every copy.
+- Required sections in this exact order (validator errors if missing or out of order): `Activation Contract`, `Hard Rules`, `Decision Gates`, `Execution Steps`, `Output Contract`, `References`.
+- Skill body target 180–450 tokens, recommended max 700, hard max 1000 (validator error). Move detail to `references/` and scripts/templates to `assets/`.
+- `description` MUST be one quoted YAML-safe line starting with `Trigger:`, <=160 chars (max 250), no `Keywords`.
+- Frontmatter MUST include `name`, `description`, `license`, `metadata.author`, and `metadata.version`; `name` must match the directory name.
+- References must point to local files that exist.
+- Adding, renaming, or removing a skill means updating its row in **both** the `README.md` skills table (with the `npx skills add` command) and the tables in the Skills section above.
 - Skills with GitHub workflow rules (create-pr, code-review, github-triage) MUST use the `gh` CLI and NEVER merge.
 - Skills whose output has objectively checkable structure (commit, PR, ADR, scan report, SKILL.md) MUST ship a validator in `assets/` and run it before finishing: exit 0 with `OK`, or exit 1 with `ERROR:` lines (fix all). See the Output Validation section in `skill-style-guide.md`.
 
@@ -90,6 +98,8 @@ Skills repository. Each skill is a directory under `skills/{category}/{name}/` c
 ## Testing
 
 Contract for every validator: `--file`/`--body`/`--message` input (or stdin), exit 0 printing `OK` when valid, else exit 1 with one parseable `ERROR:` line per problem; `WARNING:` lines do not change the exit code.
+
+`validate_skill.py` (below) is the gate for any `SKILL.md` edit: it checks frontmatter keys/quoting, description length, required section presence and order, body budget, and that every referenced `references/`/`assets/` file exists.
 
 - `create-pr`: `python3 skills/git/create-pr/assets/validate_pr_description.py --body <file> [--title "<title>"]`
 - `create-commit`: `python3 skills/git/create-commit/assets/validate_commit_message.py --message "<subject>"`
