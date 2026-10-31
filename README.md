@@ -42,10 +42,14 @@ Each skill is a folder under `skills/{category}/` with a `SKILL.md` (the runtime
 
 ### Git
 
-| Skill                                              | Command                                             | What it does                                                   |
-| -------------------------------------------------- | --------------------------------------------------- | -------------------------------------------------------------- |
-| [create-commit](skills/git/create-commit/SKILL.md) | `npx skills add AlvaroVFon/skills -s create-commit` | Write validated Conventional Commits (`type(scope): subject`). |
-| [create-pr](skills/git/create-pr/SKILL.md)         | `npx skills add AlvaroVFon/skills -s create-pr`     | Open standardized pull requests via the `gh` CLI.              |
+| Skill                                                        | Command                                                  | What it does                                                    |
+| ------------------------------------------------------------ | -------------------------------------------------------- | --------------------------------------------------------------- |
+| [create-commit](skills/git/create-commit/SKILL.md)           | `npx skills add AlvaroVFon/skills -s create-commit`      | Write validated Conventional Commits (`type(scope): subject`).  |
+| [create-pr](skills/git/create-pr/SKILL.md)                   | `npx skills add AlvaroVFon/skills -s create-pr`          | Open standardized pull requests via the `gh` CLI.               |
+| [define-issue](skills/git/define-issue/SKILL.md)             | `npx skills add AlvaroVFon/skills -s define-issue`       | Agree one task with the human and open a triage-ready issue.    |
+| [github-triage](skills/git/github-triage/SKILL.md)           | `npx skills add AlvaroVFon/skills -s github-triage`      | Triage labelled GitHub issues and apply the original estimate.  |
+| [github-implementer](skills/git/github-implementer/SKILL.md) | `npx skills add AlvaroVFon/skills -s github-implementer` | Implement one triaged issue in a worktree and open a linked PR. |
+| [github-workflow](skills/git/github-workflow/SKILL.md)       | `npx skills add AlvaroVFon/skills -s github-workflow`    | Run github-triage then github-implementer in one cycle.         |
 
 ### Maintenance
 

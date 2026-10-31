@@ -38,10 +38,14 @@ Skills repository. Each skill is a directory under `skills/{category}/{name}/` c
 
 ### git
 
-| Skill         | Path                                | Purpose                                             |
-| ------------- | ----------------------------------- | --------------------------------------------------- |
-| create-pr     | `skills/git/create-pr/SKILL.md`     | Create standardized PRs with validated descriptions |
-| create-commit | `skills/git/create-commit/SKILL.md` | Create conventional commits `type(scope): subject`  |
+| Skill              | Path                                     | Purpose                                                        |
+| ------------------ | ---------------------------------------- | -------------------------------------------------------------- |
+| create-pr          | `skills/git/create-pr/SKILL.md`          | Create standardized PRs with validated descriptions            |
+| create-commit      | `skills/git/create-commit/SKILL.md`      | Create conventional commits `type(scope): subject`             |
+| define-issue       | `skills/git/define-issue/SKILL.md`       | Agree one task with the human and open a triage-ready issue    |
+| github-triage      | `skills/git/github-triage/SKILL.md`      | Triage labelled GitHub issues and apply the original estimate  |
+| github-implementer | `skills/git/github-implementer/SKILL.md` | Implement one triaged issue in a worktree and open a linked PR |
+| github-workflow    | `skills/git/github-workflow/SKILL.md`    | Run github-triage then github-implementer in one cycle         |
 
 ### maintenance
 
@@ -59,6 +63,9 @@ Skills repository. Each skill is a directory under `skills/{category}/{name}/` c
 ## Skill Dependencies
 
 - `mentor` depends on `learning-profile`: it MUST load `learning-profile` to create the profile when none exists, and again after every session to update the profile from the logged evidence. `mentor` never writes `profile.md` or the evidence log directly.
+- `github-implementer` depends on `create-commit` and `create-pr` (it defers commit format and PR body to them) and reads the triage comment written by `github-triage`. Each GitHub skill ships its own copy of the label contract so it can be installed alone.
+- `github-workflow` orchestrates `github-triage` then `github-implementer`; it requires both to be installed and never adds, changes or relaxes their rules. It is not auto-invoked (`disable-model-invocation: true`): the cycle starts only when a human asks for it.
+- `define-issue` is the human entry point: it writes only `AI_triage` plus the assignee. `github-triage` is the single writer of `type:*` and `estimate:*`; `github-implementer` reads them and never infers the type from comments.
 
 ## Hard Rules
 
@@ -67,7 +74,7 @@ Skills repository. Each skill is a directory under `skills/{category}/{name}/` c
 - `description` MUST be one quoted YAML-safe line, <=160 chars (max 250), triggers first, no `Keywords`.
 - Frontmatter MUST include `name`, `description`, `license`, `metadata.author`, and `metadata.version`.
 - References must point to local files.
-- Skills with GitHub workflow rules (create-pr, code-review) MUST use the `gh` CLI and NEVER merge.
+- Skills with GitHub workflow rules (create-pr, code-review, github-triage) MUST use the `gh` CLI and NEVER merge.
 - Skills whose output has objectively checkable structure (commit, PR, ADR, scan report, SKILL.md) MUST ship a validator in `assets/` and run it before finishing: exit 0 with `OK`, or exit 1 with `ERROR:` lines (fix all). See the Output Validation section in `skill-style-guide.md`.
 
 ## Formatting
@@ -88,5 +95,7 @@ Contract for every validator: `--file`/`--body`/`--message` input (or stdin), ex
 - `tech-debt-scan`: `python3 skills/quality/tech-debt-scan/assets/reconcile.py --report <report.json>` then `python3 skills/quality/tech-debt-scan/assets/validate_report.py --file <report.json>`
 - `performance-scan`: `python3 skills/quality/performance-scan/assets/reconcile.py --report <report.json>` then `python3 skills/quality/performance-scan/assets/validate_report.py --file <report.json>`
 - `module-design`: `python3 skills/design/module-design/assets/reconcile.py --report <brief.json>` then `python3 skills/design/module-design/assets/validate_brief.py --file <brief.json>`
+- `github-triage`: `python3 skills/git/github-triage/assets/validate_triage_report.py --file <report.md>`
+- `define-issue`: `python3 skills/git/define-issue/assets/validate_issue_body.py --body <file> [--title "<title>"]`
 - `skill-creator` / `skill-improver`: `python3 skills/authoring/skill-creator/assets/validate_skill.py --file <SKILL.md>`
 - Validate every skill against `skill-style-guide.md` after edits using `skill-improver`.
