@@ -1,0 +1,116 @@
+{
+  "schema_version": "1.0",
+  "generated_at": "2026-11-02T00:00:00Z",
+  "repo": "acme/widgets",
+  "pr": 42,
+  "url": "https://github.com/acme/widgets/pull/42",
+  "head_sha": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+  "base_sha": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+  "verdict": "blocking",
+  "skip_reason": null,
+  "event": "COMMENT",
+  "review_id": null,
+  "exit_code": 1,
+  "dry_run": false,
+  "stale": false,
+  "check_run_id": null,
+  "check_run_url": null,
+  "counts": {
+    "blocking": 1,
+    "should": 3,
+    "nit": 1,
+    "inline": 2,
+    "file": 1,
+    "summary": 2,
+    "deduped": 0,
+    "truncated": 0,
+    "discarded": 2
+  },
+  "policy": {
+    "blocking_gate": false,
+    "inline_severities": ["blocking", "should"],
+    "language": "en"
+  },
+  "skipped": [
+    {
+      "path": "package-lock.json",
+      "reason": "ignored-pattern"
+    }
+  ],
+  "findings": [
+    {
+      "fingerprint": "3e72c7925b9e",
+      "severity": "blocking",
+      "path": "src/app.py",
+      "line": 2,
+      "side": "RIGHT",
+      "start_line": null,
+      "rule": "correctness",
+      "confidence": "high",
+      "status": "inline",
+      "body": "`sys` is imported but never used; remove it or use it."
+    },
+    {
+      "fingerprint": "4b6ff38da3d7",
+      "severity": "should",
+      "path": "missing.py",
+      "line": 1,
+      "side": "RIGHT",
+      "start_line": null,
+      "rule": "docs",
+      "confidence": "high",
+      "status": "summary",
+      "body": "The new option is not documented."
+    },
+    {
+      "fingerprint": "02be8180a668",
+      "severity": "should",
+      "path": "src/app.py",
+      "line": 2,
+      "side": "LEFT",
+      "start_line": null,
+      "rule": "cleanup",
+      "confidence": "medium",
+      "status": "inline",
+      "body": "The removed line left a stale comment."
+    },
+    {
+      "fingerprint": "e104dff0d397",
+      "severity": "should",
+      "path": "src/app.py",
+      "line": 99,
+      "side": "RIGHT",
+      "start_line": null,
+      "rule": "tests",
+      "confidence": "high",
+      "status": "file",
+      "body": "The new branch has no failure-path test."
+    },
+    {
+      "fingerprint": "c3d4ca9d7a43",
+      "severity": "nit",
+      "path": "src/app.py",
+      "line": 3,
+      "side": "RIGHT",
+      "start_line": null,
+      "rule": "style",
+      "confidence": "high",
+      "status": "summary",
+      "body": "Prefer a blank line before the function body."
+    }
+  ],
+  "discarded": [
+    {
+      "path": "src/app.py",
+      "line": 4,
+      "reason": "low-confidence"
+    },
+    {
+      "path": "src/app.py",
+      "line": 2,
+      "reason": "duplicate"
+    }
+  ],
+  "config_warnings": [],
+  "errors": []
+}

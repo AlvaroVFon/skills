@@ -1,0 +1,51 @@
+# Example GitHub Actions integration for code-review-bot.
+#
+# Assumptions:
+#   - The repository does not run untrusted PR code in this workflow.
+#   - AI_REVIEW_TOKEN is a GitHub App installation token or machine-user PAT with
+#     pull-requests: write and checks: write. GITHUB_TOKEN cannot post reviews on
+#     fork PRs and its approvals do not satisfy branch protection.
+#   - The agent and the code-review/code-review-bot skills are installed on the runner.
+#
+# For public repositories with forks, either use a GitHub App token on
+# `pull_request`, or switch to `pull_request_target` and keep the base checkout:
+# never check out github.event.pull_request.head.sha in that variant.
+
+name: AI review
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened, ready_for_review]
+
+permissions:
+  contents: read
+  pull-requests: write
+  checks: write
+
+concurrency:
+  group: ai-review-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
+jobs:
+  review:
+    if: github.event.pull_request.draft == false
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out the base commit
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.base.sha }}
+          fetch-depth: 0
+
+      - name: Install skills
+        run: |
+          npx skills add AlvaroVFon/skills -g -a opencode -s code-review -y
+          npx skills add AlvaroVFon/skills -g -a opencode -s code-review-bot -y
+
+      - name: Run the bot review
+        run: |
+          opencode run --auto --agent build \
+            "/code-review-bot pr=${{ github.event.pull_request.number }} repo=${{ github.repository }}"
+        env:
+          GH_TOKEN: ${{ secrets.AI_REVIEW_TOKEN }}
+          GH_HOST: ${{ github.server_url == 'https://github.com' && 'github.com' || '' }}

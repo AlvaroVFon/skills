@@ -36,6 +36,7 @@ Skills repository. Each skill is a directory under `skills/{category}/{name}/` c
 | Skill             | Path                                        | Purpose                                                           |
 | ----------------- | ------------------------------------------- | ----------------------------------------------------------------- |
 | code-review       | `skills/quality/code-review/SKILL.md`       | Review PRs/diffs via `gh`; request changes, never merge           |
+| code-review-bot   | `skills/quality/code-review-bot/SKILL.md`   | Unattended, idempotent PR reviews with a machine-readable verdict |
 | bug-scan          | `skills/quality/bug-scan/SKILL.md`          | Scan repo/modules for latent bugs, prove each with a test         |
 | mutation-test     | `skills/quality/mutation-test/SKILL.md`     | Manual mutation testing of repo/modules; report survivors         |
 | api-security-scan | `skills/quality/api-security-scan/SKILL.md` | Scan HTTP APIs for vulnerabilities, prove with exploit tests      |
@@ -75,6 +76,7 @@ Skills repository. Each skill is a directory under `skills/{category}/{name}/` c
 ## Skill Dependencies
 
 - `mentor` depends on `learning-profile`: it MUST load `learning-profile` to create the profile when none exists, and again after every session to update the profile from the logged evidence. `mentor` never writes `profile.md` or the evidence log directly.
+- `code-review-bot` depends on `code-review`: it reuses that skill's severity model, checklist and review judgment, and adds only the automation contract (identity, idempotency, anchors, policy and machine-readable report). It never approves or merges.
 - `github-implementer` depends on `create-commit` and `create-pr` (it defers commit format and PR body to them) and reads the triage comment written by `github-triage`. Each GitHub skill ships its own copy of the label contract so it can be installed alone.
 - `github-triage` delegates the split and deliverable decision to `github-planner` when installed. The planner is read-only, never sets labels or estimates, and `github-triage` falls back to its bundled splitter when it is not installed. `github-implementer` consumes the `## Definición del entregable` comment written by triage and never plans steps; it falls back to the issue body when the comment is absent.
 - `github-workflow` orchestrates `github-triage` then `github-implementer`; it requires both to be installed and never adds, changes or relaxes their rules. It is not auto-invoked (`disable-model-invocation: true`): the cycle starts only when a human asks for it.
@@ -89,7 +91,7 @@ Skills repository. Each skill is a directory under `skills/{category}/{name}/` c
 - Frontmatter MUST include `name`, `description`, `license`, `metadata.author`, and `metadata.version`; `name` must match the directory name.
 - References must point to local files that exist.
 - Adding, renaming, or removing a skill means updating its row in **both** the `README.md` skills table (with the `npx skills add` command) and the tables in the Skills section above.
-- Skills with GitHub workflow rules (create-pr, code-review, github-triage) MUST use the `gh` CLI and NEVER merge.
+- Skills with GitHub workflow rules (create-pr, code-review, code-review-bot, github-triage) MUST use the `gh` CLI and NEVER merge.
 - Skills whose output has objectively checkable structure (commit, PR, ADR, scan report, SKILL.md) MUST ship a validator in `assets/` and run it before finishing: exit 0 with `OK`, or exit 1 with `ERROR:` lines (fix all). See the Output Validation section in `skill-style-guide.md`.
 
 ## Formatting
@@ -103,6 +105,7 @@ Contract for every validator: `--file`/`--body`/`--message` input (or stdin), ex
 
 `validate_skill.py` (below) is the gate for any `SKILL.md` edit: it checks frontmatter keys/quoting, description length, required section presence and order, body budget, and that every referenced `references/`/`assets/` file exists.
 
+- `code-review-bot`: `python3 skills/quality/code-review-bot/assets/prepare_review.py --input <input.json> --report <report.json> [--payload <payload.json>] [--check-payload <check.json>]` then `python3 skills/quality/code-review-bot/assets/validate_review_report.py --file <report.json>`
 - `create-pr`: `python3 skills/git/create-pr/assets/validate_pr_description.py --body <file> [--title "<title>"]`
 - `create-commit`: `python3 skills/git/create-commit/assets/validate_commit_message.py --message "<subject>"`
 - `adr`: `python3 skills/design/adr/assets/validate_adr.py --file <adr> [--allow-placeholders]`

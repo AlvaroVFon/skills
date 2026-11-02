@@ -1,0 +1,165 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/AlvaroVFon/skills/code-review-bot/review-report.schema.json",
+  "title": "Code review bot report",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "generated_at",
+    "repo",
+    "pr",
+    "url",
+    "head_sha",
+    "base_sha",
+    "verdict",
+    "event",
+    "review_id",
+    "exit_code",
+    "dry_run",
+    "stale",
+    "counts",
+    "skipped",
+    "findings",
+    "discarded",
+    "config_warnings",
+    "errors"
+  ],
+  "properties": {
+    "schema_version": { "const": "1.0" },
+    "generated_at": { "type": "string", "format": "date-time" },
+    "repo": { "type": "string", "pattern": "^[^/\\s]+/[^/\\s]+$" },
+    "pr": { "type": "integer", "minimum": 1 },
+    "url": { "type": "string", "pattern": "^https?://" },
+    "head_sha": { "type": "string", "pattern": "^[0-9a-f]{40}$" },
+    "base_sha": { "type": "string", "pattern": "^[0-9a-f]{40}$" },
+    "verdict": {
+      "type": "string",
+      "enum": ["clean", "findings", "blocking", "skipped", "error"]
+    },
+    "skip_reason": { "type": ["string", "null"] },
+    "event": {
+      "type": ["string", "null"],
+      "enum": ["COMMENT", "REQUEST_CHANGES", null]
+    },
+    "review_id": { "type": ["integer", "null"], "minimum": 1 },
+    "exit_code": { "type": "integer", "enum": [0, 1, 2] },
+    "dry_run": { "type": "boolean" },
+    "stale": { "type": "boolean" },
+    "check_run_id": { "type": ["integer", "null"], "minimum": 1 },
+    "check_run_url": { "type": ["string", "null"] },
+    "counts": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "blocking",
+        "should",
+        "nit",
+        "inline",
+        "file",
+        "summary",
+        "deduped",
+        "truncated",
+        "discarded"
+      ],
+      "properties": {
+        "blocking": { "type": "integer", "minimum": 0 },
+        "should": { "type": "integer", "minimum": 0 },
+        "nit": { "type": "integer", "minimum": 0 },
+        "inline": { "type": "integer", "minimum": 0 },
+        "file": { "type": "integer", "minimum": 0 },
+        "summary": { "type": "integer", "minimum": 0 },
+        "deduped": { "type": "integer", "minimum": 0 },
+        "truncated": { "type": "integer", "minimum": 0 },
+        "discarded": { "type": "integer", "minimum": 0 }
+      }
+    },
+    "policy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["blocking_gate", "inline_severities", "language"],
+      "properties": {
+        "blocking_gate": { "type": "boolean" },
+        "inline_severities": {
+          "type": "array",
+          "items": { "type": "string", "enum": ["blocking", "should", "nit"] },
+          "uniqueItems": true
+        },
+        "language": { "type": "string", "minLength": 2 }
+      }
+    },
+    "skipped": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["path", "reason"],
+        "properties": {
+          "path": { "type": "string", "minLength": 1 },
+          "reason": { "type": "string", "minLength": 1 }
+        }
+      }
+    },
+    "findings": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "fingerprint",
+          "severity",
+          "path",
+          "line",
+          "side",
+          "start_line",
+          "rule",
+          "confidence",
+          "status",
+          "body"
+        ],
+        "properties": {
+          "fingerprint": { "type": "string", "pattern": "^[0-9a-f]{12}$" },
+          "severity": {
+            "type": "string",
+            "enum": ["blocking", "should", "nit"]
+          },
+          "path": { "type": "string", "minLength": 1 },
+          "line": { "type": ["integer", "null"], "minimum": 1 },
+          "side": { "type": "string", "enum": ["RIGHT", "LEFT"] },
+          "start_line": { "type": ["integer", "null"], "minimum": 1 },
+          "rule": { "type": "string", "minLength": 1 },
+          "confidence": {
+            "type": "string",
+            "enum": ["high", "medium", "low"]
+          },
+          "status": {
+            "type": "string",
+            "enum": ["inline", "file", "summary", "deduped", "truncated"]
+          },
+          "body": { "type": "string", "minLength": 1 }
+        }
+      }
+    },
+    "discarded": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["path", "line", "reason"],
+        "properties": {
+          "path": { "type": "string", "minLength": 1 },
+          "line": { "type": ["integer", "null"], "minimum": 1 },
+          "reason": { "type": "string", "minLength": 1 }
+        }
+      }
+    },
+    "config_warnings": {
+      "type": "array",
+      "items": { "type": "string", "minLength": 1 }
+    },
+    "errors": {
+      "type": "array",
+      "items": { "type": "string", "minLength": 1 }
+    }
+  }
+}
