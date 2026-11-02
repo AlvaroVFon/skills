@@ -4,7 +4,7 @@ description: "Trigger: implement GitHub issue, github implementer, implement tri
 license: MIT
 metadata:
   author: AlvaroVFon
-  version: "1.1"
+  version: "1.2"
 ---
 
 ## Activation Contract
@@ -14,7 +14,7 @@ Load this skill when asked to **implement triaged GitHub issues**, or on a recur
 ## Hard Rules
 
 - NEVER work outside the resolved repo; if it cannot be resolved, STOP before any `gh` call.
-- ONLY consider open issues with `AI_triage_done`, assigned to the token user (`gh api user`) and without `status:in-progress`. Ignore the rest silently: no comment, no label.
+- ONLY consider open issues with `AI_triage_done`, assigned to the token user (`gh api user`) and without `status:in-progress` or `AI_implemented`. Ignore the rest silently: no comment, no label.
 - NEVER comment on an issue not assigned to the current user; never repeat an unmet-requirements comment that matches the latest one.
 - ALWAYS read `type:*` and `estimate:*` from labels, never from the triage comment: labels are the contract, the comment is context.
 - ALWAYS claim with `status:in-progress` before working, and drop the candidate if the branch already exists in `origin`.
@@ -22,7 +22,7 @@ Load this skill when asked to **implement triaged GitHub issues**, or on a recur
 - ALWAYS follow repo conventions (`AGENTS.md`, `CONTRIBUTING*`, recent branches); if `main` or the branch naming is undeterminable, STOP and comment.
 - NEVER push or open a PR while lint, format, typecheck or tests fail.
 - ALWAYS start AI-written text with `AI_GENERATED`; issue comments in Spanish, PR body in English.
-- ALWAYS deliver with `AI_implemented` (keeping labels), a 2–3 line comment mentioning `@{assignee}` and `@{author}`, and a PR body ending in `Closes #N`.
+- ALWAYS deliver with `AI_implemented` replacing `status:in-progress` (all other labels kept), a 2–3 line comment mentioning `@{assignee}` and `@{author}`, and a PR body ending in `Closes #N`.
 - ALWAYS remove the worktree after delivery; NEVER after a failed verification or push, and NEVER delete the branch.
 - Use `create-commit` and `create-pr` when installed, else follow their rules inline; answer the target-branch question with `main`.
 
@@ -42,14 +42,14 @@ Load this skill when asked to **implement triaged GitHub issues**, or on a recur
 ## Execution Steps
 
 1. **Context**: resolve `repo` and the token login; bootstrap missing labels from `references/gh-recipes.md`.
-2. **Candidates**: `gh issue list --assignee @me --label AI_triage_done --state open --search "sort:created-asc"`; gate each by estimate and open blockers.
+2. **Candidates**: `gh issue list --assignee @me --label AI_triage_done --state open --search "sort:created-asc"`; gate each by estimate, open blockers and absence of `AI_implemented`.
 3. **Claim**: add `status:in-progress`; abort the candidate if its branch exists in `origin`.
 4. **Worktree**: `git fetch origin`; `git worktree add <path> -b <branch> origin/<main>`; work only inside it.
 5. **Plan** at 13h+: subagent with `assets/planner-prompt.md`; on `blocked`, comment and stop.
 6. **Implement** with TDD per the gate, until the issue's acceptance criteria are met.
 7. **Verify**: discover and run lint, format, typecheck and tests; fix and re-run until all pass.
 8. **Deliver**: `create-commit`, push, `create-pr` with base `main` and `Closes #N`.
-9. **Close out**: `AI_implemented` plus the completion comment from `assets/comments.md`.
+9. **Close out**: `AI_implemented` replacing `status:in-progress`, plus the completion comment from `assets/comments.md`.
 10. **Clean up** from the main repository: `git worktree remove <path>`; report and leave it if it refuses.
 11. **Report** the run.
 

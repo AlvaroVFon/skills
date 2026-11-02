@@ -4,21 +4,21 @@ Every GitHub write goes through the `gh` CLI. Set `R="owner/name"` once resolved
 
 ## Labels
 
-Shared contract with `github-triage`. This skill reads `AI_triage_done`, `type:*` and `estimate:*`; it only writes `status:in-progress` and `AI_implemented`. It never writes `AI_triage`, `AI_triage_done`, `type:*` or `estimate:*`: those have a single owner, triage.
+Shared contract with `github-triage`. This skill reads `AI_triage_done`, `type:*` and `estimate:*`; it only writes `status:in-progress` (adds, then removes on delivery) and adds `AI_implemented`. It never writes `AI_triage`, `AI_triage_done`, `type:*` or `estimate:*`: those have a single owner, triage.
 
-| Name                             | Colour | Description                                  |
-| -------------------------------- | ------ | -------------------------------------------- |
-| `AI_triage`                      | FBCA04 | Candidate for AI triage                      |
-| `AI_triage_done`                 | 0E8A16 | Triaged: estimate set, ready to implement    |
-| `status:in-progress`             | 1D76DB | Claimed by a run; triage must skip it        |
-| `status:blocked`                 | D93F0B | Blocked; triage and implementation must skip |
-| `AI_implemented`                 | 6F42C1 | Implemented: branch pushed and PR open       |
-| `estimate:1h` ... `estimate:21h` | 5319E7 | Original estimate from triage                |
-| `type:feature`                   | 0E8A16 | Rubric type: Funcionalidad                   |
-| `type:docs`                      | 0075CA | Rubric type: Documentación                   |
-| `type:analysis`                  | 7057FF | Rubric type: Análisis                        |
-| `type:maintenance`               | 5319E7 | Rubric type: Mantenimiento                   |
-| `type:tech-debt`                 | B60205 | Rubric type: Deuda técnica                   |
+| Name                             | Colour | Description                                   |
+| -------------------------------- | ------ | --------------------------------------------- |
+| `AI_triage`                      | FBCA04 | Candidate for AI triage                       |
+| `AI_triage_done`                 | 0E8A16 | Triaged: estimate set, ready to implement     |
+| `status:in-progress`             | 1D76DB | Claimed by a run until delivery; skip it      |
+| `status:blocked`                 | D93F0B | Blocked; triage and implementation must skip  |
+| `AI_implemented`                 | 6F42C1 | Implemented: PR open; implementation skips it |
+| `estimate:1h` ... `estimate:21h` | 5319E7 | Original estimate from triage                 |
+| `type:feature`                   | 0E8A16 | Rubric type: Funcionalidad                    |
+| `type:docs`                      | 0075CA | Rubric type: Documentación                    |
+| `type:analysis`                  | 7057FF | Rubric type: Análisis                         |
+| `type:maintenance`               | 5319E7 | Rubric type: Mantenimiento                    |
+| `type:tech-debt`                 | B60205 | Rubric type: Deuda técnica                    |
 
 Bootstrap idempotently:
 
@@ -62,11 +62,13 @@ gh issue view "<blocker>" --repo "$R" --json state --jq '.state'  # OPEN = unres
 gh issue view "$N" --repo "$R" --json comments --jq '.comments[-1].body'
 ```
 
+Clear the candidate when its labels contain `AI_implemented`: the work is already delivered and its branch may exist.
+
 Stop at the first candidate that passes. Never skip the estimate or blocker gate because the issue "looks easy".
 
 ## Claim
 
-Skip the candidate when `status:in-progress` is already on it: another run owns it. Otherwise claim, then check the branch:
+Skip the candidate when `status:in-progress` or `AI_implemented` is already on it: another run owns it or the work is delivered. Otherwise claim, then check the branch:
 
 ```sh
 gh issue edit "$N" --repo "$R" --add-label "status:in-progress"
@@ -104,11 +106,11 @@ The body follows the `create-pr` template and ends with a bare `Closes #N` line.
 ## Close out
 
 ```sh
-gh issue edit "$N" --repo "$R" --add-label "AI_implemented"
+gh issue edit "$N" --repo "$R" --remove-label "status:in-progress" --add-label "AI_implemented"
 gh issue comment "$N" --repo "$R" --body-file /tmp/opencode/implementation-comment.md
 ```
 
-`--add-label` keeps the existing labels; never replace them.
+Delivery is terminal for this skill: `AI_implemented` replaces the claim, so the issue stops being a candidate without keeping a misleading "in progress" state. All other labels are preserved; never replace them.
 
 ## Clean up
 
