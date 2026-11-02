@@ -55,6 +55,7 @@ Skills repository. Each skill is a directory under `skills/{category}/{name}/` c
 | ------------------ | ------------------------------------------- | -------------------------------------------------------------- |
 | define-issue       | `skills/github/define-issue/SKILL.md`       | Agree one task with the human and open a triage-ready issue    |
 | github-triage      | `skills/github/github-triage/SKILL.md`      | Triage labelled GitHub issues and apply the original estimate  |
+| github-planner     | `skills/github/github-planner/SKILL.md`     | Assess an issue and define its deliverables or split           |
 | github-implementer | `skills/github/github-implementer/SKILL.md` | Implement one triaged issue in a worktree and open a linked PR |
 | github-workflow    | `skills/github/github-workflow/SKILL.md`    | Run github-triage then github-implementer in one cycle         |
 
@@ -75,6 +76,7 @@ Skills repository. Each skill is a directory under `skills/{category}/{name}/` c
 
 - `mentor` depends on `learning-profile`: it MUST load `learning-profile` to create the profile when none exists, and again after every session to update the profile from the logged evidence. `mentor` never writes `profile.md` or the evidence log directly.
 - `github-implementer` depends on `create-commit` and `create-pr` (it defers commit format and PR body to them) and reads the triage comment written by `github-triage`. Each GitHub skill ships its own copy of the label contract so it can be installed alone.
+- `github-triage` delegates the split and deliverable decision to `github-planner` when installed. The planner is read-only, never sets labels or estimates, and `github-triage` falls back to its bundled splitter when it is not installed. `github-implementer` consumes the `## Definición del entregable` comment written by triage and never plans steps; it falls back to the issue body when the comment is absent.
 - `github-workflow` orchestrates `github-triage` then `github-implementer`; it requires both to be installed and never adds, changes or relaxes their rules. It is not auto-invoked (`disable-model-invocation: true`): the cycle starts only when a human asks for it.
 - `define-issue` is the human entry point: it writes only `AI_triage` plus the assignee. `github-triage` is the single writer of `type:*` and `estimate:*`; `github-implementer` reads them and never infers the type from comments.
 
@@ -111,6 +113,7 @@ Contract for every validator: `--file`/`--body`/`--message` input (or stdin), ex
 - `performance-scan`: `python3 skills/quality/performance-scan/assets/reconcile.py --report <report.json>` then `python3 skills/quality/performance-scan/assets/validate_report.py --file <report.json>`
 - `module-design`: `python3 skills/design/module-design/assets/reconcile.py --report <brief.json>` then `python3 skills/design/module-design/assets/validate_brief.py --file <brief.json>`
 - `github-triage`: `python3 skills/github/github-triage/assets/validate_triage_report.py --file <report.md>`
+- `github-planner`: `python3 skills/github/github-planner/assets/validate_plan.py --file <plan.json>`
 - `define-issue`: `python3 skills/github/define-issue/assets/validate_issue_body.py --body <file> [--title "<title>"]`
 - `skill-creator` / `skill-improver`: `python3 skills/authoring/skill-creator/assets/validate_skill.py --file <SKILL.md>`
 - Validate every skill against `skill-style-guide.md` after edits using `skill-improver`.

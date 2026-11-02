@@ -4,7 +4,7 @@ description: "Trigger: implement GitHub issue, github implementer, implement tri
 license: MIT
 metadata:
   author: AlvaroVFon
-  version: "1.2"
+  version: "1.4"
 ---
 
 ## Activation Contract
@@ -16,6 +16,7 @@ Load this skill when asked to **implement triaged GitHub issues**, or on a recur
 - NEVER work outside the resolved repo; if it cannot be resolved, STOP before any `gh` call.
 - ONLY consider open issues with `AI_triage_done`, assigned to the token user (`gh api user`) and without `status:in-progress` or `AI_implemented`. Ignore the rest silently: no comment, no label.
 - NEVER comment on an issue not assigned to the current user; never repeat an unmet-requirements comment that matches the latest one.
+- ALWAYS implement from the latest `## Definición del entregable` comment when present, else from the issue body. Do NOT write a step plan: triage and the planner already defined the work.
 - ALWAYS read `type:*` and `estimate:*` from labels, never from the triage comment: labels are the contract, the comment is context.
 - ALWAYS claim with `status:in-progress` before working, and drop the candidate if the branch already exists in `origin`.
 - ALWAYS work in a new worktree on a new branch from freshly fetched `origin/<main>`. NEVER touch the user's tree, push to `main`, force push, or merge.
@@ -32,9 +33,8 @@ Load this skill when asked to **implement triaged GitHub issues**, or on a recur
 | ---------------------------------------------------- | ------------------------------------------------- |
 | No `estimate:*`, no `type:*`, or an open blocker     | Comment once; next candidate                      |
 | No candidate passes                                  | Report `nothing to do`                            |
-| `estimate:1h` – `estimate:8h`                        | Implement directly                                |
-| `estimate:13h` or `estimate:21h`                     | Planner subagent, then follow its plan            |
-| Planner returns `blocked: true`                      | Comment; keep `status:in-progress`; stop          |
+| Deliverable definition comment present               | Implement from it                                 |
+| No definition comment                                | Implement from the issue body                     |
 | `type:feature`, `type:maintenance`, `type:tech-debt` | TDD                                               |
 | `type:docs`, `type:analysis`, untestable behavior    | Skip TDD; say why in `## Validation`              |
 | Verification fails                                   | No push, no PR; comment; keep worktree and branch |
@@ -45,8 +45,8 @@ Load this skill when asked to **implement triaged GitHub issues**, or on a recur
 2. **Candidates**: `gh issue list --assignee @me --label AI_triage_done --state open --search "sort:created-asc"`; gate each by estimate, open blockers and absence of `AI_implemented`.
 3. **Claim**: add `status:in-progress`; abort the candidate if its branch exists in `origin`.
 4. **Worktree**: `git fetch origin`; `git worktree add <path> -b <branch> origin/<main>`; work only inside it.
-5. **Plan** at 13h+: subagent with `assets/planner-prompt.md`; on `blocked`, comment and stop.
-6. **Implement** with TDD per the gate, until the issue's acceptance criteria are met.
+5. **Definition**: read the latest `## Definición del entregable` comment; if absent, use the issue body. Do not write a step plan.
+6. **Implement** with TDD per the gate, until the deliverable's acceptance criteria are met.
 7. **Verify**: discover and run lint, format, typecheck and tests; fix and re-run until all pass.
 8. **Deliver**: `create-commit`, push, `create-pr` with base `main` and `Closes #N`.
 9. **Close out**: `AI_implemented` replacing `status:in-progress`, plus the completion comment from `assets/comments.md`.
@@ -60,5 +60,4 @@ One compact row: `issue | outcome (implemented / blocked / failed / nothing to d
 ## References
 
 - `references/gh-recipes.md` — labels, `gh` commands, worktree and verification commands.
-- `assets/planner-prompt.md` — subagent prompt for issues of 13h or more.
 - `assets/comments.md` — comment templates: unmet requirements, failure, completion.

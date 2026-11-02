@@ -53,8 +53,11 @@ Each skill is a folder under `skills/{category}/` with a `SKILL.md` (the runtime
 | --------------------------------------------------------------- | -------------------------------------------------------- | --------------------------------------------------------------- |
 | [define-issue](skills/github/define-issue/SKILL.md)             | `npx skills add AlvaroVFon/skills -s define-issue`       | Agree one task with the human and open a triage-ready issue.    |
 | [github-triage](skills/github/github-triage/SKILL.md)           | `npx skills add AlvaroVFon/skills -s github-triage`      | Triage labelled GitHub issues and apply the original estimate.  |
+| [github-planner](skills/github/github-planner/SKILL.md)         | `npx skills add AlvaroVFon/skills -s github-planner`     | Assess an issue and define its deliverables or split.           |
 | [github-implementer](skills/github/github-implementer/SKILL.md) | `npx skills add AlvaroVFon/skills -s github-implementer` | Implement one triaged issue in a worktree and open a linked PR. |
 | [github-workflow](skills/github/github-workflow/SKILL.md)       | `npx skills add AlvaroVFon/skills -s github-workflow`    | Run github-triage then github-implementer in one cycle.         |
+
+See [skills/github/README.md](skills/github/README.md) for the full flow, the planner decision and the label contract.
 
 ### Maintenance
 
