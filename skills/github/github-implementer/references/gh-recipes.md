@@ -88,7 +88,7 @@ git worktree list
 
 Prefix from the `type:*` label: `type:feature` → `feature`, `type:docs` → `docs`, `type:analysis` → `docs`, `type:maintenance` → `chore`, `type:tech-debt` → `refactor`. Repo conventions win over this table.
 
-Labels are the contract: read `type:*` and `estimate:*` from them. The triage comment is context for the plan, never a source of truth.
+Labels are the contract: read `type:*` and `estimate:*` from them. The triage comment and the `## Definición del entregable` comment are context for the work, never a source of truth.
 
 ## Verification
 

@@ -14,7 +14,7 @@ AI_GENERATED
 
 @{assignee} @{author}: la implementación se ha detenido.
 
-- Paso: {rama | planificación | implementación | lint | formato | typecheck | tests | push | pr}
+- Paso: {rama | implementación | lint | formato | typecheck | tests | push | pr}
 - Detalle: {error resumido}
 - Estado: rama `{branch}` en el worktree `{path}`; push: {sí | no}; PR: no.
 

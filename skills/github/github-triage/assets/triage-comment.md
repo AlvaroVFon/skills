@@ -18,6 +18,7 @@ AI_GENERATED
 - Reglas mínimas aplicadas: {overrides | "ninguna"}.
 - Factores asumidos por falta de información: {assumed | "ninguno"}.
 - Veredicto del planner: {single | split | spike | blocked | "no aplica"}.
+- Definición del entregable: {comentario adjunto | sub-issues | "no aplica"}.
 - Motivo del split: {reason | "no aplica"}.
 - Sub-issues creados para el siguiente triaje: {keys | "ninguno"}.
 - Label de tipo aplicado: `type:{slug}`.
