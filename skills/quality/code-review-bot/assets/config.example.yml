@@ -1,0 +1,35 @@
+# Repository policy for code-review-bot.
+# Copy to .ai-review.yml on the default branch. The bot reads this file from the
+# base SHA, never from the pull request head.
+version: 1
+language: en
+
+# Never approve. Set true only after a comment-only observation period.
+blocking_gate: false
+
+# Inline only these severities; Nits stay in the summary.
+inline_severities:
+  - blocking
+  - should
+
+max_findings: 50
+max_inline: 30
+drop_confidence_below: medium
+
+# Extra paths to ignore; the built-in lockfile/generated/vendored list is always applied.
+ignore:
+  - "docs/**"
+  - "**/*.generated.*"
+  - "**/fixtures/**"
+
+skip_title_markers:
+  - "[skip ai-review]"
+  - "[skip review]"
+
+skip_authors:
+  - "dependabot[bot]"
+  - "renovate[bot]"
+
+# Publish the verdict as a check run. Required checks are the merge gate.
+check_run: true
+max_summary_chars: 60000

@@ -1,0 +1,107 @@
+{
+  "repo": "acme/widgets",
+  "pr": 42,
+  "state": "open",
+  "is_draft": false,
+  "author": "alice",
+  "bot_login": "ai-reviewer[bot]",
+  "title": "Add sys import",
+  "url": "https://github.com/acme/widgets/pull/42",
+  "head_sha": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+  "base_sha": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+  "skipped_run": null,
+  "files": [
+    {
+      "filename": "src/app.py",
+      "status": "modified",
+      "patch": "@@ -1,3 +1,4 @@\n import os\n+import sys\n def main():\n     pass"
+    },
+    {
+      "filename": "package-lock.json",
+      "status": "modified",
+      "patch": "@@ -1,2 +1,2 @@\n {\n-  \"lockfileVersion\": 2\n+  \"lockfileVersion\": 3"
+    }
+  ],
+  "findings": [
+    {
+      "severity": "blocking",
+      "path": "src/app.py",
+      "line": 2,
+      "side": "RIGHT",
+      "rule": "correctness",
+      "confidence": "high",
+      "body": "`sys` is imported but never used; remove it or use it."
+    },
+    {
+      "severity": "should",
+      "path": "src/app.py",
+      "line": 99,
+      "side": "RIGHT",
+      "rule": "tests",
+      "confidence": "high",
+      "body": "The new branch has no failure-path test."
+    },
+    {
+      "severity": "should",
+      "path": "src/app.py",
+      "line": 2,
+      "side": "LEFT",
+      "rule": "cleanup",
+      "confidence": "medium",
+      "body": "The removed line left a stale comment."
+    },
+    {
+      "severity": "nit",
+      "path": "src/app.py",
+      "line": 3,
+      "side": "RIGHT",
+      "rule": "style",
+      "confidence": "high",
+      "body": "Prefer a blank line before the function body."
+    },
+    {
+      "severity": "blocking",
+      "path": "src/app.py",
+      "line": 2,
+      "side": "RIGHT",
+      "rule": "correctness",
+      "confidence": "high",
+      "body": "Duplicate of the first finding."
+    },
+    {
+      "severity": "should",
+      "path": "src/app.py",
+      "line": 4,
+      "side": "RIGHT",
+      "rule": "api",
+      "confidence": "low",
+      "body": "This may change the public contract; verify manually."
+    },
+    {
+      "severity": "blocking",
+      "path": "package-lock.json",
+      "line": 2,
+      "side": "RIGHT",
+      "rule": "dependencies",
+      "confidence": "high",
+      "body": "Lockfile change."
+    },
+    {
+      "severity": "should",
+      "path": "missing.py",
+      "line": 1,
+      "side": "RIGHT",
+      "rule": "docs",
+      "confidence": "high",
+      "body": "The new option is not documented."
+    }
+  ],
+  "existing_comments": [],
+  "config": {
+    "blocking_gate": false,
+    "inline_severities": ["blocking", "should"],
+    "max_findings": 50,
+    "max_inline": 30
+  },
+  "errors": []
+}

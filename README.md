@@ -34,6 +34,7 @@ Each skill is a folder under `skills/{category}/` with a `SKILL.md` (the runtime
 | Skill                                                          | Command                                                 | What it does                                                                     |
 | -------------------------------------------------------------- | ------------------------------------------------------- | -------------------------------------------------------------------------------- |
 | [code-review](skills/quality/code-review/SKILL.md)             | `npx skills add AlvaroVFon/skills -s code-review`       | Review pull requests and diffs; requests changes, never merges.                  |
+| [code-review-bot](skills/quality/code-review-bot/SKILL.md)     | `npx skills add AlvaroVFon/skills -s code-review-bot`   | Run unattended, idempotent PR reviews with a machine-readable verdict.           |
 | [bug-scan](skills/quality/bug-scan/SKILL.md)                   | `npx skills add AlvaroVFon/skills -s bug-scan`          | Scan a repo or modules for latent bugs and prove each with a test.               |
 | [mutation-test](skills/quality/mutation-test/SKILL.md)         | `npx skills add AlvaroVFon/skills -s mutation-test`     | Mutate a repo or modules by hand and report which mutants tests miss.            |
 | [api-security-scan](skills/quality/api-security-scan/SKILL.md) | `npx skills add AlvaroVFon/skills -s api-security-scan` | Scan HTTP API code for vulnerabilities and prove each with an exploit test.      |
