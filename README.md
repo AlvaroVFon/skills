@@ -57,6 +57,8 @@ Each skill is a folder under `skills/{category}/` with a `SKILL.md` (the runtime
 | [github-implementer](skills/github/github-implementer/SKILL.md) | `npx skills add AlvaroVFon/skills -s github-implementer` | Implement one triaged issue in a worktree and open a linked PR. |
 | [github-workflow](skills/github/github-workflow/SKILL.md)       | `npx skills add AlvaroVFon/skills -s github-workflow`    | Run github-triage then github-implementer in one cycle.         |
 
+See [skills/github/README.md](skills/github/README.md) for the full flow, the planner decision and the label contract.
+
 ### Maintenance
 
 | Skill                                                                  | Command                                                   | What it does                                                               |
