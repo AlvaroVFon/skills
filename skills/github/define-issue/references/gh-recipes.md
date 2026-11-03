@@ -36,9 +36,15 @@ gh api user --jq .login            # only when the human says "assign it to me"
 
 ## Duplicate search
 
+Search both title keywords and the paths/endpoints the task touches, across open and recently closed work:
+
 ```sh
-gh issue list --repo "$R" --state open --search "<keywords> in:title,body" --limit 10 \
-  --json number,title,url
+gh issue list --repo "$R" --state all --search "<keywords> in:title,body" --limit 20 \
+  --json number,title,state,url
+gh issue list --repo "$R" --state all --search "<path-or-endpoint> in:body" --limit 20 \
+  --json number,title,state,url
+gh pr list --repo "$R" --state all --search "<keywords>" --limit 20 \
+  --json number,title,state,url
 ```
 
 Show the matches and ask before creating anything.

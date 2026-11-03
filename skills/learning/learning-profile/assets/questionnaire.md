@@ -1,6 +1,6 @@
 # Initial Questionnaire
 
-Run these blocks in order with the question tool, **one block per turn**. Every question is
+Run these blocks in order with the option prompt, **one block per turn**. Every question is
 skippable ("prefer not to say") and the learner may type a custom answer. Adapt or drop a
 follow-up based on the previous answer; if the learner is brief, probe once, then move on.
 

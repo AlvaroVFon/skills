@@ -41,11 +41,11 @@ flowchart TD
 | [github-implementer](github-implementer/SKILL.md) | The branch, the worktree, the code, the PR and the `AI_implemented` label.         | Plan steps, merge or push to `main`.            |
 | [github-workflow](github-workflow/SKILL.md)       | Running triage then the implementer in one cycle.                                  | Add, change or relax the rules of either phase. |
 
-`github-workflow` is the only skill that runs unattended; it is meant for `/loop` or `/schedule`. The rest can be run on demand.
+`github-workflow` is the only skill that runs unattended; it is meant for a recurring or scheduled run. The rest can be run on demand.
 
 ## The planner decision
 
-Triage calls `github-planner` when the issue is large enough to need a decision: score 14 or more, any factor 4 or more, or Líneas 4 or more. The planner reads code and answers one question: is this one deliverable or several?
+Triage calls `github-planner` when the issue is large enough to need a decision: score 14 or more, any factor 4 or more, or Líneas 4 or more. The planner reads code, answers one question — is this one deliverable or several? — and returns `files` and `estimatedLines` as code evidence.
 
 | Verdict   | Meaning                                                   | Triage does                                                     |
 | --------- | --------------------------------------------------------- | --------------------------------------------------------------- |
@@ -54,9 +54,9 @@ Triage calls `github-planner` when the issue is large enough to need a decision:
 | `spike`   | The approach is unknown and research must come first.     | Creates a research sub-issue and blocks the parent on it.       |
 | `blocked` | The issue is ambiguous in a way that prevents a decision. | Triages the parent and records the open questions.              |
 
-The planner is read-only. It never sets `type:*`, `estimate:*` or any label; triage keeps the estimate and remains the single writer of the label contract. Without the planner, triage falls back to `github-triage/assets/subtask-splitter-prompt.md`, which only splits at score 23 or more, or 500 or more estimated lines.
+The planner is read-only. It never sets `type:*`, `estimate:*` or any label; triage keeps the estimate and remains the single writer of the label contract. Triage uses the planner's `files`, `estimatedLines` and `changes` to score `Líneas` and `Módulos`, marks `assumed` when a factor lacks code evidence, and raises the parent estimate with the sum of deliverable estimates on a `split`. Without the planner, triage falls back to `github-triage/assets/subtask-splitter-prompt.md`, which only splits at score 23 or more, or 500 or more estimated lines.
 
-The implementer consumes the deliverable definition and decides the _how_ with TDD. It does not write a step plan: a plan written in triage would be stale by the time the issue is assigned, and duplicating it in the implementer was the problem this flow removes.
+The implementer consumes the deliverable definition and decides the _how_ with TDD. It does not write a step plan: a plan written in triage would be stale by the time the issue is assigned, and duplicating it in the implementer was the problem this flow removes. It records a `Métricas:` line in the completion comment so triage can calibrate against actual diff size next time.
 
 ## Label lifecycle
 
@@ -95,15 +95,17 @@ Triage is the only writer of these labels. The implementer reads them and never 
 ## Usage
 
 ```sh
+# invoke each skill from your harness
+
 # define one issue, conversationally
-/define-issue
+define-issue
 
 # triage the backlog, then implement one assigned issue
-/github-triage repo="owner/name"
-/github-implementer repo="owner/name"
+github-triage repo="owner/name"
+github-implementer repo="owner/name"
 
-# both phases in one cycle, every 30 minutes
-/loop 30m /github-workflow repo="owner/name"
+# both phases in one cycle; schedule this with your harness (for example, every 30 minutes)
+github-workflow repo="owner/name"
 ```
 
 Install the whole flow:
@@ -116,7 +118,8 @@ npx skills add AlvaroVFon/skills \
 
 ## Design notes
 
-- The estimate is deterministic: task type plus six factors from `github-triage/references/estimation-scale.md`. Never by feel.
+- The estimate is deterministic: task type plus six factors from `github-triage/references/estimation-scale.md`. The planner supplies code evidence; it never decides the label.
 - The planner exists because the split decision needs code read, but the label and split authority stays in triage.
-- The implementer never plans steps; the deliverable definition is the stable artifact.
+- `define-issue` verifies the premise against the code and always includes a `## Seguridad` section; a security dimension without an answer blocks the draft.
+- The implementer never plans steps; the deliverable definition is the stable artifact, and `Métricas:` closes the calibration loop.
 - The decision, alternatives and the data needed to validate it are in [`docs/decisions/0001-github-planner-split-decision.md`](../../docs/decisions/0001-github-planner-split-decision.md).

@@ -14,7 +14,7 @@ Use this skill to scan a whole repo (global) or given paths/modules (targeted) f
 ## Hard Rules
 
 - NEVER modify production code, tests, or config; NEVER apply fixes. `remediation` is one line of direction, not a patch.
-- ALWAYS open with the one selector (question tool) before any work: mode, categories, and output format (`chat` | `markdown`); never infer any of them from the prompt.
+- ALWAYS open with one option prompt before any work: mode, categories, and output format (`chat` | `markdown`); never infer any of them from the prompt.
 - Every finding needs a `symptom`, a `cause`, `file:line`, and measured evidence: `evidence.method` (command or files read) and `evidence.result` (number, count, or quoted fact). No opinion-only findings; discard findings with no present symptom and count them in `discarded`.
 - Author only `scores` (integers 1-5 per `references/06-prioritization-evidence.md`); `priority = impact × frequency × reach / effort` and `severity` are derived by `reconcile.py`, never written by hand.
 - Previous reports are leads, never evidence: re-measure every inherited finding in scope.

@@ -6,7 +6,7 @@ Skills repository. Each skill is a directory under `skills/{category}/{name}/` c
 
 - No build, test, or lint suite: `package.json` only wires `oxfmt` + `husky`. Verification is `npm run fmt:check` plus the validator(s) for the skills you touched.
 - Validators are stdlib-only Python 3 scripts run from the repo root. No venv, no `pip install`.
-- `.atl/` is a local, gitignored agent cache (skill registry). Never commit it.
+- Local agent caches (for example `.atl/`) are gitignored; never commit them.
 
 ## Skills
 
@@ -76,11 +76,11 @@ Skills repository. Each skill is a directory under `skills/{category}/{name}/` c
 ## Skill Dependencies
 
 - `mentor` depends on `learning-profile`: it MUST load `learning-profile` to create the profile when none exists, and again after every session to update the profile from the logged evidence. `mentor` never writes `profile.md` or the evidence log directly.
-- `code-review-bot` depends on `code-review`: it reuses that skill's severity model, checklist and review judgment, and adds only the automation contract (identity, idempotency, anchors, policy and machine-readable report). It never approves or merges.
+- `code-review-bot` depends on `code-review`: it reuses that skill's severity model, checklist and review judgment, and adds only the automation contract (identity, idempotency, anchors, policy and machine-readable report). It never approves or merges, keeps unresolved findings at their original severity unless the code proves them false or a human dismisses them, and publishes nothing after merge.
 - `github-implementer` depends on `create-commit` and `create-pr` (it defers commit format and PR body to them) and reads the triage comment written by `github-triage`. Each GitHub skill ships its own copy of the label contract so it can be installed alone.
-- `github-triage` delegates the split and deliverable decision to `github-planner` when installed. The planner is read-only, never sets labels or estimates, and `github-triage` falls back to its bundled splitter when it is not installed. `github-implementer` consumes the `## Definición del entregable` comment written by triage and never plans steps; it falls back to the issue body when the comment is absent.
-- `github-workflow` orchestrates `github-triage` then `github-implementer`; it requires both to be installed and never adds, changes or relaxes their rules. It is not auto-invoked (`disable-model-invocation: true`): the cycle starts only when a human asks for it.
-- `define-issue` is the human entry point: it writes only `AI_triage` plus the assignee. `github-triage` is the single writer of `type:*` and `estimate:*`; `github-implementer` reads them and never infers the type from comments.
+- `github-triage` delegates the split and deliverable decision to `github-planner` when installed. The planner is read-only, never sets labels, and returns `files` and `estimatedLines` as code evidence. Triage uses them for `Líneas`/`Módulos`, marks `assumed` when evidence is missing, owns the final estimate, and falls back to its bundled splitter when the planner is not installed. `github-implementer` consumes the `## Definición del entregable` comment written by triage and never plans steps; it records `Métricas:` in the completion comment for calibration and falls back to the issue body when the definition comment is absent.
+- `github-workflow` orchestrates `github-triage` then `github-implementer`; it requires both to be installed and never adds, changes or relaxes their rules. It is not auto-invoked: the cycle starts only when a human asks for it.
+- `define-issue` is the human entry point: it writes only `AI_triage` plus the assignee, verifies the current-state premise against the code, and always includes the `## Seguridad` section. `github-triage` is the single writer of `type:*` and `estimate:*`; `github-implementer` reads them and never infers the type from comments.
 
 ## Hard Rules
 

@@ -15,7 +15,7 @@ Use this skill to scan a whole HTTP API (global) or given routes/modules (target
 
 - NEVER modify production code and NEVER write fixes; give at most a one-line `remediation_hint`. Exploit tests are throwaway.
 - NEVER send requests to a running server, staging, production, or third-party host: exploit the app **in-process** with the repo's test harness and stub outbound HTTP.
-- ALWAYS open with the one selector (question tool): mode, categories, and output format (`chat` | `markdown`); never infer them.
+- ALWAYS open with one option prompt: mode, categories, and output format (`chat` | `markdown`); never infer them.
 - Cite `file:line`, the endpoint, and a concrete attack (identity + request → impact); no speculation.
 - NEVER print real secrets, tokens, or PII: synthetic fixtures only, redact to the first 4 chars.
 - Previous reports are leads, never evidence: re-verify every inherited finding.

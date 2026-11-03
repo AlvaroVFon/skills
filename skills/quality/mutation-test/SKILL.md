@@ -15,7 +15,7 @@ Use this skill to measure test quality by injecting manual mutants into a whole 
 
 - NEVER leave production code modified: each mutant lives only in its own temporary `git worktree` (fallback: mutate in place and `git checkout -- {file}`); `git status` clean at the end.
 - NEVER edit or add tests in the repo; suggested tests live only in the report (temp files are deleted).
-- ALWAYS open with one selector (question tool) before any work: mode, mutation categories, output format (`chat` | `markdown`); never infer them from the prompt.
+- ALWAYS open with one option prompt before any work: mode, mutation categories, output format (`chat` | `markdown`); never infer them from the prompt.
 - Require a green baseline before mutating; abort and report if red.
 - One mutant = one atomic change; cite `file:line`, operator, exact diff.
 - Previous reports are leads, never evidence: re-run every inherited survivor.

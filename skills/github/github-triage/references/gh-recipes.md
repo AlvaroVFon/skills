@@ -81,6 +81,19 @@ gh issue edit "$N" --repo "$R" --remove-label "estimate:<old>"
 gh issue edit "$N" --repo "$R" --add-label "estimate:5h"
 ```
 
+## Calibration
+
+Read actuals recorded by the implementer in closed issues:
+
+```sh
+gh issue list --repo "$R" --state closed --search "Métricas: in:comments" --limit 20 \
+  --json number,title
+gh issue view "$N" --repo "$R" --json comments \
+  --jq '.comments[].body | select(contains("Métricas:"))'
+```
+
+Use comparable work to sanity-check the `Líneas` level; the rubric level remains authoritative.
+
 ## Unassign
 
 ```sh
@@ -91,7 +104,8 @@ gh issue edit "$N" --repo "$R" --remove-assignee "<login>"   # one call per logi
 ## Comment
 
 ```sh
-gh issue comment "$N" --repo "$R" --body-file /tmp/opencode/triage-comment.md
+mkdir -p "${TMPDIR:-/tmp}/skills/github-triage"
+gh issue comment "$N" --repo "$R" --body-file "${TMPDIR:-/tmp}/skills/github-triage/comment.md"
 ```
 
 ## Sub-issues
@@ -104,7 +118,7 @@ gh issue create --repo "$R" --title "<summary>" --body-file <file> \
 gh issue edit "$PARENT_N" --repo "$R" --add-sub-issue "$CHILD_N"
 ```
 
-Create every child before linking dependencies: a `blocked by` link needs issue numbers that do not exist yet when the subagent proposes the split.
+Create every child before linking dependencies: a `blocked by` link needs issue numbers that do not exist yet when the planner/splitter proposes the split.
 
 ## Dependencies
 
@@ -123,8 +137,8 @@ gh issue edit "$N" --repo "$R" --remove-label AI_triage --add-label AI_triage_do
 
 ## Report
 
-Write the table to `${TMPDIR:-/tmp}/opencode/github-triage-report.md` (`mkdir -p` its directory) and validate it:
+Write the table to `${TMPDIR:-/tmp}/skills/github-triage/report.md` (`mkdir -p` its directory) and validate it:
 
 ```sh
-python3 assets/validate_triage_report.py --file "${TMPDIR:-/tmp}/opencode/github-triage-report.md"
+python3 assets/validate_triage_report.py --file "${TMPDIR:-/tmp}/skills/github-triage/report.md"
 ```

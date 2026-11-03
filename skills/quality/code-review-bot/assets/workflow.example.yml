@@ -6,6 +6,8 @@
 #     pull-requests: write and checks: write. GITHUB_TOKEN cannot post reviews on
 #     fork PRs and its approvals do not satisfy branch protection.
 #   - The agent and the code-review/code-review-bot skills are installed on the runner.
+#   - The run step is harness-neutral: set AGENT or replace the case with your
+#     harness invocation. The skills themselves do not depend on a specific CLI.
 #
 # For public repositories with forks, either use a GitHub App token on
 # `pull_request`, or switch to `pull_request_target` and keep the base checkout:
@@ -39,13 +41,19 @@ jobs:
 
       - name: Install skills
         run: |
-          npx skills add AlvaroVFon/skills -g -a opencode -s code-review -y
-          npx skills add AlvaroVFon/skills -g -a opencode -s code-review-bot -y
+          # The skills CLI detects the installed harness. Add `-a <agent>` to pin one.
+          npx skills add AlvaroVFon/skills -g -s code-review -s code-review-bot -y
 
       - name: Run the bot review
-        run: |
-          opencode run --auto --agent build \
-            "/code-review-bot pr=${{ github.event.pull_request.number }} repo=${{ github.repository }}"
         env:
+          AGENT: your-agent
+          PROMPT: "code-review-bot pr=${{ github.event.pull_request.number }} repo=${{ github.repository }}"
           GH_TOKEN: ${{ secrets.AI_REVIEW_TOKEN }}
           GH_HOST: ${{ github.server_url == 'https://github.com' && 'github.com' || '' }}
+        run: |
+          case "$AGENT" in
+            opencode) opencode run --auto "$PROMPT" ;;
+            claude)   claude -p "$PROMPT" ;;
+            codex)    codex exec "$PROMPT" ;;
+            *) echo "Set AGENT to opencode, claude, codex, or add your harness case"; exit 1 ;;
+          esac

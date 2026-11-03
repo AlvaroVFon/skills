@@ -30,6 +30,8 @@ Rules:
 - Each deliverable must be independently verifiable and scorable at 8h or less with the estimation rubric. A `single` deliverable above 8h is allowed only when its parts are not independently shippable, and `reason` must say why.
 - Order deliverables so dependencies come first. `dependsOn` lists earlier 0-based positions only, never itself or a later one.
 - Each deliverable carries enough content for someone who never read the parent: objective, scope, changes, acceptance criteria and tests.
+- Each deliverable MUST include `files` (repository paths read or changed) and `estimatedLines` (production + tests, excluding generated code and lockfiles). Both are code evidence for triage, not labels: never estimate them from the issue text alone.
+- A split deliverable above 500 estimated lines is still oversized: split it again, or return `spike`/`blocked`, never a fake split.
 - Do not invent scope. If the parent does not cover it, leave it out.
 - If the parent cannot be split below 8h, return `spike` or `blocked`, never a fake split.
 
@@ -46,6 +48,8 @@ Triage renders these fields into its `assets/subtask-description.md` template: `
       "objective": "<max three sentences>",
       "scope": ["<included change>", "<relevant limit>"],
       "changes": ["<component, flow or contract to modify>"],
+      "files": ["<repository path read or changed>"],
+      "estimatedLines": 120,
       "acceptance": [
         {
           "id": "AC-1",

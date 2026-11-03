@@ -14,7 +14,7 @@ Use this skill to scan a whole repo (global) or given paths/modules (targeted) f
 ## Hard Rules
 
 - NEVER modify production code and NEVER propose or apply fixes; benchmarks are throwaway (temp file, run, delete unless the user asks to keep them).
-- ALWAYS open with the one selector (question tool) before any work: mode, categories, and output format (`chat` | `markdown`); never infer any of them from the prompt.
+- ALWAYS open with one option prompt before any work: mode, categories, and output format (`chat` | `markdown`); never infer any of them from the prompt.
 - Cite `file:line`, the input sizes, and the measured metric; no speculation, no "looks slow".
 - Run benchmarks locally only; never start services or hit real databases, networks, or production.
 - Previous reports are leads, never evidence: re-measure every inherited finding.

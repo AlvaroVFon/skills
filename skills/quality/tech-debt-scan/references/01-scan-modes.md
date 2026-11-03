@@ -9,13 +9,13 @@ Coverage must always be declared: what was reviewed, at what depth, and what was
 
 ## Selector (Mandatory)
 
-Ask with the option selector (question tool) before any work, every run — never infer from the prompt:
+Ask with the option prompt before any work, every run — never infer from the prompt:
 
 1. **Mode**: `Global` or `Targeted`. If `Targeted`, request the paths in the same round.
 2. **Categories** (multi-select): `code` (`03`), `tests` (`04`), `architecture-docs-infra` (`05`: report categories `architecture`, `docs`, `infra`), or `all`. Load only the chosen references.
 3. **Output format**: `chat` (concise summary) or `markdown` (full rendered report) — never both. The JSON is written either way.
 
-If the question tool is unavailable, ask in chat and wait for the answer.
+If the option prompt is unavailable, ask in chat and wait for the answer.
 
 ## Hotspot Map (Global)
 

@@ -2,7 +2,6 @@
 name: github-workflow
 description: "Trigger: GitHub workflow, full GitHub cycle, triage and implement, run the GitHub workflow. Runs github-triage then github-implementer on one repo."
 license: MIT
-disable-model-invocation: true
 metadata:
   author: AlvaroVFon
   version: "1.0"
@@ -10,7 +9,7 @@ metadata:
 
 ## Activation Contract
 
-Load this skill when asked to run the **full GitHub workflow**, or on a recurring `/loop` or `/schedule` run, from inside the target repository. Invocation: `/github-workflow [repo="owner/name"] [milestone="..."]`; without `repo`, use the `origin` remote. Typical use: `/loop 30m /github-workflow`.
+Load this skill when asked to run the **full GitHub workflow**, or on a recurring or scheduled run, from inside the target repository. Invocation: `github-workflow [repo="owner/name"] [milestone="..."]`; without `repo`, use the `origin` remote. Typical use: schedule it with the harness.
 
 ## Hard Rules
 
@@ -19,7 +18,7 @@ Load this skill when asked to run the **full GitHub workflow**, or on a recurrin
 - Pass the SAME repo, unchanged, to both skills. Do NOT add, change, or relax any rule of either.
 - ALWAYS run `github-triage`, then `github-implementer`, strictly in sequence. PR review is out of scope: the repository CI and humans own it.
 - A failure or an empty result in one phase MUST NOT stop the next one. Stop the run only when the repo is missing or inaccessible.
-- Do NOT start a new cycle yourself: recurrence belongs to `/loop` or `/schedule`.
+- Do NOT start a new cycle yourself: recurrence belongs to the harness scheduler.
 
 ## Decision Gates
 

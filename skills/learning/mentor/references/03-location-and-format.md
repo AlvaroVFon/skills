@@ -6,12 +6,10 @@ Both `mentor` and `learning-profile` share one base directory so they read the s
 
 1. If `LEARNING_HOME` is set and non-empty, use it (escape hatch to share one profile across
    platforms).
-2. Else derive the platform base from the loaded skill's own path. A skill lives at
-   `<base>/skills/<name>/SKILL.md`, so the base is the grandparent of the skill directory:
-   - opencode → `~/.config/opencode`
-   - Claude Code → `~/.claude`
-   - Codex → `~/.codex`
-3. If neither is available, ask the learner for the path via the question tool. Never guess and
+2. Else derive the harness config base from the loaded skill's own path. A skill lives at
+   `<base>/skills/<name>/SKILL.md`, so the base is the grandparent of the skill directory.
+   Examples: OpenCode `~/.config/opencode`, Claude Code `~/.claude`, Codex `~/.codex`.
+3. If neither is available, ask the learner for the path via the option prompt. Never guess and
    never write outside the resolved base.
 
 ## Layout

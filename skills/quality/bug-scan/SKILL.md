@@ -14,7 +14,7 @@ Use this skill to scan a whole repo (global) or given paths/modules (targeted) f
 ## Hard Rules
 
 - NEVER modify production code and NEVER propose or apply fixes; repro tests are throwaway (temp file, run, delete unless the user asks to keep them).
-- ALWAYS open with the one selector (question tool) before any work: mode, categories, and output format (`chat` | `markdown`); never infer any of them from the prompt.
+- ALWAYS open with one option prompt before any work: mode, categories, and output format (`chat` | `markdown`); never infer any of them from the prompt.
 - Cite `file:line` and a concrete failure scenario (input/state → wrong result); no speculation.
 - Previous reports are leads, never evidence: re-verify every inherited finding with a test.
 - `docs/bug-scan/{YYYY-MM-DD}.json` is the only artifact: it is the report and the history. Never write a ledger or a rendered file.

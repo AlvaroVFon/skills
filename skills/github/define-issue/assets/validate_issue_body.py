@@ -24,7 +24,7 @@ import argparse
 import re
 import sys
 
-SECTIONS = ("Objetivo", "Descripción", "Criterios de Aceptación")
+SECTIONS = ("Objetivo", "Descripción", "Seguridad", "Criterios de Aceptación")
 TITLE_MAX = 72
 PLACEHOLDER_RE = re.compile(r"(?i)\b(TODO|TBD|FIXME)\b|<[^>\n]{2,}>|\{\{[^}\n]+\}\}")
 AC_HEADING_RE = re.compile(r"^###\s+AC-(\d+)\b(.*)$")

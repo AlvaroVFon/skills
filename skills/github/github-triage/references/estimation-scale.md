@@ -40,6 +40,8 @@ Estimated lines added or modified (production and tests; exclude generated code 
 | 4     | 401–500 |
 | 5     | > 500   |
 
+When `github-planner` runs, use the sum of its `estimatedLines` as the primary evidence for this level; do not estimate from the issue text when the code was read. If the planner is absent, score from the issue and mark the factor `assumed` unless you inspected the code yourself.
+
 ### Módulos implicados (número y criticidad)
 
 `n` = modules touched, `c` = critical modules among them. Critical module = auth, payments, data persistence, public API, or anything the team marks critical.
@@ -67,17 +69,20 @@ Estimated lines added or modified (production and tests; exclude generated code 
 | 18–22 | 13h               |
 | 23+   | 21h               |
 
-21h = very high complexity → delegate to a subagent for sub-issues.
+21h = very high complexity → delegate to the planner/splitter for sub-issues.
 
-Split trigger: Líneas = 5 (> 500 lines) → delegate to a subagent for sub-issues even if the score is below 23. The estimate comes from the score and overrides.
+Split trigger: Líneas = 5 (> 500 lines) → delegate to the planner/splitter for sub-issues even if the score is below 23. The estimate comes from the score and overrides. When `github-planner` runs, its verdict controls the split; a justified `single` above 500 lines is allowed only when its `reason` explains why the parts are not independently shippable.
+
+Parent estimate on a planner `split`: sum the deliverable estimates and use the smallest bucket in the score→estimate table that covers the sum; never go below the score band.
 
 ## Rules
 
-- Score every factor. If the issue lacks the information to score one, score it 3 and list it as `assumed` in the report.
+- Score every factor. If the issue lacks the information to score one, score it 3 and list it as `assumed` in the report. A report with zero `assumed` is only valid when the planner read the code or you inspected it for every factor.
+- Use closed issues/PRs that expose actual size (`Métricas:`/`Actuals:`) as a sanity check against comparable work; the rubric level is still the authority.
 - Overrides (apply the highest minimum that matches; never lower the score-based estimate):
   - Riesgo = 4 → estimate never below 5h. Riesgo = 5 → estimate never below 8h.
   - Any factor = 5 → estimate never below 13h.
   - Three or more factors at level 4 or above → estimate never below 13h.
-  - Two or more factors at level 5 → 21h (delegate to subagent).
+  - Two or more factors at level 5 → 21h (delegate to planner/splitter).
 - Never assign values outside the scale.
 - The report MUST include type, each factor score, total score, and original estimate so the result can be audited.
