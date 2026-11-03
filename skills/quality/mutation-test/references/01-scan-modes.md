@@ -9,13 +9,13 @@ Coverage must always be declared: what was mutated, how many mutants, and what w
 
 ## Choosing the Scan Type (Mandatory)
 
-Ask with the option selector (question tool) before any work, every run — never infer the mode from the prompt:
+Ask with the option prompt before any work, every run — never infer the mode from the prompt:
 
 1. **Mode**: `Global` (whole repo) or `Targeted` (named paths/modules). If `Targeted`, request the paths in the same round.
 2. **Mutation categories** (multi-select, from `02-mutation-catalog.md`): `high`, `medium`, `low` priority families, or `all`. Generate only the chosen operators in step 5.
 3. **Output format**: `chat` (concise summary) or `markdown` (full rendered report) — never both. The JSON report is written either way.
 
-If the question tool is unavailable, ask in chat and wait for the answer.
+If the option prompt is unavailable, ask in chat and wait for the answer.
 
 ## Output Format
 

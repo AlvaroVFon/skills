@@ -25,3 +25,5 @@ AI_GENERATED
 @{assignee} @{author}: la tarea está implementada y lista para revisión en {pr_url}.
 
 {Dos o tres líneas: qué se ha hecho y cómo se ha verificado.}
+
+Métricas: {files} archivos, +{additions}/-{deletions}, {commits} commits, {minutes} min.

@@ -74,3 +74,7 @@ Criterio de revisión: si el sobredimensionamiento descubierto tarde es raro, el
 - `github-triage` v1.2: trigger de planner con puntuación 14 o más, cualquier factor 4 o más, o Líneas 4 o más; veredictos `single`, `split`, `spike` y `blocked`; en `single` publica la definición del entregable como comentario; planner opcional con el splitter actual como fallback.
 - `github-implementer` v1.4: consume la definición del entregable y no planifica; se elimina `assets/planner-prompt.md` y el gate de 13h/21h.
 - `AGENTS.md` y `README.md` actualizados con el nuevo skill y su validador.
+
+## Actualización 2026-11-03
+
+El contrato del planner incorpora `files` y `estimatedLines` por entregable. Triage los usa como evidencia de código para puntuar `Líneas` y `Módulos`, marca `assumed` cuando falta evidencia y conserva la autoridad del label; la estimación del padre se eleva con la suma de entregables en un `split`. El implementer añade `Métricas:` al comentario de cierre para cerrar el bucle de calibración descrito en este ADR. Versiones: planner v2.1, triage v1.4, implementer v1.5.

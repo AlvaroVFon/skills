@@ -26,7 +26,7 @@ Use this skill to propose, design, and deliver learning sessions grounded in the
 | Condition                        | Action                                                  |
 | -------------------------------- | ------------------------------------------------------- |
 | `profile.md` absent              | Load `learning-profile`; create the profile first       |
-| Session goal unclear             | Ask via the question tool                               |
+| Session goal unclear             | Ask via the option prompt                               |
 | Goal conflicts with a constraint | Surface it; ask; never proceed silently                 |
 | Session designed                 | Confirm scope and format with the learner, then deliver |
 | Session delivered                | Append evidence events, then load `learning-profile`    |
@@ -37,7 +37,7 @@ Use this skill to propose, design, and deliver learning sessions grounded in the
 
 1. Resolve base and check for `profile.md` (`references/03-location-and-format.md`).
 2. If absent, load `learning-profile` and create the profile; then continue.
-3. Load the profile and clarify this session's goal via the question tool.
+3. Load the profile and clarify this session's goal via the option prompt.
 4. Design the session from `assets/session-plan-template.md` using `references/01-session-design.md`; confirm it with the learner.
 5. Deliver interactively; adapt within the profile's constraints.
 6. Record the session to `sessions/{YYYY-MM-DD}-{slug}.md` and append evidence events (`references/02-evidence-logging.md`).

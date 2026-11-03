@@ -77,7 +77,7 @@ See [skills/github/README.md](skills/github/README.md) for the full flow, the pl
 
 ## Usage
 
-Skills are loaded by compatible agents such as [opencode](https://opencode.ai), Claude Code, and Codex. Install them with the open [`skills`](https://skills.sh) CLI:
+Skills are loaded by compatible agent harnesses such as [OpenCode](https://opencode.ai), Claude Code, and Codex. Install them with the open [`skills`](https://skills.sh) CLI:
 
 ```sh
 # every skill in this repo, global scope, detected agents
@@ -92,8 +92,11 @@ npx skills add AlvaroVFon/skills -s bug-scan
 # list what the repo offers without installing
 npx skills add AlvaroVFon/skills --list
 
-# project scope instead of global (installs into ./.<agent>/skills/)
-npx skills add AlvaroVFon/skills -a opencode
+# project scope instead of global (installs into the detected harness's skills directory)
+npx skills add AlvaroVFon/skills
+
+# pin a harness explicitly
+npx skills add AlvaroVFon/skills -a <agent>
 ```
 
 The CLI detects the coding agents you have installed. `-g` installs globally (`~/.config/opencode/skills/`, `~/.claude/skills/`, `~/.codex/skills/`, ...); without `-g` it installs into the current project. Update installed skills later with `npx skills update`.

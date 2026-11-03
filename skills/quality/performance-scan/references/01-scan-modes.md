@@ -9,14 +9,14 @@ Coverage must always be declared: what was reviewed, in what depth, and what was
 
 ## Choosing the Scan Type (Mandatory)
 
-Ask with the option selector (question tool) before any work, every run — never infer from the prompt:
+Ask with the option prompt before any work, every run — never infer from the prompt:
 
 1. **Mode**: `Global` (whole repo) or `Targeted` (named paths/modules). If `Targeted`, request the paths in the same round.
 2. **Categories** (multi-select): `algorithmic`, `io-db`, `memory`, `concurrency`, `payload-render` (sections of `02`), or `all`. Load only the chosen sections in step 4.
 3. **Output format**: `chat` (concise summary) or `markdown` (full rendered report) — never both. The JSON report is written either way.
 4. **Thresholds** (optional): override the defaults in `references/03-measurement-and-thresholds.md`.
 
-If the question tool is unavailable, ask in chat and wait for the answer.
+If the option prompt is unavailable, ask in chat and wait for the answer.
 
 ## Output Format
 

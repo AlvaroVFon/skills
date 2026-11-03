@@ -107,7 +107,8 @@ The body follows the `create-pr` template and ends with a bare `Closes #N` line.
 
 ```sh
 gh issue edit "$N" --repo "$R" --remove-label "status:in-progress" --add-label "AI_implemented"
-gh issue comment "$N" --repo "$R" --body-file /tmp/opencode/implementation-comment.md
+mkdir -p "${TMPDIR:-/tmp}/skills/github-implementer"
+gh issue comment "$N" --repo "$R" --body-file "${TMPDIR:-/tmp}/skills/github-implementer/comment.md"
 ```
 
 Delivery is terminal for this skill: `AI_implemented` replaces the claim, so the issue stops being a candidate without keeping a misleading "in progress" state. All other labels are preserved; never replace them.

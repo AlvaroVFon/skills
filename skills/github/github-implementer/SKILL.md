@@ -4,12 +4,12 @@ description: "Trigger: implement GitHub issue, github implementer, implement tri
 license: MIT
 metadata:
   author: AlvaroVFon
-  version: "1.4"
+  version: "1.5"
 ---
 
 ## Activation Contract
 
-Load this skill when asked to **implement triaged GitHub issues**, or on a recurring `/loop` or `/schedule` run, from inside the target repository. Invocation: `/github-implementer [repo="owner/name"]`; without `repo`, use the `origin` remote. One issue per run.
+Load this skill when asked to **implement triaged GitHub issues**, or on a recurring or scheduled run, from inside the target repository. Invocation: `github-implementer [repo="owner/name"]`; without `repo`, use the `origin` remote. One issue per run.
 
 ## Hard Rules
 
@@ -24,6 +24,7 @@ Load this skill when asked to **implement triaged GitHub issues**, or on a recur
 - NEVER push or open a PR while lint, format, typecheck or tests fail.
 - ALWAYS start AI-written text with `AI_GENERATED`; issue comments in Spanish, PR body in English.
 - ALWAYS deliver with `AI_implemented` replacing `status:in-progress` (all other labels kept), a 2–3 line comment mentioning `@{assignee}` and `@{author}`, and a PR body ending in `Closes #N`.
+- ALWAYS append a `Métricas:` line to the completion comment: changed files, added/deleted lines (excluding lockfiles/generated), commits and elapsed minutes. This is triage's calibration input.
 - ALWAYS remove the worktree after delivery; NEVER after a failed verification or push, and NEVER delete the branch.
 - Use `create-commit` and `create-pr` when installed, else follow their rules inline; answer the target-branch question with `main`.
 
@@ -43,13 +44,13 @@ Load this skill when asked to **implement triaged GitHub issues**, or on a recur
 
 1. **Context**: resolve `repo` and the token login; bootstrap missing labels from `references/gh-recipes.md`.
 2. **Candidates**: `gh issue list --assignee @me --label AI_triage_done --state open --search "sort:created-asc"`; gate each by estimate, open blockers and absence of `AI_implemented`.
-3. **Claim**: add `status:in-progress`; abort the candidate if its branch exists in `origin`.
+3. **Claim**: record the claim time, add `status:in-progress`; abort the candidate if its branch exists in `origin`.
 4. **Worktree**: `git fetch origin`; `git worktree add <path> -b <branch> origin/<main>`; work only inside it.
 5. **Definition**: read the latest `## Definición del entregable` comment; if absent, use the issue body. Do not write a step plan.
 6. **Implement** with TDD per the gate, until the deliverable's acceptance criteria are met.
 7. **Verify**: discover and run lint, format, typecheck and tests; fix and re-run until all pass.
 8. **Deliver**: `create-commit`, push, `create-pr` with base `main` and `Closes #N`.
-9. **Close out**: `AI_implemented` replacing `status:in-progress`, plus the completion comment from `assets/comments.md`.
+9. **Close out**: `AI_implemented` replacing `status:in-progress`, plus the completion comment from `assets/comments.md` with its `Métricas:` line (`git diff --stat origin/<main>...HEAD`, commit count and elapsed minutes).
 10. **Clean up** from the main repository: `git worktree remove <path>`; report and leave it if it refuses.
 11. **Report** the run.
 

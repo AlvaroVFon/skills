@@ -4,12 +4,12 @@ description: "Trigger: plan a GitHub issue, assess issue scope, split decision, 
 license: MIT
 metadata:
   author: AlvaroVFon
-  version: "2.0"
+  version: "2.1"
 ---
 
 ## Activation Contract
 
-Load this skill when asked to **assess a GitHub issue** or **decide whether it must be split**, or when `github-triage` delegates to it. Invocation: `/github-planner issue="owner/repo#N"`. One issue per run.
+Load this skill when asked to **assess a GitHub issue** or **decide whether it must be split**, or when `github-triage` delegates to it. Invocation: `github-planner issue="owner/repo#N"`. One issue per run.
 
 ## Hard Rules
 
@@ -17,7 +17,8 @@ Load this skill when asked to **assess a GitHub issue** or **decide whether it m
 - NEVER set or change `type:*`, `estimate:*` or any triage label: you inform the decision, triage owns it.
 - Read the code before deciding. Do not invent files, components or contracts.
 - Cover only what the issue asks. List anything else in `notes`.
-- Return deliverables, never implementation steps: each is independently shippable, verifiable and scorable at 8h or less.
+- ALWAYS return `files` and `estimatedLines` per deliverable, grounded in the code you read; never estimate them from the issue text.
+- Return deliverables, never implementation steps: each is independently shippable, verifiable and scorable at 8h or less; a `single` above 8h needs a reason.
 - If the issue cannot be assessed without guessing, do not guess: return the blocking questions.
 
 ## Decision Gates

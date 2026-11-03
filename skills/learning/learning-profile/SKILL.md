@@ -15,7 +15,7 @@ Use this skill to create or update the learner's structured profile. Activate wh
 
 - ALWAYS resolve the base path first and write only under `{base}/learning/` (`references/03-location-and-format.md`): use `LEARNING_HOME` if set, else the platform base of the loaded skill, else ask.
 - Create mode only when `profile.md` is absent; otherwise update mode. In update mode never discard existing fields.
-- ALWAYS interview with the question tool in themed blocks from `assets/questionnaire.md`; never infer answers. One block at a time; adapt follow-ups.
+- ALWAYS interview with the option prompt in themed blocks from `assets/questionnaire.md`; never infer answers. One block at a time; adapt follow-ups.
 - Tag every field `[confirmed]` (asked) or `[inferred:<event-id>]` (evidence). Never fabricate values; leave unknowns in Open Questions.
 - Fold evidence the same way whether it comes from the log or a caller-supplied batch. Advance `evidence_cursor` only after folding.
 - Confirm with the learner before changing a `[confirmed]` field from weak evidence. Never edit the append-only evidence log.
@@ -26,7 +26,7 @@ Use this skill to create or update the learner's structured profile. Activate wh
 | ----------------------------- | --------------------------------------------------------- |
 | `LEARNING_HOME` set           | Use it as base                                            |
 | Loaded skill path known       | Base = grandparent of `skills/<name>/`                    |
-| Base still unknown            | Ask the learner via the question tool                     |
+| Base still unknown            | Ask the learner via the option prompt                     |
 | `profile.md` absent           | Create mode: questionnaire, then write                    |
 | `profile.md` present          | Update mode: read profile + events past `evidence_cursor` |
 | No new events past cursor     | Report "no changes"; do not rewrite the file              |

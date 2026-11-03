@@ -16,6 +16,8 @@ AI_GENERATED
 | **Puntuación total**       | **{score}/32**    |
 
 - Reglas mínimas aplicadas: {overrides | "ninguna"}.
+- Evidencia de código: {files | "no leída"}.
+- Estimación del planner: {planner_estimate | "no aplica"}.
 - Factores asumidos por falta de información: {assumed | "ninguno"}.
 - Veredicto del planner: {single | split | spike | blocked | "no aplica"}.
 - Definición del entregable: {comentario adjunto | sub-issues | "no aplica"}.

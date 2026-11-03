@@ -27,8 +27,12 @@ Checks:
     E12 split deliverable estimate exceeds 8h
     E13 deliverable dependsOn must list earlier 0-based positions only
     E14 blocked needs a non-empty questions list
+    E15 deliverable files must be a non-empty list of repository paths
+    E16 deliverable estimatedLines must be a non-negative integer
+    E17 split deliverable estimatedLines exceeds 500
     W15 single deliverable above 8h: explain it in reason
     W16 objective is longer than three sentences
+    W18 single deliverable above 500 estimated lines: explain it in reason
 """
 
 import argparse
@@ -70,6 +74,32 @@ def check_deliverable(index, deliverable, verdict, errors, warnings):
     for field in ("scope", "changes", "tests"):
         if not is_text_list(deliverable.get(field)):
             errors.append(f"ERROR: E08 {where}: {field} must be a non-empty list of strings")
+    files = deliverable.get("files")
+    if not is_text_list(files):
+        errors.append(f"ERROR: E15 {where}: files must be a non-empty list of repository paths")
+    else:
+        unsafe = [p for p in files if p.startswith("/") or ".." in p.split("/")]
+        if unsafe:
+            errors.append(
+                f"ERROR: E15 {where}: files must be repository-relative paths, found {unsafe!r}"
+            )
+    estimated_lines = deliverable.get("estimatedLines")
+    if (
+        not isinstance(estimated_lines, int)
+        or isinstance(estimated_lines, bool)
+        or estimated_lines < 0
+    ):
+        errors.append(
+            f"ERROR: E16 {where}: estimatedLines must be a non-negative integer"
+        )
+    elif verdict == "split" and estimated_lines > 500:
+        errors.append(
+            f"ERROR: E17 {where}: split deliverable estimates {estimated_lines} lines; split it below 500"
+        )
+    elif verdict == "single" and estimated_lines > 500:
+        warnings.append(
+            f"WARNING: W18 {where}: single deliverable estimates {estimated_lines} lines; explain it in reason"
+        )
     acceptance = deliverable.get("acceptance")
     if not isinstance(acceptance, list) or not acceptance:
         errors.append(f"ERROR: E09 {where}: acceptance must be a non-empty list")
