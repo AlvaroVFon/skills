@@ -20,10 +20,10 @@ Use this skill to measure test quality by injecting manual mutants into a whole 
 - One mutant = one atomic change; cite `file:line`, operator, exact diff.
 - Previous reports are leads, never evidence: re-run every inherited survivor.
 - `docs/mutation-test/{YYYY-MM-DD}.json` is the only artifact: it is the report and the history. Never write a ledger or a rendered file.
-- Delegate reconnaissance to an exploration subagent when available; verdicts stay with you.
-- Run mutants in parallel when available, one write-capable subagent per mutant in its own worktree, **at most 4 concurrent**; each returns facts, not verdicts.
+- Delegate reconnaissance to an exploration subagent; verdicts stay with you.
+- Run mutants in parallel, one write-capable subagent per mutant in its own worktree, **at most 4 concurrent**; each returns facts, not verdicts.
 - ALWAYS state what was not reviewed.
-- ALWAYS run `assets/reconcile.py`, then validate (`validate_report.py`); fix every `ERROR:` until exit 0. Never overwrite an existing report.
+- ALWAYS run `python3 assets/reconcile.py --report <report.json>`, then `python3 assets/validate_report.py --file <report.json>`; fix every `ERROR:` until exit 0. Never overwrite an existing report.
 
 ## Decision Gates
 

@@ -1,6 +1,6 @@
 ---
 name: define-issue
-description: "Trigger: definir tarea, define issue, create GitHub issue, redactar issue, nueva tarea. Agrees a solution with the human and opens a triage-ready issue."
+description: "Trigger: definir tarea, define issue, create GitHub issue, redactar issue, nueva tarea. Agree a solution with the human and open a triage-ready issue."
 license: MIT
 metadata:
   author: AlvaroVFon

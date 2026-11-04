@@ -35,7 +35,7 @@ Load this skill when asked to **assess a GitHub issue** or **decide whether it m
 1. **Read** the issue, its acceptance criteria, comments, the triage comment and `references/plan-contract.md`.
 2. **Read the code** the issue names or implies before deciding anything.
 3. **Define** the deliverable or deliverables: objective, scope, changes, acceptance criteria, tests and estimate.
-4. **Validate**: `python3 assets/validate_plan.py --file <plan.json>` until it prints `OK`.
+4. **Validate**: pipe the plan on stdin, `python3 assets/validate_plan.py < plan.json`, until it prints `OK`; never write a file into the repo.
 5. **Return** only the JSON. Never persist it anywhere.
 
 ## Output Contract

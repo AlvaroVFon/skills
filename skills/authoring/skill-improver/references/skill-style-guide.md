@@ -69,11 +69,11 @@ Convention:
 - Location: `assets/validate_{artifact}.py`, referenced in `References`.
 - Contract: exit 0 and print `OK` when valid, else exit 1 with one parseable `ERROR:` line per problem; `WARNING:` lines never change the exit code.
 - Header docstring lists usage, exit codes, and error codes.
-- Skills with a validator: `create-commit`, `create-pr`, `adr`, `bug-scan`, `mutation-test`, `api-security-scan`, `skill-creator`, `skill-improver`.
+- Skills with a validator: `adr`, `module-design`, `create-commit`, `create-pr`, `define-issue`, `github-planner`, `github-triage`, `bug-scan`, `mutation-test`, `api-security-scan`, `tech-debt-scan`, `performance-scan`, `code-review-bot`, `skill-creator`, `skill-improver`.
 
 ## Skill Discovery
 
-- Skills live under the harness's skills directory (for example `.github/skills/`, `.opencode/skills/`, or `.claude/skills/`); each skill is one directory containing a `SKILL.md`.
+- Skills live under the harness's skills directory (for example `.github/skills/`, `.opencode/skills/`, or `.claude/skills/`), or under `skills/{category}/` in this repo; each skill is one directory containing a `SKILL.md`.
 - Discover skills by scanning those directories for `*/SKILL.md` and `*/*/SKILL.md` (flat and one-category layouts). This repo has no generated skill registry.
 - Delegators pass exact `SKILL.md` paths to subagents, and subagents read the full skill before work.
 - Use `skill-improver` to audit and refactor existing skills against this guide.

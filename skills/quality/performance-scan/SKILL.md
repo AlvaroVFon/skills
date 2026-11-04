@@ -22,7 +22,7 @@ Use this skill to scan a whole repo (global) or given paths/modules (targeted) f
 - Delegate reconnaissance to an exploration subagent when available; hypotheses and verdicts stay with you.
 - One write-capable subagent per finding, **at most 4 concurrent**; serialize time-based benchmarks.
 - ALWAYS state what was not reviewed.
-- ALWAYS run `assets/reconcile.py`, then `validate_report.py`; fix every `ERROR:` until exit 0. Never overwrite an existing report.
+- ALWAYS run `python3 assets/reconcile.py --report <report.json>`, then `python3 assets/validate_report.py --file <report.json>`; fix every `ERROR:` until exit 0. Never overwrite an existing report.
 
 ## Decision Gates
 
