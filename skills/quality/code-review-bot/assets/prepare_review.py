@@ -346,11 +346,14 @@ def check_payload(report, config, index):
     level = {"blocking": "failure", "should": "warning", "nit": "notice"}
     annotations = []
     for finding in report["findings"]:
-        if finding["status"] not in ("inline", "file", "summary"):
+        # Only inline findings have a line validated against the diff. A
+        # file/summary finding can carry an arbitrary line, and GitHub rejects
+        # the whole check run when an annotation points outside the file.
+        if finding["status"] != "inline" or finding["line"] is None:
             continue
         if finding["path"] not in index or len(annotations) >= 50:
             continue
-        line = finding["line"] or 1
+        line = finding["line"]
         start = finding["start_line"] or line
         annotations.append(
             {

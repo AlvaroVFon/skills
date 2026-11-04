@@ -105,7 +105,7 @@ Defaults:
 
 ## 8. CI integration
 
-- Publish the verdict as a check run when `check_run: true`, using the payload from `prepare_review.py --check-payload`. `conclusion` is `success` for clean, `neutral` for findings/skipped, and `failure` for Blocking only when `blocking_gate: true` (otherwise `neutral`). Annotations map Blocking to `failure`, Should to `warning` and Nit to `notice`, capped at 50. Required status checks are the reliable merge gate; bot approvals are not.
+- Publish the verdict as a check run when `check_run: true`, using the payload from `prepare_review.py --check-payload`. `conclusion` is `success` for clean, `neutral` for findings/skipped, and `failure` for Blocking only when `blocking_gate: true` (otherwise `neutral`). Annotations map Blocking to `failure`, Should to `warning` and Nit to `notice`, capped at 50, and only include findings anchored inline; a file/summary finding stays in the review body and the check summary. Required status checks are the reliable merge gate; bot approvals are not.
 - Report the gate mode in the summary and report: `advisory` when `blocking_gate: false`, `required` when `true`. In advisory mode say explicitly that findings do not block merge.
 - Report exit codes: `0` clean or non-blocking, `1` blocking findings, `2` operational error.
 - Read `gh pr checks` to avoid repeating lint, typecheck or test failures already reported by CI. Never run those commands yourself.
