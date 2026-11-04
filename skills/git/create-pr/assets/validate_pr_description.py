@@ -18,6 +18,7 @@ Checks:
     E03 Optional validation section missing
     E04 Title exceeds 72 characters
     E05 Cannot read the --body file
+    E06 First non-empty line is not AI_GENERATED
 """
 
 import argparse
@@ -53,11 +54,15 @@ def main():
         try:
             body = open(args.body, encoding="utf-8").read()
         except OSError as e:
-            print(f"ERROR: E06 cannot read body file: {e}")
+            print(f"ERROR: E05 cannot read body file: {e}")
             sys.exit(1)
 
     errors, warnings = [], []
     sections = parse_sections(body)
+
+    first = next((line.strip() for line in body.splitlines() if line.strip()), "")
+    if first != "AI_GENERATED":
+        errors.append("ERROR: E06 first non-empty line must be AI_GENERATED")
 
     for name in REQUIRED_SECTIONS:
         if name not in sections:

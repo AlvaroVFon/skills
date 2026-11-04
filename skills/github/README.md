@@ -6,7 +6,7 @@ Five skills take an issue from a raw idea to a reviewed pull request. The flow i
 
 ```mermaid
 flowchart TD
-    idea([Idea or problem]) --> define[define-issue]
+    idea([Idea or problem]) --> define[github-define-issue]
     define --> triage[github-triage]
     triage --> rubric[Rubric: type + estimate]
     rubric --> trigger{Planner trigger?}
@@ -33,13 +33,13 @@ flowchart TD
 
 ## Skills
 
-| Skill                                             | Owns                                                                               | Never does                                      |
-| ------------------------------------------------- | ---------------------------------------------------------------------------------- | ----------------------------------------------- |
-| [define-issue](define-issue/SKILL.md)             | The interview, the issue body and the `AI_triage` label plus assignee.             | Set `type:*`, `estimate:*` or split.            |
-| [github-triage](github-triage/SKILL.md)           | The rubric estimate, `type:*` and `estimate:*`, sub-issues and the triage comment. | Write code or merge.                            |
-| [github-planner](github-planner/SKILL.md)         | The deliverable definition and the split, spike or blocked verdict.                | Write labels, estimates, issues or files.       |
-| [github-implementer](github-implementer/SKILL.md) | The branch, the worktree, the code, the PR and the `AI_implemented` label.         | Plan steps, merge or push to `main`.            |
-| [github-workflow](github-workflow/SKILL.md)       | Running triage then the implementer in one cycle.                                  | Add, change or relax the rules of either phase. |
+| Skill                                               | Owns                                                                               | Never does                                      |
+| --------------------------------------------------- | ---------------------------------------------------------------------------------- | ----------------------------------------------- |
+| [github-define-issue](github-define-issue/SKILL.md) | The interview, the issue body and the `AI_triage` label plus assignee.             | Set `type:*`, `estimate:*` or split.            |
+| [github-triage](github-triage/SKILL.md)             | The rubric estimate, `type:*` and `estimate:*`, sub-issues and the triage comment. | Write code or merge.                            |
+| [github-planner](github-planner/SKILL.md)           | The deliverable definition and the split, spike or blocked verdict.                | Write labels, estimates, issues or files.       |
+| [github-implementer](github-implementer/SKILL.md)   | The branch, the worktree, the code, the PR and the `AI_implemented` label.         | Plan steps, merge or push to `main`.            |
+| [github-workflow](github-workflow/SKILL.md)         | Running triage then the implementer in one cycle.                                  | Add, change or relax the rules of either phase. |
 
 `github-workflow` is the only skill that runs unattended; it is meant for a recurring or scheduled run. The rest can be run on demand.
 
@@ -62,7 +62,7 @@ The implementer consumes the deliverable definition and decides the _how_ with T
 
 ```mermaid
 stateDiagram-v2
-    [*] --> AI_triage: define-issue
+    [*] --> AI_triage: github-define-issue
     AI_triage --> AI_triage_done: triaged
     AI_triage_done --> in_progress: implementer claims
     in_progress --> AI_implemented: PR opened
@@ -76,19 +76,19 @@ stateDiagram-v2
 
 Triage is the only writer of these labels. The implementer reads them and never infers the type from comments.
 
-| Label                                                                              | Meaning                                          |
-| ---------------------------------------------------------------------------------- | ------------------------------------------------ |
-| `AI_triage`                                                                        | Candidate for triage, set by `define-issue`.     |
-| `AI_triage_done`                                                                   | Triaged and ready, set by `github-triage`.       |
-| `status:in-progress`                                                               | Claimed by the implementer; triage must skip it. |
-| `status:blocked`                                                                   | Blocked; triage must skip it.                    |
-| `AI_implemented`                                                                   | Implemented and linked to a PR.                  |
-| `type:feature`, `type:docs`, `type:analysis`, `type:maintenance`, `type:tech-debt` | Task type; also selects the branch prefix.       |
-| `estimate:1h` … `estimate:21h`                                                     | Original estimate from the rubric.               |
+| Label                                                                              | Meaning                                             |
+| ---------------------------------------------------------------------------------- | --------------------------------------------------- |
+| `AI_triage`                                                                        | Candidate for triage, set by `github-define-issue`. |
+| `AI_triage_done`                                                                   | Triaged and ready, set by `github-triage`.          |
+| `status:in-progress`                                                               | Claimed by the implementer; triage must skip it.    |
+| `status:blocked`                                                                   | Blocked; triage must skip it.                       |
+| `AI_implemented`                                                                   | Implemented and linked to a PR.                     |
+| `type:feature`, `type:docs`, `type:analysis`, `type:maintenance`, `type:tech-debt` | Task type; also selects the branch prefix.          |
+| `estimate:1h` … `estimate:21h`                                                     | Original estimate from the rubric.                  |
 
 ## Human gates
 
-1. **Definition.** `define-issue` shows the draft and waits for approval before creating the issue.
+1. **Definition.** `github-define-issue` shows the draft and waits for approval before creating the issue.
 2. **Authorization.** Triage unassigns every issue. The implementer only considers issues assigned to the token user, so a human must assign an `AI_triage_done` issue before any code is written.
 3. **Review.** The implementer opens a PR and stops. CI and humans own review and merge; no skill merges.
 
@@ -98,7 +98,7 @@ Triage is the only writer of these labels. The implementer reads them and never 
 # invoke each skill from your harness
 
 # define one issue, conversationally
-define-issue
+github-define-issue
 
 # triage the backlog, then implement one assigned issue
 github-triage repo="owner/name"
@@ -112,7 +112,7 @@ Install the whole flow:
 
 ```sh
 npx skills add AlvaroVFon/skills \
-  -s define-issue -s github-triage -s github-planner \
+  -s github-define-issue -s github-triage -s github-planner \
   -s github-implementer -s github-workflow
 ```
 
@@ -120,6 +120,6 @@ npx skills add AlvaroVFon/skills \
 
 - The estimate is deterministic: task type plus six factors from `github-triage/references/estimation-scale.md`. The planner supplies code evidence; it never decides the label.
 - The planner exists because the split decision needs code read, but the label and split authority stays in triage.
-- `define-issue` verifies the premise against the code and always includes a `## Seguridad` section; a security dimension without an answer blocks the draft.
+- `github-define-issue` verifies the premise against the code and always includes a `## Seguridad` section; a security dimension without an answer blocks the draft.
 - The implementer never plans steps; the deliverable definition is the stable artifact, and `Métricas:` closes the calibration loop.
 - The decision, alternatives and the data needed to validate it are in [`docs/decisions/0001-github-planner-split-decision.md`](../../docs/decisions/0001-github-planner-split-decision.md).

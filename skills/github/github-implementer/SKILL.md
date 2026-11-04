@@ -22,7 +22,7 @@ Load this skill when asked to **implement triaged GitHub issues**, or on a recur
 - ALWAYS work in a new worktree on a new branch from freshly fetched `origin/<main>`. NEVER touch the user's tree, push to `main`, force push, or merge.
 - ALWAYS follow repo conventions (`AGENTS.md`, `CONTRIBUTING*`, recent branches); if `main` or the branch naming is undeterminable, STOP and comment.
 - NEVER push or open a PR while lint, format, typecheck or tests fail.
-- ALWAYS start AI-written text with `AI_GENERATED`; issue comments in Spanish, PR body in English.
+- ALWAYS start AI-written issue comments and the PR body with `AI_GENERATED`; issue comments in Spanish, the PR body in English. Commit messages follow `create-commit`.
 - ALWAYS deliver with `AI_implemented` replacing `status:in-progress` (all other labels kept), a 2–3 line comment mentioning `@{assignee}` and `@{author}`, and a PR body ending in `Closes #N`.
 - ALWAYS append a `Métricas:` line to the completion comment: changed files, added/deleted lines (excluding lockfiles/generated), commits and elapsed minutes. This is triage's calibration input.
 - ALWAYS remove the worktree after delivery; NEVER after a failed verification or push, and NEVER delete the branch.

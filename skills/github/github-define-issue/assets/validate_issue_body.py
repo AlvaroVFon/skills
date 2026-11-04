@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Validate a GitHub issue body written by the define-issue skill.
+"""Validate a GitHub issue body written by the github-define-issue skill.
 
 Usage:
     validate_issue_body.py --body <file> [--title "<title>"]   # body may also come from stdin

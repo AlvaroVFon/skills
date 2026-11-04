@@ -1,5 +1,5 @@
 ---
-name: define-issue
+name: github-define-issue
 description: "Trigger: definir tarea, define issue, create GitHub issue, redactar issue, nueva tarea. Agree a solution with the human and open a triage-ready issue."
 license: MIT
 metadata:
@@ -9,7 +9,7 @@ metadata:
 
 ## Activation Contract
 
-Load this skill when a human wants to **define a new task as a GitHub issue**. Invocation: `define-issue [repo="owner/name"]`. It is conversational and human-in-the-loop: it never runs unattended and creates at most one issue per run.
+Load this skill when a human wants to **define a new task as a GitHub issue**. Invocation: `github-define-issue [repo="owner/name"]`. It is conversational and human-in-the-loop: it never runs unattended and creates at most one issue per run.
 
 ## Hard Rules
 

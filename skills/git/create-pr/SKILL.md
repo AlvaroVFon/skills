@@ -15,7 +15,7 @@ Use this skill when asked to create, open, or publish a pull request. It produce
 
 - ALWAYS use the `gh` CLI for the whole flow: `gh pr create`, `gh pr view`, `gh repo view`.
 - NEVER run a merge. Never merge, squash-merge, or rebase a PR under any circumstance.
-- ALWAYS build the body from `assets/pr-template.md` and write it in English.
+- ALWAYS build the body from `assets/pr-template.md`, starting with `AI_GENERATED`, and write it in English.
 - ALWAYS validate the final body with `python3 assets/validate_pr_description.py`; fix every `ERROR` until exit 0, then create the PR.
 - Do not create the PR until the current branch is pushed and the working tree is clean of relevant uncommitted changes.
 
