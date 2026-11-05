@@ -22,7 +22,7 @@ Use this skill to scan a whole HTTP API (global) or given routes/modules (target
 - `docs/api-security-scan/{YYYY-MM-DD}.json` is the only artifact; never overwrite one.
 - Delegate reconnaissance to an exploration subagent; verify with one write-capable subagent per finding, **at most 4 concurrent**; they return facts, verdicts stay with you.
 - ALWAYS state what was not reviewed and which controls live outside the repo (gateway, WAF).
-- ALWAYS run `assets/reconcile.py`, then `assets/validate_report.py`; fix every `ERROR:` until exit 0.
+- ALWAYS run `python3 assets/reconcile.py --report <report.json>`, then `python3 assets/validate_report.py --file <report.json>`; fix every `ERROR:` until exit 0.
 
 ## Decision Gates
 

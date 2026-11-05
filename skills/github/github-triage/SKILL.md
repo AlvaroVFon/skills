@@ -21,7 +21,7 @@ Load this skill when asked to **triage GitHub issues**, or on a recurring or sch
 - ALWAYS write estimate, unassign, comment, labels. A failure marks that issue `failed` and keeps `AI_triage`; `AI_triage_done` is never applied to a partial result, and one failure never stops the batch.
 - ALWAYS comment once, only on triaged issues, from `assets/triage-comment.md`, first line `AI_GENERATED`.
 - Sub-issues share the initial conditions; the planner proposes, this skill creates them, and they are never triaged in the same run.
-- ALWAYS assess with `github-planner`; without it, use `assets/subtask-splitter-prompt.md`. It never writes labels; reject a `single` above 500 lines or 8h without a reason; on `split`, sum deliverable estimates for the parent, never below the score band.
+- When the Decision Gate triggers, assess with `github-planner`; otherwise use `assets/subtask-splitter-prompt.md`. It never writes labels; reject a `single` above 500 lines or 8h without reason; on `split`, sum deliverable estimates for the parent, never below the band.
 - ALWAYS record dependencies as `blocked by` links, never only in a comment; create missing links, never edit existing ones.
 
 ## Decision Gates

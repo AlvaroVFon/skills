@@ -53,7 +53,7 @@ skills/{category}/{skill-name}/
     └── docs.md
 ```
 
-1. Use this frontmatter shape:
+4. Use this frontmatter shape:
 
 ```markdown
 ---
@@ -66,9 +66,9 @@ metadata:
 ---
 ```
 
-1. Write sections in this order: Activation Contract, Hard Rules, Decision Gates, Execution Steps, Output Contract, References.
-2. Run `python3 assets/validate_skill.py --file {skill}/SKILL.md`; fix every `ERROR:` until exit 0. A referenced `references/` or `assets/` file must exist.
-3. Register the skill in `AGENTS.md` when it is a project skill.
+5. Write sections in this order: Activation Contract, Hard Rules, Decision Gates, Execution Steps, Output Contract, References.
+6. Run `python3 assets/validate_skill.py --file {skill}/SKILL.md`; fix every `ERROR:` until exit 0. A referenced `references/` or `assets/` file must exist.
+7. Register the skill in `AGENTS.md` when it is a project skill.
 
 ## Inline Fallback Rules
 

@@ -21,7 +21,7 @@ Use this skill to scan a whole repo (global) or given paths/modules (targeted) f
 - `docs/tech-debt/{YYYY-MM-DD}.json` is the only artifact; never write a ledger or a rendered file.
 - Delegate reconnaissance and measurement to read-only subagents with `assets/recon-subagent.md` and `assets/measure-subagent.md`, **at most 3 concurrent**; they return facts, scoring and severity stay with you.
 - ALWAYS state what was not reviewed.
-- ALWAYS run `assets/reconcile.py`, then `assets/validate_report.py`; fix every `ERROR:` until exit 0. Never overwrite an existing report.
+- ALWAYS run `python3 assets/reconcile.py --report <report.json>`, then `python3 assets/validate_report.py --file <report.json>`; fix every `ERROR:` until exit 0. Never overwrite an existing report.
 
 ## Decision Gates
 
