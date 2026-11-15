@@ -15,5 +15,5 @@ Tests that pin the current observable behavior of untested code so a refactor ca
 ## Rules
 
 - Never assert implementation details (private calls, internal order).
-- If observed behavior looks wrong, do not fix it here: record it in the doc and open a `tdd` task.
+- If observed behavior looks wrong, do not fix it here: report it and open a `tdd` task.
 - Prefer a few high-value cases over exhaustive coverage.
