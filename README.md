@@ -24,10 +24,10 @@ Each skill is a folder under `skills/{category}/` with a `SKILL.md` (the runtime
 
 ### Implementation
 
-| Skill                                               | Command                                        | What it does                                                            |
-| --------------------------------------------------- | ---------------------------------------------- | ----------------------------------------------------------------------- |
-| [tdd](skills/implementation/tdd/SKILL.md)           | `npx skills add AlvaroVFon/skills -s tdd`      | Implement doc-first and test-first (red-green-refactor), then refactor. |
-| [refactor](skills/implementation/refactor/SKILL.md) | `npx skills add AlvaroVFon/skills -s refactor` | Restructure code in small, test-verified behavior-preserving steps.     |
+| Skill                                               | Command                                        | What it does                                                        |
+| --------------------------------------------------- | ---------------------------------------------- | ------------------------------------------------------------------- |
+| [tdd](skills/implementation/tdd/SKILL.md)           | `npx skills add AlvaroVFon/skills -s tdd`      | Implement test-first with red-green-refactor, then refactor.        |
+| [refactor](skills/implementation/refactor/SKILL.md) | `npx skills add AlvaroVFon/skills -s refactor` | Restructure code in small, test-verified behavior-preserving steps. |
 
 ### Quality
 

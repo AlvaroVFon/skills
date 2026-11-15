@@ -28,7 +28,7 @@ Skills repository. Each skill is a directory under `skills/{category}/{name}/` c
 
 | Skill    | Path                                      | Purpose                                                   |
 | -------- | ----------------------------------------- | --------------------------------------------------------- |
-| tdd      | `skills/implementation/tdd/SKILL.md`      | Implement doc-first and test-first (red-green-refactor)   |
+| tdd      | `skills/implementation/tdd/SKILL.md`      | Implement test-first (red-green-refactor)                 |
 | refactor | `skills/implementation/refactor/SKILL.md` | Behavior-preserving restructuring in small verified steps |
 
 ### quality
